@@ -1,0 +1,17 @@
+{
+    "name": "aminurislam/plugin-starter-pack",
+    "description": "WordPress OOP Starter Plugin Pack",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Aminur Islam Arnob",
+            "email": "aminur.revo@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"JobPressInc\\": "./inc"}
+    }
+}

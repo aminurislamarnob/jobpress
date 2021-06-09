@@ -1,0 +1,104 @@
+/*Meta Box Styles*/
+.jobpress-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.jobpress-field {
+    margin-bottom: 25px;
+    width: 45%;
+}
+
+.jobpress-field input , .jobpress-field textarea{
+    width: 100%;
+}
+
+.jobpress-field textarea{
+    height: 5em;
+    display: block;
+}
+
+.jobpress-dflex {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.w-100{
+    width: 100%!important;
+}
+
+/*Jobpress settings nav*/
+.jobpress-container {
+    display: flex;
+}
+
+.jobpress-container .jobpress-left-nav {
+    width: 300px;
+    background: #fff;
+    border-right: 1px solid #f0f0f1;
+}
+
+.jobpress-container .jobpress-left-nav ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.jobpress-container .jobpress-left-nav ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 12px 20px;
+    color: #202529;
+    transition: .3s;
+}
+
+.jobpress-container .jobpress-left-nav ul li {
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.jobpress-container .jobpress-left-nav ul li a span {
+    color: #335eea;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.jobpress-container .jobpress-left-nav ul li a:hover, .jobpress-container .jobpress-left-nav ul li a.active {
+    background: #335eea;
+    color: #fff;
+}
+
+.jobpress-container .jobpress-left-nav ul li a:hover span, .jobpress-container .jobpress-left-nav ul li a.active span {
+    color: #fff;
+}
+
+/*form content area style*/
+.jobpress-right-content .notice {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 15px;
+}
+
+.jobpress-right-content {
+    background: #fff;
+    padding: 30px;
+    width: calc(100% - 371px);
+    margin-right: 15px;
+}
+.jobpress-right-content h2 {
+    margin: 0;
+}
+.jobpress-right-content p {
+    margin-top: 5px;
+}
+
+/*Small Device Responsive Styles*/
+@media only screen and (max-width: 991px) {
+    .jobpress-dflex {
+        display: block;
+    }
+    .jobpress-field {
+        width: 100%;
+    }
+}
