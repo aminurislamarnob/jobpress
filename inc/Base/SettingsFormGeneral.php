@@ -34,14 +34,14 @@ class SettingsFormGeneral
 
         // register a new field in the "jobpress_general_settings_section" section
         add_settings_field(
-            'jobpress_is_category', 
-            __('Categorized Listing', 'jobpress'), array( $this, 'jobpress_is_category_field_callback' ), 
+            'jobpress_single_sidebar', 
+            __('Single Page Sidebar Position', 'jobpress'), array( $this, 'jobpress_single_sidebar_field_callback' ), 
             'jobpress_general_section',  
             'jobpress_general_settings_section'
         );
 
         // register a new setting for category checkbox field
-        register_setting('jobpress_general_settings_section', 'jobpress_is_category');
+        register_setting('jobpress_general_settings_section', 'jobpress_single_sidebar');
 
     }
 
@@ -60,11 +60,11 @@ class SettingsFormGeneral
     }
 
     //Logout redirect field content
-    function jobpress_is_category_field_callback() {
-        $jobpress_is_category_value = get_option('jobpress_is_category');
+    function jobpress_single_sidebar_field_callback() {
+        $jobpress_sidebar_position_value = get_option('jobpress_single_sidebar');
     ?>
-        <input name="jobpress_is_category" type="checkbox" id="jobpress_is_category" class="regular-text" value="1" <?php echo ($jobpress_is_category_value == 1) ? 'checked' : ''; ?>>
-        <label for="jobpress_is_category"><?php esc_html_e( 'If you want to show categorized job listing then check it, please.', 'jobpress' ); ?></label>
+        <input name="jobpress_single_sidebar" type="checkbox" id="jobpress_single_sidebar" class="regular-text" value="1" <?php echo ($jobpress_sidebar_position_value == 1) ? 'checked' : ''; ?>>
+        <label for="jobpress_single_sidebar"><?php esc_html_e( 'Show single job page sidebar on left side (Default right side).', 'jobpress' ); ?></label>
     <?php
     }
 

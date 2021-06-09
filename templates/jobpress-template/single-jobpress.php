@@ -33,6 +33,16 @@ $job_type_str = '';
 if ( $job_type && ! is_wp_error( $job_type ) ){
     $job_type_str = join(', ', wp_list_pluck($job_type, 'name'));
 }
+
+//sidebar position
+$jobpress_sidebar_position = get_option('jobpress_single_sidebar');
+if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
+    $jobpress_sidebar_order_1 = 'jp-order-2';
+    $jobpress_sidebar_order_2 = 'jp-order-1';
+}else{
+    $jobpress_sidebar_order_1 = 'jp-order-1';
+    $jobpress_sidebar_order_2 = 'jp-order-2';
+}
 ?>
     <div class="jp-single-wrapper">
         <div class="jp-single-job-header jp-row<?php echo empty($jobpress_ft_image) ? ' border-bottom' : ''; ?>">
@@ -47,7 +57,7 @@ if ( $job_type && ! is_wp_error( $job_type ) ){
             </div>
         </div>
         <div class="jp-single-content-area">
-            <div class="jp-content jp-order-1">
+            <div class="jp-content <?php echo esc_attr( $jobpress_sidebar_order_1 ); ?>">
                 <?php if($jobpress_ft_image) : ?>
                 <div class="jp-featured-image">
                     <img class="jp-w-100" src="<?php echo  $jobpress_ft_image; ?>" alt="<?php the_title(); ?>">
@@ -57,7 +67,7 @@ if ( $job_type && ! is_wp_error( $job_type ) ){
                     <?php the_content(); ?>
                 </div>
             </div>
-            <div class="jp-sidebar jp-order-2">
+            <div class="jp-sidebar <?php echo esc_attr( $jobpress_sidebar_order_2 ); ?>">
                 <div class="jp-summary">
                     <h4 class="jp-sidebar-title"><?php esc_html_e( 'Job Summary', 'jobpress' ); ?></h4>
 
