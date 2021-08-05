@@ -171,6 +171,7 @@ Default Style
     display: inline-block;
     text-align: center;
     color: #fff;
+    border-radius: 5px;
 }
 .jp-btn:hover {
     background: var(--jp-hover-color);
@@ -480,4 +481,92 @@ Apply Job Form
     margin-bottom: 25px;
     font-size: 28px;
     color: var(--jp-primary-color);
+}
+
+
+/*************
+Responsive CSS
+**************/
+@media only screen and (max-width: 991px) {
+    .jp-row {
+        display: block;
+    }
+    
+    .jp-col-6 {
+        width: 100%;
+    }
+    
+    .jp-single-job-header  .jp-text-right {
+        text-align: left;
+    }
+    
+    .jp-single-content-area {
+        display: block;
+    }
+    
+    .jp-content {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-right: 0;
+    }
+    
+    .jp-sidebar {
+        width: 100%;
+        padding-left: 0;
+        margin: 15px 0;
+    }
+    .jp-content.jp-order-2 {
+        padding: 0;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .jp-job-title {
+        font-size: 30px;
+    }
+    
+    .jp-single-job-header .jp-btn {
+        height: 50px;
+        line-height: 50px;
+    }
+    
+    .jp-form-title {
+        font-size: 25px;
+    }
+    
+    .jp-form-row {
+        display: block;
+    }
+    
+    .jp-form-row .jp-form-half {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .jp-job-apply-form {
+        padding: 20px;
+    }
+    
+    .jp-form-half .jp-sm-text {
+        text-align: left;
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    /*Job List Page*/
+    .jp-single-job-list {
+        display: block;
+    }
+
+    .jp-single-job-info {
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+
+    .jp-apply-btn-radius {
+        padding: 10px 40px;
+    }
+    .jp-single-job-list {
+        padding: 15px;
+    }
 }
