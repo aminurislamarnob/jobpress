@@ -13,6 +13,21 @@ class PublicEnqueue
 	
 	function enqueue() {
 		// enqueue all our scripts
+		if( is_singular( 'jobpress' ) ){
+			wp_enqueue_script( 'jobpress-application-form', JOBPRESS_PLUGIN_URL . 'assets/public/js/application-form.js', array( 'jquery' ), JOBPRESS_VERSION, true );
+			wp_enqueue_script( 'jquery-validate', JOBPRESS_PLUGIN_URL . 'assets/public/js/jquery.validate.min.js', array( 'jquery' ), '1.19.1', true );
+
+			//pass data to js file
+			$jobpress_action = 'jobpress_protected';
+			$jobpress_nonce = wp_create_nonce($jobpress_action);
+			wp_localize_script( 'jobpress-application-form', 'jobpress_data',
+				array( 
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'jobpress_nonce' => $jobpress_nonce
+				)
+			);
+		}
+
 		$jobpress_design_type = !empty(get_option('jobpress_design_type')) ? get_option('jobpress_design_type') : '1';
 		wp_enqueue_style( 'jobpress-css', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-style-v'.$jobpress_design_type.'.css', array(), JOBPRESS_VERSION, 'all' );
 	}

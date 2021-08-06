@@ -4,11 +4,10 @@ namespace JobPressInc\Base;
 class Activate
 {
 	public static function activate() {
-		// flush_rewrite_rules();
 
-		/********
-		****Create jobpress list page on plugin activation time****
-		********/
+		/***
+		**Create jobpress list page on plugin activation time
+		***/
 		$jobpress_page_title     = __('Jobs Listing','jobpress');
 		$jobpress_page_content   = '[jobpress]';
 		$jobpress_page_check = get_page_by_title($jobpress_page_title);
@@ -24,5 +23,19 @@ class Activate
 		if(!isset($jobpress_page_check->ID)){
 			wp_insert_post($jobpress_new_page);
 		}
+
+
+		/***
+		**Create resume upload directory on plugin activation time
+		***/
+		$jobpress_upload = wp_upload_dir();
+		$jobpress_upload_dir = $jobpress_upload['basedir'];
+		$jobpress_upload_dir = $jobpress_upload_dir . '/jobpress-resume';
+		if (! is_dir($jobpress_upload_dir)) {
+		   mkdir( $jobpress_upload_dir, 0744 );
+		}
+
+		//Flush Permalink
+		// flush_rewrite_rules();
 	}
 }

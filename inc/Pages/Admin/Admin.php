@@ -1,7 +1,4 @@
 <?php 
-/**
- * @package  AlecadddPlugin
- */
 namespace JobPressInc\Pages\Admin;
 
 /**

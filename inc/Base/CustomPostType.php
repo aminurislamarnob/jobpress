@@ -56,6 +56,7 @@ class CustomPostType
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
+            'show_in_rest'       => true
         );
      
         register_post_type( 'jobpress', $args );
@@ -87,6 +88,7 @@ class CustomPostType
             'show_admin_column' => true,
             'query_var'         => true,
             'rewrite'           => array( 'slug' => 'jobpress_category' ),
+            'show_in_rest'      => true
         );
         register_taxonomy( 'jobpress_category', array( 'jobpress' ), $args );
     }
@@ -116,6 +118,7 @@ class CustomPostType
             'show_admin_column' => true,
             'query_var'         => true,
             'rewrite'           => array( 'slug' => 'jobpress_type' ),
+            'show_in_rest'      => true
         );
         register_taxonomy( 'jobpress_type', array( 'jobpress' ), $args );
     }

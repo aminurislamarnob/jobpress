@@ -31,6 +31,7 @@ define( 'JOBPRESS_PLUGIN', plugin_basename( __FILE__ ) );
 use JobPressInc\Base\Activate;
 use JobPressInc\Base\Deactivate;
 use JobPressInc\JobPressPluginInit;
+use JobPressInc\Base\CreateDbTable;
 
 
 /**
@@ -38,6 +39,7 @@ use JobPressInc\JobPressPluginInit;
  */
 function jobpress_plugin_activate() {
 	Activate::activate();
+	CreateDbTable::create_application_db_table();
 }
 
 /**

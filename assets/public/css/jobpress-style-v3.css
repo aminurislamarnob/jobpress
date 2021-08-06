@@ -502,6 +502,18 @@ Apply Job Form
     color: var(--jp-primary-color);
 }
 
+/******Form Validation********/
+.jp-form-group .jp-form-control.error, .resume-file .jp-custom-file label.error+label {
+    border-color: #FF2626;
+}
+.jp-form-group label.error {
+    color: #FF2626;
+    font-size: 14px;
+}
+.resume-file .jp-custom-file label.error {
+    position: absolute;
+}
+
 /*************
 Responsive CSS
 **************/
