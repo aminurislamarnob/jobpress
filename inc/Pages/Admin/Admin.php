@@ -44,14 +44,14 @@ class Admin
 	}
 
 	public function jobpress_settings_template() {
-		require_once JOBPRESS_PLUGIN_PATH . 'templates/admin-pages/settings.php';
+		require_once JOBPRESS_PLUGIN_PATH . 'templates/task-pages/settings.php';
 	}
 
 	public function jobpress_appearance_settings_template() {
-		require_once JOBPRESS_PLUGIN_PATH . 'templates/admin-pages/appearance-settings.php';
+		require_once JOBPRESS_PLUGIN_PATH . 'templates/task-pages/appearance-settings.php';
 	}
 
 	public function jobpress_shortcode_template() {
-		require_once JOBPRESS_PLUGIN_PATH . 'templates/admin-pages/shortcodes-settings.php';
+		require_once JOBPRESS_PLUGIN_PATH . 'templates/task-pages/shortcodes-settings.php';
 	}
 }
