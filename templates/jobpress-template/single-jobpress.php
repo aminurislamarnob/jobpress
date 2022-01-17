@@ -179,63 +179,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
         </div>
         <div id="job-apply" class="jp-job-apply-form">
             <h3 class="jp-form-title"><?php esc_html_e( 'Apply for The Position: ', 'jobpress' ) . the_title(); ?></h3>
-            <?php
-            if(isset($_FILES['resume'])){
-                $jobpress_resume_name = time().'_'.$_FILES['resume']['name'];
-                $allowedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-                $jobpress_upload_dir = wp_upload_dir();
-                if( in_array($_FILES['resume']['type'], $allowedMimeTypes) !== false &&  ($_FILES['resume']['size'] < 5*1024*1024) ){
-                    move_uploaded_file($_FILES['resume']['tmp_name'], $jobpress_upload_dir['basedir'].'/jobpress-resume/'.$jobpress_resume_name);
-                }
-            }
-            print_r($_POST);
-            ?>
-            <form id="jobpress-application" method="POST" enctype="multipart/form-data" action="<?php the_permalink();?>#job-apply">
-                <div class="jp-form-row">
-                    <div class="jp-form-half">
-                        <div class="jp-form-group">
-                            <label for="applyName"><?php esc_html_e( 'Full name', 'jobpress' ); ?></label>
-                            <input type="text" class="jp-form-control" id="applyName" name="fullname" placeholder="Full name" required>
-                        </div>
-                    </div>
-                    <div class="jp-form-half">
-                        <div class="jp-form-group">
-                            <label for="applyEmail"><?php esc_html_e( 'Email address', 'jobpress' ); ?></label>
-                            <input type="text" class="jp-form-control" id="applyEmail" name="email" placeholder="hello@domain.com">
-                        </div>
-                    </div>
-                </div>
-                <div class="jp-form-row">
-                    <div class="jp-form-half">
-                        <div class="jp-form-group">
-                            <label for="applyPhone"><?php esc_html_e( 'Phone number', 'jobpress' ); ?></label>
-                            <input type="text" class="jp-form-control" id="applyPhone" name="phone" placeholder="Phone number">
-                        </div>
-                    </div>
-                    <div class="jp-form-half">
-                        <div class="jp-form-group resume-file">
-                            <p class="mb-2"><?php esc_html_e( 'Upload resume', 'jobpress' ); ?><span class="jp-sm-text"><?php esc_html_e( ' (Only .png, .jpg, .doc, .docx & .pdf file allowed.)', 'jobpress' ); ?></span></p>
-                            <div class="jp-custom-file">
-                                <input type="file" class="jp-custom-file-input" name="resume" id="applyResume">
-                                <label class="jp-custom-file-label" for="applyResume"><?php esc_html_e( 'Choose file', 'jobpress' ); ?></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="jp-form-group">
-                    <label for="applyMessage">Message</label>
-                    <textarea id="applyMessage" rows="5" class="jp-form-control" name="message" placeholder="Let us know!"></textarea>
-                </div>
-                <div class="jp-form-row jp-align-items-center jp-justify-between">
-                    <div class="jp-form-half">
-                        <button type="submit" class="jp-btn jp-submit-btn jp-mt-0"><?php esc_html_e( 'Apply Now', 'jobpress' ); ?></button>
-                    </div>
-                    <div class="jp-form-half">
-                        <p class="jp-mb-0 jp-sm-text jp-text-right"><?php esc_html_e( 'Application will be send securely and remain private', 'jobpress' ); ?></p>
-                    </div>
-                </div>
-            </form>
+            
         </div>
     </div>
 <?php
