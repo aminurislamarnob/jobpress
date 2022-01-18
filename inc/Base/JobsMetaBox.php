@@ -28,70 +28,70 @@ class JobsMetaBox
         ?>
         <div class="jobpress-dflex">
             <div class="jobpress-text-field jobpress-field jobpress_vacancy">
-                <label for="jobpress_vacancy"><?php _e( 'Job Vacancy', 'jobpress' )?></label>
-                <input type="text" name="jobpress_vacancy" id="jobpress_vacancy" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_vacancy'] ) ) echo $jobpress_stored_meta['jobpress_vacancy'][0]; ?>" />
+                <label for="jobpress_vacancy"><?php esc_html_e( 'Job Vacancy', 'jobpress' )?></label>
+                <input type="text" name="jobpress_vacancy" id="jobpress_vacancy" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_vacancy'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_vacancy'][0]); ?>" />
             </div>
             <div class="jobpress-text-field jobpress-field jobpress_experience">
-                <label for="jobpress_experience"><?php _e( 'Experience', 'jobpress' )?></label>
-                <input type="text" name="jobpress_experience" id="jobpress_experience" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_experience'] ) ) echo $jobpress_stored_meta['jobpress_experience'][0]; ?>" />
+                <label for="jobpress_experience"><?php esc_html_e( 'Experience', 'jobpress' )?></label>
+                <input type="text" name="jobpress_experience" id="jobpress_experience" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_experience'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_experience'][0]); ?>" />
             </div>
         </div>
         <div class="jobpress-dflex">
             <div class="jobpress-text-field jobpress-field jobpress_working_hour">
-                <label for="jobpress_working_hour"><?php _e( 'Working Hours', 'jobpress' )?></label>
-                <input type="text" name="jobpress_working_hour" id="jobpress_working_hour" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_working_hour'] ) ) echo $jobpress_stored_meta['jobpress_working_hour'][0]; ?>" />
+                <label for="jobpress_working_hour"><?php esc_html_e( 'Working Hours', 'jobpress' )?></label>
+                <input type="text" name="jobpress_working_hour" id="jobpress_working_hour" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_working_hour'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_working_hour'][0]); ?>" />
             </div>
             <div class="jobpress-text-field jobpress-field jobpress_working_days">
-                <label for="jobpress_working_days"><?php _e( 'Working Days', 'jobpress' )?></label>
-                <input type="text" name="jobpress_working_days" id="jobpress_working_days" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_working_days'] ) ) echo $jobpress_stored_meta['jobpress_working_days'][0]; ?>" />
+                <label for="jobpress_working_days"><?php esc_html_e( 'Working Days', 'jobpress' )?></label>
+                <input type="text" name="jobpress_working_days" id="jobpress_working_days" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_working_days'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_working_days'][0]); ?>" />
             </div>
         </div>
         <div class="jobpress-dflex">
             <div class="jobpress-text-field jobpress-field jobpress_salary">
-                <label for="jobpress_salary"><?php _e( 'Salary', 'jobpress' )?></label>
-                <input type="text" name="jobpress_salary" id="jobpress_salary" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_salary'] ) ) echo $jobpress_stored_meta['jobpress_salary'][0]; ?>" />
+                <label for="jobpress_salary"><?php esc_html_e( 'Salary', 'jobpress' )?></label>
+                <input type="text" name="jobpress_salary" id="jobpress_salary" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_salary'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_salary'][0]); ?>" />
             </div>
             <div class="jobpress-text-field jobpress-field jobpress_apply_deadline">
-                <label for="jobpress_apply_deadline"><?php _e( 'Application Deadline', 'jobpress' )?></label>
-                <input type="date" name="jobpress_apply_deadline" id="jobpress_apply_deadline" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_apply_deadline'] ) ) echo $jobpress_stored_meta['jobpress_apply_deadline'][0]; ?>" />
+                <label for="jobpress_apply_deadline"><?php esc_html_e( 'Application Deadline', 'jobpress' )?></label>
+                <input type="date" name="jobpress_apply_deadline" id="jobpress_apply_deadline" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_apply_deadline'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_apply_deadline'][0]); ?>" />
             </div>
         </div>
         <div class="jobpress-text-field jobpress-field jobpress_location w-100">
-            <label for="jobpress_location"><?php _e( 'Job Location', 'jobpress' )?></label>
-            <input type="text" name="jobpress_location" id="jobpress_location" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_location'] ) ) echo $jobpress_stored_meta['jobpress_location'][0]; ?>" />
+            <label for="jobpress_location"><?php esc_html_e( 'Job Location', 'jobpress' )?></label>
+            <input type="text" name="jobpress_location" id="jobpress_location" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_location'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_location'][0]); ?>" />
         </div>
         <div class="jobpress-text-field jobpress-field jobpress_location w-100">
-            <label for="jobpress_location"><?php _e( 'Google Map iFrame Embed Code', 'jobpress' )?></label>
-            <textarea rows="1" cols="40" name="google_map_iframe" id="google_map_iframe"><?php if ( isset ( $jobpress_stored_meta['google_map_iframe'] ) ) echo $jobpress_stored_meta['google_map_iframe'][0]; ?></textarea>
+            <label for="jobpress_location"><?php esc_html_e( 'Google Map iFrame Embed Code', 'jobpress' )?></label>
+            <textarea rows="1" cols="40" name="google_map_iframe" id="google_map_iframe"><?php if ( isset ( $jobpress_stored_meta['google_map_iframe'] ) )  echo esc_attr($jobpress_stored_meta['google_map_iframe'][0]); ?></textarea>
         </div>
         <div class="jobpress_enable_form jobpress-text-field jobpress-check-field">
-            <label for=""><strong><?php _e( 'Job Application Collect Medium', 'jobpress' )?></strong></label>
+            <label for=""><strong><?php esc_html_e( 'Job Application Collect Medium', 'jobpress' )?></strong></label>
             <div class="form-check mb-5 mt-5">
-                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_email" value="1" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) echo 'checked'; ?>>
-                <label class="form-check-label" for="application_by_email">Collect application through email.</label>
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_email" value="<?php echo esc_attr(1); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) echo esc_attr('checked'); ?>>
+                <label class="form-check-label" for="application_by_email"><?php esc_html_e('Collect application through email.', 'jobpress'); ?></label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_form" value="2" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) echo 'checked'; ?> <?php (!$jobpress_wpcf7_exists) ? esc_attr_e('disabled', 'jobpress') : ''; ?>>
-                <label class="form-check-label" for="application_by_form">Collect application through form. <?php (!$jobpress_wpcf7_exists) ? esc_attr_e('(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)', 'jobpress') : ''; ?></label>
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_form" value="<?php echo esc_attr(2); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) echo esc_attr('checked'); ?> <?php echo (!$jobpress_wpcf7_exists) ? esc_attr('disabled') : ''; ?>>
+                <label class="form-check-label" for="application_by_form"> <?php esc_html_e('Collect application through form.', 'jobpress'); ?> <?php (!$jobpress_wpcf7_exists) ? esc_html_e('(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)', 'jobpress') : ''; ?></label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_default" value="3" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 3) ) echo 'checked'; ?>>
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_default" value="<?php echo esc_attr(3); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 3) ) echo esc_attr('checked'); ?>>
                 <label class="form-check-label" for="application_by_default"><?php esc_html_e('Default (That you inserted on JobPress settings page.)', 'jobpress'); ?></label>
             </div>
         </div>
-        <div class="jobpress-text-field jobpress-field jobpress_email w-100<?php echo ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) ? '' : ' d-none'; ?>">
-            <label for="jobpress_email"><?php _e( 'Resume Submit Description With Email Address', 'jobpress' )?></label>
-            <textarea rows="1" cols="40" name="jobpress_email" id="jobpress_email" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php if ( isset ( $jobpress_stored_meta['jobpress_email'] ) ) echo $jobpress_stored_meta['jobpress_email'][0]; ?></textarea>
+        <div class="jobpress-text-field jobpress-field jobpress_email w-100<?php echo esc_attr(( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) ? '' : ' d-none'); ?>">
+            <label for="jobpress_email"><?php esc_html_e( 'Resume Submit Description With Email Address', 'jobpress' )?></label>
+            <textarea rows="1" cols="40" name="jobpress_email" id="jobpress_email" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php if ( isset ( $jobpress_stored_meta['jobpress_email'] ) ) esc_html_e( $jobpress_stored_meta['jobpress_email'][0] ); ?></textarea>
         </div>
-        <div class="jobpress-text-field jobpress-field jobpress_contact_form_id w-100<?php echo ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) ? '' : ' d-none'; ?>">
-            <label for="jobpress_contact_form_7"><?php _e( 'Select Contact Form 7 (By this form candidate can apply to this job.)', 'jobpress' )?></label>
+        <div class="jobpress-text-field jobpress-field jobpress_contact_form_id w-100<?php echo esc_attr(( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) ? '' : ' d-none'); ?>">
+            <label for="jobpress_contact_form_7"><?php esc_html_e( 'Select Contact Form 7 (By this form candidate can apply to this job.)', 'jobpress' )?></label>
 
             <?php
             if($jobpress_wpcf7_exists){
             ?>
 
             <select name="jobpress_contact_form_7" id="jobpress_contact_form_7" class="regular-text"> 
-                <option value="">--Select Form--</option>
+                <option value=""><?php esc_html_e('--Select Form--', 'jobpress'); ?></option>
                 <?php
                     $jobpress_contact_form_7 = '';
                     if ( isset ( $jobpress_stored_meta['jobpress_contact_form_7'] ) ) {
@@ -103,7 +103,7 @@ class JobsMetaBox
                         'numberposts'   => -1
                     ));
                     foreach ( $wpcf7_posts as $post ) {
-                        echo '<option value="'.$post->ID.'"'.selected($post->ID,$jobpress_contact_form_7,false).'>'.$post->post_title.' ('.$post->ID.')</option>';
+                        echo '<option value="'.esc_attr($post->ID).'"'.esc_attr(selected($post->ID,$jobpress_contact_form_7,false)).'>'.esc_html($post->post_title.' ('.$post->ID.')').'</option>';
                     }
                 ?>
             </select>

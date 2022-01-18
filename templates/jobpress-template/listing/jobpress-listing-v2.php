@@ -17,9 +17,9 @@
         <div class="jp-category-list-group">
             <div class="jp-category-title jp-d-flex jp-justify-between">
                 <div class="jp-category-name">
-                    <h4><?php esc_html_e( $jobpress_cat->name, 'jobpress' ) ?></h4>
+                    <h4><?php echo esc_html( $jobpress_cat->name ) ?></h4>
                     <?php if(!empty($jobpress_cat->description)){ ?>
-                    <p><?php esc_html_e( $jobpress_cat->description, 'jobpress' ) ?></p>
+                    <p><?php echo esc_html( $jobpress_cat->description) ?></p>
                     <?php } ?>
                 </div>
                 <div class="jp-category-count jp-text-right"><span class="jp-label"><?php esc_html_e( $jobpress_cat->category_count.' OPENINGS', 'jobpress' ); ?></span></div>
@@ -70,8 +70,8 @@
                         <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                         <p><span class="jp-job-location">
                             <?php 
-                                !empty($job_type_str) ? esc_html_e( $job_type_str, 'jobpress' ) : ''; 
-                                !empty($job_location) ? esc_html_e( ' - '.$job_location, 'jobpress' ) : ''; 
+                                echo esc_html(!empty($job_type_str) ? $job_type_str : '');
+                                echo esc_html(!empty($job_location) ? ' - '.$job_location : '');
                             ?>
                             </span></p>
                     </div>
@@ -79,7 +79,7 @@
                     <?php if(!empty($jobpress_experience)){ ?>
                     <div class="jp-single-job-exp jp-text-center jp-col-4">
                         <div><?php esc_html_e( 'Experience', 'jobpress' ) ?></div>
-                        <span><?php esc_html_e( $jobpress_experience, 'jobpress' ) ?></span>
+                        <span><?php echo esc_html($jobpress_experience) ?></span>
                     </div>
                     <?php } ?>
 

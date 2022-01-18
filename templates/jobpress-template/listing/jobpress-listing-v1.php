@@ -45,12 +45,11 @@
         <div class="jp-single-job-list">
             <div class="jp-single-job-info">
                 <h4><?php the_title(); ?></h4>
-                <p><?php !empty($job_category_str) ? esc_html_e( $job_category_str, 'jobpress' ) : ''; ?><span class="jp-job-location">
-                    <?php 
-                        !empty($job_type_str) ? esc_html_e( ' - '.$job_type_str, 'jobpress' ) : ''; 
-                        !empty($job_location) ? esc_html_e( ' - '.$job_location, 'jobpress' ) : ''; 
-                    ?>
-                    </span></p>
+                <p><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?><span class="jp-job-location">
+                    <?php
+                        echo esc_html(!empty($job_type_str) ? ' - '.$job_type_str : '');
+                        echo esc_html(!empty($job_location) ? ' - '.$job_location : '');
+                    ?></span></p>
             </div>
             <div class="jp-single-job-action">
                 <a class="jp-apply-btn-radius" href="<?php the_permalink(); ?>"><?php esc_html_e('Apply', 'jobpress') ;?></a>

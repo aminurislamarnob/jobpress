@@ -51,11 +51,11 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
 }
 ?>
     <div class="jp-single-wrapper">
-        <div class="jp-single-job-header jp-row<?php echo empty($jobpress_ft_image) ? ' border-bottom' : ''; ?>">
+        <div class="jp-single-job-header jp-row<?php echo esc_attr(empty($jobpress_ft_image) ? ' border-bottom' : ''); ?>">
             <div class="jp-single-title jp-col-6">
                 <h1 class="jp-job-title"><?php the_title(); ?></h1>
                 <p>
-                    <span><?php echo $jobpress_location; ?> · <?php echo $job_type_str; ?></span>
+                    <span><?php echo esc_html($jobpress_location); ?> · <?php echo esc_html($job_type_str); ?></span>
                 </p>
             </div>
             <div class="jp-single-action jp-col-6 jp-text-right">
@@ -66,7 +66,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
             <div class="jp-content <?php echo esc_attr( $jobpress_sidebar_order_1 ); ?>">
                 <?php if($jobpress_ft_image) : ?>
                 <div class="jp-featured-image">
-                    <img class="jp-w-100" src="<?php echo  $jobpress_ft_image; ?>" alt="<?php the_title(); ?>">
+                    <img class="jp-w-100" src="<?php echo esc_url($jobpress_ft_image); ?>" alt="<?php the_title(); ?>">
                 </div>
                 <?php endif; ?>
                 <div class="jp-job-description">
@@ -86,7 +86,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Location', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_location, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Location', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_location ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -98,7 +98,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Job Type', 'jobpress' ); ?></span><br><?php esc_html_e( $job_type_str, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Job Type', 'jobpress' ); ?></span><br><?php echo esc_html( $job_type_str ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -112,7 +112,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Application Deadline', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_deadline, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Application Deadline', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_deadline ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -124,7 +124,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Experience', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_experience, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Experience', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_experience ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -137,7 +137,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Working Days', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_work_day, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Working Days', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_work_day ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -150,7 +150,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Working Hours', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_work_hour, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Working Hours', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_work_hour ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -162,7 +162,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Salary', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_salary, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Salary', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_salary ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -175,7 +175,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Vacancy', 'jobpress' ); ?></span><br><?php esc_html_e( $jobpress_vacancy, 'jobpress' ); ?>
+                            <span><?php esc_html_e( 'Vacancy', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_vacancy ); ?>
                         </div>
                     </div>
                     <?php } ?>
@@ -186,7 +186,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
         <div id="job-apply" class="jp-job-apply-form">
             <h3 class="jp-form-title"><?php esc_html_e( 'Apply for The Position: ', 'jobpress' ) . the_title(); ?></h3>
             <?php if(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 2) && !empty($jobpress_contact_form_7)){
-                echo do_shortcode('[contact-form-7 id="'.esc_attr($jobpress_contact_form_7).'" title="'.esc_attr(get_the_title()).'"]');
+                echo do_shortcode('[contact-form-7 id="'.esc_attr($jobpress_contact_form_7).'" title="'.get_the_title().'"]');
             }elseif(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 1) && !empty($jobpress_email)){
                 echo '<p>' . esc_html($jobpress_email) . '</p>';
             }elseif(!empty($jobpress_resume_common_instruction) && ($jobpress_application_collect_medium == 3)){

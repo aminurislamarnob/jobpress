@@ -29,14 +29,20 @@ JobPress Basic CSS
 .jp-container.jp-content-full {
     max-width: 100%;
 }
-  
+
 .jp-row {
     margin: 0 -15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 .jp-single-content-area{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 .jp-single-content-area h1, .jp-single-content-area h2, .jp-single-content-area h3, .jp-single-content-area h4, .jp-single-content-area h5, .jp-single-content-area h6{
@@ -64,7 +70,10 @@ JobPress Basic CSS
 }
 
 .jp-d-flex{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 .jp-col-6 {
@@ -72,6 +81,8 @@ JobPress Basic CSS
     width: 50%;
 }
 .jp-col-4 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 33.33%;
 }
@@ -89,9 +100,13 @@ JobPress Basic CSS
     text-align: right;
 }
 .jp-align-items-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .jp-justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
 }
 .jp-mb-0 {
@@ -114,6 +129,7 @@ Default Style
 
 .jp-single-wrapper {
     padding: 60px 0;
+    width: 100%;
 }
 
 .jp-featured-image {
@@ -145,6 +161,8 @@ Default Style
 
 .jp-job-summary-item {
     margin-bottom: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 .jp-summary-icon {
@@ -160,6 +178,7 @@ Default Style
 .jp-sidebar .jp-summary {
     background: #fff;
     padding: 20px;
+    -webkit-box-shadow: 0 1.5rem 4rem rgba(22,28,45,.05);
     box-shadow: 0 1.5rem 4rem rgba(22,28,45,.05);
     border-radius: 4px;
 }
@@ -170,6 +189,8 @@ Default Style
     margin-top: 20px;
     padding: 0;
     font-weight: bold;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
     transition: .3s;
     background: var(--jp-brand-color);
     display: inline-block;
@@ -182,10 +203,14 @@ Default Style
     color: #fff;
 }
 .jp-order-1 {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
     order: 1;
 }
 
 .jp-order-2 {
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
     order: 2;
 }
 .jp-content.jp-order-2{
@@ -214,7 +239,9 @@ Default Cover Style
 figure.jp-img-full-width img {
     width: 100%;
     height: 530px;
+    -o-object-fit: cover;
     object-fit: cover;
+    -o-object-position: center;
     object-position: center;
 }
 
@@ -239,6 +266,8 @@ figure.jp-img-full-width img {
     top: 50%;
     z-index: 1;
     left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     color: #fff;
 }
@@ -312,8 +341,14 @@ Job List
     margin-bottom: 60px;
 }
 .jp-single-job-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 30px;
 }
@@ -325,7 +360,7 @@ Job List
     font-size: 18px;
 }
 .jp-single-job-list h4 a{
-    color: var(--jp-primary-color);  
+    color: var(--jp-primary-color);
 }
 .jp-single-job-list h4 a:hover{
     color: var(--jp-hover-color);
@@ -347,10 +382,13 @@ Job List
     text-transform: uppercase;
     color: #fff;
     padding: 13px 39px;
+    -webkit-box-shadow: 0 4px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px 0 rgb(0 0 0 / 8%);
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px 0 rgb(0 0 0 / 8%);
     border-radius: 5px;
     background: var(--jp-brand-color);
     font-weight: 500;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
     transition: .3s;
     font-size: 14px;
 }
@@ -370,7 +408,8 @@ Job List
     border-bottom: 1px solid var(--jp-border-color);
 }
 .jobpress-job-lists {
-    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 0 3px 8px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 10%);
 }
 
 .jp-category-name h4 {
@@ -419,9 +458,10 @@ span.jp-label {
 }
 
 /*************
-Apply Job Form 
+Apply Job Form
 **************/
 .jp-job-apply-form {
+    -webkit-box-shadow: 0 1.5rem 4rem rgba(22,28,45,.05);
     box-shadow: 0 1.5rem 4rem rgba(22,28,45,.05);
     background: #ffffff;
     padding: 32px;
@@ -431,7 +471,10 @@ Apply Job Form
 }
 
 .jp-form-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -20px;
     margin-left: -20px;
@@ -439,6 +482,7 @@ Apply Job Form
 
 .jp-form-row .jp-form-half {
     -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
     padding-right: 20px;
@@ -554,15 +598,15 @@ Responsive CSS
     .jp-single-job-info {
         padding-right: 15px;
     }
-    
+
     .jp-single-job-list .jp-single-job-info.jp-col-4 {
         width: 60%;
     }
-    
+
     .jp-single-job-list  .jp-single-job-action.jp-col-4 {
         width: 10%;
     }
-    
+
     .jp-single-job-list  .jp-single-job-exp.jp-col-4 {
         width: 20%;
     }
@@ -571,25 +615,25 @@ Responsive CSS
     .jp-row {
         display: block;
     }
-    
+
     .jp-col-6 {
         width: 100%;
     }
-    
+
     .jp-single-job-header  .jp-text-right {
         text-align: left;
     }
-    
+
     .jp-single-content-area {
         display: block;
     }
-    
+
     .jp-content {
         width: 100%;
         margin-bottom: 30px;
         padding-right: 0;
     }
-    
+
     .jp-sidebar {
         width: 100%;
         padding-left: 0;
@@ -607,22 +651,22 @@ Responsive CSS
     .jp-single-job-list {
         display: block;
     }
-    
+
     .jp-single-job-list .jp-single-job-info.jp-col-4 {
         width: 100%;
         padding-right: 0;
     }
-    
+
     .jp-single-job-list .jp-single-job-exp.jp-col-4 {
         width: 100%;
         text-align: left;
         margin: 10px 0;
     }
-    
+
     .jp-single-job-list {
         padding: 15px;
     }
-    
+
     .jp-category-count {
         margin-top: 15px;
     }
@@ -631,29 +675,29 @@ Responsive CSS
     .jp-job-title {
         font-size: 30px;
     }
-    
+
     .jp-single-job-header .jp-btn {
         height: 50px;
         line-height: 50px;
     }
-    
+
     .jp-form-title {
         font-size: 25px;
     }
-    
+
     .jp-form-row {
         display: block;
     }
-    
+
     .jp-form-row .jp-form-half {
         width: 100%;
         max-width: 100%;
     }
-    
+
     .jp-job-apply-form {
         padding: 20px;
     }
-    
+
     .jp-form-half .jp-sm-text {
         text-align: left;
         margin-top: 10px;

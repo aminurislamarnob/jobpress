@@ -50,7 +50,7 @@
             <?php if(!empty($jobpress_experience)){ ?>
             <div class="jp-single-job-exp">
                 <div><?php esc_html_e( 'Experience', 'jobpress' ) ?></div>
-                <span><?php esc_html_e( $jobpress_experience, 'jobpress' ) ?></span>
+                <span><?php echo esc_html( $jobpress_experience ) ?></span>
             </div>
             <?php } ?>
 

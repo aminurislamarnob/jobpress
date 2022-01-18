@@ -1,4 +1,4 @@
-<h1>JobPress Settings</h1>
+<h1><?php esc_html_e('JobPress Settings', 'jobpress'); ?></h1>
 <div class="jobpress-container">
     <?php require_once JOBPRESS_PLUGIN_PATH . 'templates/task-pages/nav.php'; ?>
     <div class="jobpress-right-content">

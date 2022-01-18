@@ -17,7 +17,7 @@ class SettingsLinks
 
 	public function settings_link( $links ) 
 	{
-		$settings_link = '<a href="edit.php?post_type=jobpress">Settings</a>';
+		$settings_link = '<a href="'.esc_url('edit.php?post_type=jobpress&page=jobpress_settings').'">'.esc_html__('Settings', 'jobpress').'</a>';
 		array_push( $links, $settings_link );
 		return $links;
 	}

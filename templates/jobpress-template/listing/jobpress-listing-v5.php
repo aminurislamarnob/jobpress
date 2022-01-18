@@ -48,7 +48,7 @@
             <div class="jp-col-4">
                 <a href="<?php the_permalink(); ?>" class="jp-single-job-grid">
                     <div>
-                        <div class="jp-category"><?php !empty($job_category_str) ? esc_html_e( $job_category_str, 'jobpress' ) : ''; ?></div>
+                        <div class="jp-category"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?></div>
                         <div class="jp-single-job-info">
                             <h4><?php the_title(); ?></h4>
                             <?php if ( has_excerpt() ) {
@@ -56,7 +56,7 @@
                             } ?>
                         </div>
                     </div>
-                    <div class="jp-job-type"><?php esc_html_e( $job_type_str, 'jobpress' ); ?></div>
+                    <div class="jp-job-type"><?php echo esc_html($job_type_str); ?></div>
                 </a>
             </div>
             <?php       

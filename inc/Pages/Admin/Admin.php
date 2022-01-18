@@ -14,7 +14,7 @@ class Admin
 
 		//plugin settings page
 		add_submenu_page(
-			'edit.php?post_type=jobpress',
+			esc_url('edit.php?post_type=jobpress'),
 			__( 'JobPress Settings', 'jobpress' ),
 			__( 'Settings', 'jobpress' ),
 			'manage_options',
@@ -24,7 +24,7 @@ class Admin
 
 		//plugin settings Appearance page
 		add_submenu_page(
-			'edit.php?post_type=jobpress',
+            esc_url('edit.php?post_type=jobpress'),
 			__( 'JobPress Appearance Settings', 'jobpress' ),
 			__( 'Appearance', 'jobpress' ),
 			'manage_options',
@@ -34,7 +34,7 @@ class Admin
 
 		//plugin settings Appearance page
 		add_submenu_page(
-			'edit.php?post_type=jobpress',
+            esc_url('edit.php?post_type=jobpress'),
 			__( 'JobPress Shortcodes Settings', 'jobpress' ),
 			__( 'Shortcodes', 'jobpress' ),
 			'manage_options',

@@ -16,10 +16,10 @@ class CustomPostType
 	 */
     function jobpress_jobs_cpt() {
         $labels = array(
-            'name'                  => _x( 'Jobs', 'jobpress' ),
-            'singular_name'         => _x( 'Job', 'jobpress' ),
-            'menu_name'             => _x( 'JobPress', 'jobpress' ),
-            'name_admin_bar'        => _x( 'Job', 'jobpress' ),
+            'name'                  => __( 'Jobs', 'jobpress' ),
+            'singular_name'         => __( 'Job', 'jobpress' ),
+            'menu_name'             => __( 'JobPress', 'jobpress' ),
+            'name_admin_bar'        => __( 'Job', 'jobpress' ),
             'add_new'               => __( 'Add New', 'jobpress' ),
             'add_new_item'          => __( 'Add New Job', 'jobpress' ),
             'new_item'              => __( 'New Job', 'jobpress' ),
@@ -30,16 +30,16 @@ class CustomPostType
             'parent_item_colon'     => __( 'Parent Jobs:', 'jobpress' ),
             'not_found'             => __( 'No Jobs found.', 'jobpress' ),
             'not_found_in_trash'    => __( 'No Jobs found in Trash.', 'jobpress' ),
-            'featured_image'        => _x( 'Job Cover Image', 'jobpress' ),
-            'set_featured_image'    => _x( 'Set cover image', 'jobpress' ),
-            'remove_featured_image' => _x( 'Remove cover image', 'jobpress' ),
-            'use_featured_image'    => _x( 'Use as cover image', 'jobpress' ),
-            'archives'              => _x( 'Job archives', 'jobpress' ),
-            'insert_into_item'      => _x( 'Insert into Job', 'jobpress' ),
-            'uploaded_to_this_item' => _x( 'Uploaded to this Job', 'jobpress' ),
-            'filter_items_list'     => _x( 'Filter Jobs list', 'jobpress' ),
-            'items_list_navigation' => _x( 'Jobs list navigation', 'jobpress' ),
-            'items_list'            => _x( 'Jobs list', 'jobpress' ),
+            'featured_image'        => __( 'Job Cover Image', 'jobpress' ),
+            'set_featured_image'    => __( 'Set cover image', 'jobpress' ),
+            'remove_featured_image' => __( 'Remove cover image', 'jobpress' ),
+            'use_featured_image'    => __( 'Use as cover image', 'jobpress' ),
+            'archives'              => __( 'Job archives', 'jobpress' ),
+            'insert_into_item'      => __( 'Insert into Job', 'jobpress' ),
+            'uploaded_to_this_item' => __( 'Uploaded to this Job', 'jobpress' ),
+            'filter_items_list'     => __( 'Filter Jobs list', 'jobpress' ),
+            'items_list_navigation' => __( 'Jobs list navigation', 'jobpress' ),
+            'items_list'            => __( 'Jobs list', 'jobpress' ),
         );
      
         $args = array(
@@ -68,8 +68,8 @@ class CustomPostType
      */
     function jobpress_jobs_category_taxonomies() {
         $labels = array(
-            'name'              => _x( 'Job Category', 'jobpress' ),
-            'singular_name'     => _x( 'Job Category', 'jobpress' ),
+            'name'              => __( 'Job Category', 'jobpress' ),
+            'singular_name'     => __( 'Job Category', 'jobpress' ),
             'search_items'      => __( 'Search Job Categories', 'jobpress' ),
             'all_items'         => __( 'All Job Categories', 'jobpress' ),
             'parent_item'       => __( 'Parent Job Category', 'jobpress' ),
@@ -98,8 +98,8 @@ class CustomPostType
      */
     function jobpress_jobs_type_taxonomies() {
         $labels = array(
-            'name'              => _x( 'Job Type', 'jobpress' ),
-            'singular_name'     => _x( 'Job Type', 'jobpress' ),
+            'name'              => __( 'Job Type', 'jobpress' ),
+            'singular_name'     => __( 'Job Type', 'jobpress' ),
             'search_items'      => __( 'Search Job Types', 'jobpress' ),
             'all_items'         => __( 'All Job Types', 'jobpress' ),
             'parent_item'       => __( 'Parent Job Type', 'jobpress' ),

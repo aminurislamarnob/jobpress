@@ -1,6 +1,6 @@
-/**
- * Job Application Collect Medium Active/Deactive
- * **/
+/*************
+JobPress Plugin Job Application Collect Medium Active/Deactive
+ ***************/
 var jobpress_collect_md_inputs = document.querySelectorAll("input[name='jobpress_application_collect_medium']");
 var jobpress_email = document.querySelector(".jobpress_email");
 var jobpress_contact_form_id = document.querySelector(".jobpress_contact_form_id");

@@ -71,11 +71,11 @@ class SettingsFormGeneral
         $jobpress_design_type_value = get_option('jobpress_design_type');
     ?>
         <select name="jobpress_design_type" class="regular-text">
-            <option value="1"<?php echo ( $jobpress_design_type_value == 1 ) ? 'selected' : ''; ?>>Default Design</option>
-            <option value="2"<?php echo ( $jobpress_design_type_value == 2 ) ? 'selected' : ''; ?>>Design V2</option>
-            <option value="3"<?php echo ( $jobpress_design_type_value == 3 ) ? 'selected' : ''; ?>>Design V3</option>
-            <option value="4"<?php echo ( $jobpress_design_type_value == 4 ) ? 'selected' : ''; ?>>Design V4</option>
-            <option value="5"<?php echo ( $jobpress_design_type_value == 5 ) ? 'selected' : ''; ?>>Design V5</option>
+            <option value="1"<?php echo esc_attr(( $jobpress_design_type_value == 1 ) ? 'selected' : ''); ?>><?php esc_html_e('Default Design'); ?></option>
+            <option value="2"<?php echo esc_attr(( $jobpress_design_type_value == 2 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V2'); ?></option>
+            <option value="3"<?php echo esc_attr(( $jobpress_design_type_value == 3 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V3'); ?></option>
+            <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4'); ?></option>
+            <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5'); ?></option>
         </select>
     <?php
     }
@@ -84,7 +84,7 @@ class SettingsFormGeneral
     function jobpress_single_sidebar_field_callback() {
         $jobpress_sidebar_position_value = get_option('jobpress_single_sidebar');
     ?>
-        <input name="jobpress_single_sidebar" type="checkbox" id="jobpress_single_sidebar" class="regular-text" value="1" <?php echo ($jobpress_sidebar_position_value == 1) ? 'checked' : ''; ?>>
+        <input name="jobpress_single_sidebar" type="checkbox" id="jobpress_single_sidebar" class="regular-text" value="1" <?php echo esc_attr(($jobpress_sidebar_position_value == 1) ? 'checked' : ''); ?>>
         <label for="jobpress_single_sidebar"><?php esc_html_e( 'Show single job page sidebar on left side (Default right side).', 'jobpress' ); ?></label>
     <?php
     }

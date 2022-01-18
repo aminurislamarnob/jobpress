@@ -85,38 +85,38 @@ class SettingsFormAppearance
     //Brand Color
     function jobpress_brand_color_field_callback(){
         $jobpress_brand_color_value = !empty(get_option('jobpress_brand_color')) ? get_option('jobpress_brand_color') : '#0086fe';
-        printf('<input name="jobpress_brand_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_brand_color_value);
+        printf('<input name="jobpress_brand_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_brand_color_value));
     }
 
     //Heading Color
     function jobpress_heading_color_field_callback(){
         $jobpress_heading_color_value = !empty(get_option('jobpress_heading_color')) ? get_option('jobpress_heading_color') : '#283339';
-        printf('<input name="jobpress_heading_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_heading_color_value);
+        printf('<input name="jobpress_heading_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_heading_color_value));
     }
 
     //Content Color
     function jobpress_content_color_field_callback(){
         $jobpress_content_color_value = !empty(get_option('jobpress_content_color')) ? get_option('jobpress_content_color') : '#3a3a3a';
-        printf('<input name="jobpress_content_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_content_color_value);
+        printf('<input name="jobpress_content_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_content_color_value));
     }
 
     //Seconday Color
     function jobpress_secondary_color_field_callback(){
         $jobpress_secondary_color_value = !empty(get_option('jobpress_secondary_color')) ? get_option('jobpress_secondary_color') : '#5f7681';
-        printf('<input name="jobpress_secondary_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_secondary_color_value);
+        printf('<input name="jobpress_secondary_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_secondary_color_value));
     }
 
     //Border Color
     function jobpress_border_color_field_callback(){
         $jobpress_border_color_value = !empty(get_option('jobpress_border_color')) ? get_option('jobpress_border_color') : '#e7ebee';
-        printf('<input name="jobpress_border_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_border_color_value);
+        printf('<input name="jobpress_border_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_border_color_value));
     }
 
 
     //Hover Color
     function jobpress_hover_color_field_callback(){
         $jobpress_hover_color_value = !empty(get_option('jobpress_hover_color')) ? get_option('jobpress_hover_color') : '#006dcc';
-        printf('<input name="jobpress_hover_color" type="text" class="color-field regular-text" value="%s"/>', $jobpress_hover_color_value);
+        printf('<input name="jobpress_hover_color" type="text" class="color-field regular-text" value="%s"/>', esc_attr($jobpress_hover_color_value));
     }
 
     //Plugin settings page section text
