@@ -24,6 +24,7 @@ class JobsMetaBox
     function jobpress_meta_fields_callback( $post ) {
         wp_nonce_field( basename( __FILE__ ), 'jobpress_nonce' );
         $jobpress_stored_meta = get_post_meta( $post->ID );
+        $jobpress_wpcf7_exists = post_type_exists( 'wpcf7_contact_form' ); //check contact form 7 is activated or not
         ?>
         <div class="jobpress-dflex">
             <div class="jobpress-text-field jobpress-field jobpress_vacancy">
@@ -62,6 +63,56 @@ class JobsMetaBox
         <div class="jobpress-text-field jobpress-field jobpress_location w-100">
             <label for="jobpress_location"><?php _e( 'Google Map iFrame Embed Code', 'jobpress' )?></label>
             <textarea rows="1" cols="40" name="google_map_iframe" id="google_map_iframe"><?php if ( isset ( $jobpress_stored_meta['google_map_iframe'] ) ) echo $jobpress_stored_meta['google_map_iframe'][0]; ?></textarea>
+        </div>
+        <div class="jobpress_enable_form jobpress-text-field jobpress-check-field">
+            <label for=""><strong><?php _e( 'Job Application Collect Medium', 'jobpress' )?></strong></label>
+            <div class="form-check mb-5 mt-5">
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_email" value="1" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) echo 'checked'; ?>>
+                <label class="form-check-label" for="application_by_email">Collect application through email.</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_form" value="2" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) echo 'checked'; ?> <?php (!$jobpress_wpcf7_exists) ? esc_attr_e('disabled', 'jobpress') : ''; ?>>
+                <label class="form-check-label" for="application_by_form">Collect application through form. <?php (!$jobpress_wpcf7_exists) ? esc_attr_e('(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)', 'jobpress') : ''; ?></label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_default" value="3" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 3) ) echo 'checked'; ?>>
+                <label class="form-check-label" for="application_by_default"><?php esc_html_e('Default (That you inserted on JobPress settings page.)', 'jobpress'); ?></label>
+            </div>
+        </div>
+        <div class="jobpress-text-field jobpress-field jobpress_email w-100<?php echo ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) ? '' : ' d-none'; ?>">
+            <label for="jobpress_email"><?php _e( 'Resume Submit Description With Email Address', 'jobpress' )?></label>
+            <textarea rows="1" cols="40" name="jobpress_email" id="jobpress_email" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php if ( isset ( $jobpress_stored_meta['jobpress_email'] ) ) echo $jobpress_stored_meta['jobpress_email'][0]; ?></textarea>
+        </div>
+        <div class="jobpress-text-field jobpress-field jobpress_contact_form_id w-100<?php echo ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) ? '' : ' d-none'; ?>">
+            <label for="jobpress_contact_form_7"><?php _e( 'Select Contact Form 7 (By this form candidate can apply to this job.)', 'jobpress' )?></label>
+
+            <?php
+            if($jobpress_wpcf7_exists){
+            ?>
+
+            <select name="jobpress_contact_form_7" id="jobpress_contact_form_7" class="regular-text"> 
+                <option value="">--Select Form--</option>
+                <?php
+                    $jobpress_contact_form_7 = '';
+                    if ( isset ( $jobpress_stored_meta['jobpress_contact_form_7'] ) ) {
+                        $jobpress_contact_form_7 = $jobpress_stored_meta['jobpress_contact_form_7'][0];
+                    }
+                    
+                    $wpcf7_posts = get_posts(array(
+                        'post_type'     => 'wpcf7_contact_form',
+                        'numberposts'   => -1
+                    ));
+                    foreach ( $wpcf7_posts as $post ) {
+                        echo '<option value="'.$post->ID.'"'.selected($post->ID,$jobpress_contact_form_7,false).'>'.$post->post_title.' ('.$post->ID.')</option>';
+                    }
+                ?>
+            </select>
+
+            <?php }else{ ?>
+                <div class="jobpress-error-notify">
+                    <p><?php esc_html_e( 'Please install & active contact form 7 plugin from wordpress.org then refresh this page.', 'jobpress' ); ?></p>
+                </div>
+            <?php } ?>
         </div>
     
         <?php
@@ -146,6 +197,19 @@ class JobsMetaBox
         if( isset( $_POST[ 'google_map_iframe' ] ) ) {
             update_post_meta( $post_id, 'google_map_iframe', esc_html( wp_kses( $_POST['google_map_iframe'], $allowed_html ) ) );
         }
+
+        if( isset( $_POST[ 'jobpress_application_collect_medium' ] ) ) {
+            update_post_meta( $post_id, 'jobpress_application_collect_medium', sanitize_text_field( $_POST[ 'jobpress_application_collect_medium' ] ) );
+        }
+
+        if( isset( $_POST[ 'jobpress_email' ] ) ) {
+            update_post_meta( $post_id, 'jobpress_email', sanitize_text_field( $_POST[ 'jobpress_email' ] ) );
+        }
+
+        if( isset( $_POST[ 'jobpress_contact_form_7' ] ) ) {
+            update_post_meta( $post_id, 'jobpress_contact_form_7', sanitize_text_field( $_POST[ 'jobpress_contact_form_7' ] ) );
+        }
+
     }
 
 }

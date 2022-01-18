@@ -163,7 +163,7 @@ Default Style
     box-shadow: 0 1.5rem 4rem rgba(22,28,45,.05);
     border-radius: 4px;
 }
-.jp-btn {
+.jp-btn, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-submit {
     width: 100%;
     height: 50px;
     line-height: 50px;
@@ -177,7 +177,7 @@ Default Style
     color: #fff;
     border-radius: 5px;
 }
-.jp-btn:hover {
+.jp-btn:hover, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-submit:hover {
     background: var(--jp-hover-color);
     color: #fff;
 }
@@ -449,13 +449,13 @@ Apply Job Form
     margin-bottom: 20px;
 }
 
-.jp-form-group label, .jp-form-group p {
+.jp-form-group label, .jp-form-group p, .jp-job-apply-form form.wpcf7-form label {
     display: block;
     font-size: 16px;
     margin-bottom: 5px;
 }
 
-.jp-form-group .jp-form-control {
+.jp-form-group .jp-form-control, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control {
     width: 100%;
     height: 52px;
     padding: 10px 20px;
@@ -463,12 +463,12 @@ Apply Job Form
     border: 1px solid var(--jp-border-color);
     font-size: 16px;
 }
-.jp-form-group .jp-form-control:focus{
+.jp-form-group .jp-form-control:focus, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control:focus{
     border: 1px solid var(--jp-brand-color);
     outline: 0px;
 }
 
-.jp-form-group textarea.jp-form-control{
+.jp-form-group textarea.jp-form-control, .jp-job-apply-form form.wpcf7-form textarea.wpcf7-form-control{
     height: auto;
 }
 .jp-custom-file .jp-custom-file-input {
@@ -521,7 +521,7 @@ Apply Job Form
     color: var(--jp-secondary-color);
 }
 
-.jp-btn.jp-submit-btn {
+.jp-btn.jp-submit-btn, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-submit {
     width: auto;
     padding-left: 40px;
     padding-right: 40px;
@@ -534,10 +534,10 @@ Apply Job Form
 }
 
 /******Form Validation********/
-.jp-form-group .jp-form-control.error, .resume-file .jp-custom-file label.error+label {
+.jp-form-group .jp-form-control.error, .resume-file .jp-custom-file label.error+label, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-not-valid{
     border-color: #FF2626;
 }
-.jp-form-group label.error {
+.jp-form-group label.error, .jp-job-apply-form form.wpcf7-form .wpcf7-not-valid-tip {
     color: #FF2626;
     font-size: 14px;
 }

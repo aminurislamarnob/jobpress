@@ -1,4 +1,10 @@
 /*Meta Box Styles*/
+.mb-5{
+    margin-bottom: 5px;
+}
+.mt-5{
+    margin-top: 5px;
+}
 .jobpress-field label {
     display: block;
     font-weight: 600;
@@ -8,6 +14,9 @@
 .jobpress-field {
     margin-bottom: 25px;
     width: 45%;
+}
+.jobpress-check-field {
+    margin-bottom: 25px;
 }
 
 .jobpress-field input , .jobpress-field textarea{
@@ -26,6 +35,22 @@
 }
 .w-100{
     width: 100%!important;
+}
+.d-none{
+    display: none;
+}
+#jobpress_meta_box .inside {
+    padding: 30px 20px;
+}
+
+.jobpress-error-notify {
+    color: #FF2626;
+    background: #FF262612;
+    padding: 10px 15px;
+    border: 1px solid #FF2626;
+}
+.jobpress-error-notify p {
+    margin: 0;
 }
 
 /*Jobpress settings nav*/

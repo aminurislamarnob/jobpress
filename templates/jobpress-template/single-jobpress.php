@@ -19,6 +19,12 @@ $jobpress_salary = get_post_meta( get_the_ID(), 'jobpress_salary', true );
 $jobpress_deadline = get_post_meta( get_the_ID(), 'jobpress_apply_deadline', true );
 $jobpress_location = get_post_meta( get_the_ID(), 'jobpress_location', true );
 $jobpress_gmap = get_post_meta( get_the_ID(), 'google_map_iframe', true );
+$jobpress_contact_form_7 = get_post_meta( get_the_ID(), 'jobpress_contact_form_7', true );
+$jobpress_application_collect_medium = get_post_meta( get_the_ID(), 'jobpress_application_collect_medium', true );
+$jobpress_email = get_post_meta( get_the_ID(), 'jobpress_email', true );
+
+//Resume submit instruction common
+$jobpress_resume_common_instruction = get_option('jobpress_single_resume_instruction');
 
 //job category
 $job_category = get_the_terms( get_the_ID(), 'jobpress_category' );
@@ -179,7 +185,17 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
         </div>
         <div id="job-apply" class="jp-job-apply-form">
             <h3 class="jp-form-title"><?php esc_html_e( 'Apply for The Position: ', 'jobpress' ) . the_title(); ?></h3>
-            
+            <?php if(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 2) && !empty($jobpress_contact_form_7)){
+                echo do_shortcode('[contact-form-7 id="'.esc_attr($jobpress_contact_form_7).'" title="'.esc_attr(get_the_title()).'"]');
+            }elseif(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 1) && !empty($jobpress_email)){
+                echo '<p>' . esc_html($jobpress_email) . '</p>';
+            }elseif(!empty($jobpress_resume_common_instruction) && ($jobpress_application_collect_medium == 3)){
+                echo '<p>' . esc_html($jobpress_resume_common_instruction) . '</p>';
+            }elseif(!empty($jobpress_resume_common_instruction)){
+                echo '<p>' . esc_html($jobpress_resume_common_instruction) . '</p>';
+            }else{
+                echo '<p>' . esc_html__('No application process added by the recruiter.', 'jobpress') . '</p>';
+            }?>
         </div>
     </div>
 <?php
