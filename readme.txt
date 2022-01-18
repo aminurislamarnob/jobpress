@@ -1,0 +1,58 @@
+=== JobPress ===
+Contributors: aminurislam01
+Tags: jobpress, job, board, job-solution, recruiter, circular, open, jobs, recruitment, easy, solution, company
+Requires at least: 5.6
+Tested up to: 5.8
+Requires PHP: 7.0
+Stable tag: 1.0.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+JobPress is the ultimate WordPress job board plugin for a company.
+
+== Description ==
+
+This plugin enables you to build/create your own job board inside your WordPress website. It's designed & developed to build your company own job board and career page by few clicks. It's easy to use just install, active and ready to go.
+
+= Plugin Features =
+* Dedicated "JobPress" WordPress admin menu for manage jobs.
+* Add/Edit/Delete jobs from WordPress admin panel.
+* Job type support.
+* Job category support.
+* Job list page.
+* There are 5 different types of job listing page.
+* Well organized cool job details page.
+* Contact form 7 support for collecting resume or job application.
+* Change branding color easily.
+* Cool plugin settings panel for admin.
+* You can also add location google map iFrame embed code.
+
+
+== Installation ==
+
+= FOR STANDARD INSTALLATION: =
+Installing this plugin is very easy just like any other WordPress plugin. Please follow these instructions:
+1. In your WordPress admin panel, go to Plugins > Add New, search for "JobPress" and click on "Install Now" button.
+2. Alternatively, download the plugin and upload the jobpress.zip to your plugins directory, which usually is /wp-content/plugins/.
+3. Activate the plugin from plugins page.
+4. Go to Setting > Permalinks and update the permalink settings by clicking on save change button.
+5. Now plugin is ready to go.
+6. Go to all pages from the admin pages menu then you will find the "Jobs Listing" page there. You can also create custom page just need to place shortcode "[jobpress]" there.
+
+
+== Frequently Asked Questions ==
+
+= Is there any preset style for job listing? =
+You there are 5 preset.
+
+= Is it mandatory to update/flash permalinks settings after install plugin? =
+Yes, It's mandatory.
+
+= Can I Add/Edit/Delete jobs? =
+Yes, you can.
+
+= Is it support only Contact Form 7 for resume collection or job application? =
+Yes, for now only support Contact Form 7. In-future we will add support for all forms. Also, You can also add description to collect resume by your email address.
+
+= How can change settings? =
+Just go to settings page from "JobPress" admin menu.
