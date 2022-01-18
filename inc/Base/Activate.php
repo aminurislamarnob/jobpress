@@ -23,19 +23,5 @@ class Activate
 		if(!isset($jobpress_page_check->ID)){
 			wp_insert_post($jobpress_new_page);
 		}
-
-
-		/***
-		**Create resume upload directory on plugin activation time
-		***/
-		$jobpress_upload = wp_upload_dir();
-		$jobpress_upload_dir = $jobpress_upload['basedir'];
-		$jobpress_upload_dir = $jobpress_upload_dir . '/jobpress-resume';
-		if (! is_dir($jobpress_upload_dir)) {
-		   mkdir( $jobpress_upload_dir, 0744 );
-		}
-
-		//Flush Permalink
-		// flush_rewrite_rules();
 	}
 }

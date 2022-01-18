@@ -1,12 +1,3 @@
-<div class="jobpress-cover jp-text-center">
-    <figure class="jp-img-full-width">
-        <img src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2100&q=80" alt="">
-    </figure>
-    <div class="jp-cover-text">
-        <h1><?php esc_html_e( 'Work at Truecaller', 'jobpress' ); ?></h1>
-        <p><?php esc_html_e( 'Ready to boost your career to new heights?', 'jobpress' ); ?></p>
-    </div>
-</div>
 <?php
     // Get list of all taxonomy terms
     $jobpress_args = array(
