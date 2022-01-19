@@ -1,5 +1,5 @@
 <?php
-$jobpress_activated_page = $_REQUEST['page'];
+$jobpress_activated_page = sanitize_text_field($_REQUEST['page']);
 ?>
 <div class="jobpress-left-nav">
     <ul>
