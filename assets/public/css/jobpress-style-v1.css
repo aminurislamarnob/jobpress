@@ -140,6 +140,11 @@ Default Style
 .jp-content a{
     color: var(--jp-brand-color);
 }
+.jp-job-location-googlemap iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 4px;
+}
 .jp-sidebar-title {
     font-weight: 700;
     font-size: 22px;

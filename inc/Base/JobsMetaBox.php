@@ -184,7 +184,7 @@ class JobsMetaBox
             update_post_meta( $post_id, 'jobpress_location', sanitize_text_field( $_POST[ 'jobpress_location' ] ) );
         }
 
-        $allowed_html = array(
+        $jobpress_iframe_allowed_html = array(
             'iframe' => array(
                 'src' => array(),
                 'width' => array(),
@@ -195,7 +195,7 @@ class JobsMetaBox
             )
         );
         if( isset( $_POST[ 'google_map_iframe' ] ) ) {
-            update_post_meta( $post_id, 'google_map_iframe', wp_kses( $_POST['google_map_iframe'], $allowed_html ) );
+            update_post_meta( $post_id, 'google_map_iframe', wp_kses( $_POST['google_map_iframe'], $jobpress_iframe_allowed_html ) );
         }
 
         if( isset( $_POST[ 'jobpress_application_collect_medium' ] ) ) {

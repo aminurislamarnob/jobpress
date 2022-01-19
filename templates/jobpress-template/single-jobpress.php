@@ -72,6 +72,22 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                 <div class="jp-job-description">
                     <?php the_content(); ?>
                 </div>
+                <?php if(!empty($jobpress_gmap)) : ?>
+                <div class="jp-job-location-googlemap">
+                    <?php
+                    $jobpress_gmap_allowed_html = array(
+                        'iframe' => array(
+                            'src' => array(),
+                            'width' => array(),
+                            'height' => array(),
+                            'style' => array(),
+                            'allowfullscreen' => array(),
+                            'loading' => array(),
+                        )
+                    );
+                    echo wp_kses( $jobpress_gmap, $jobpress_gmap_allowed_html ); ?>
+                </div>
+                <?php endif; ?>
             </div>
             <div class="jp-sidebar <?php echo esc_attr( $jobpress_sidebar_order_2 ); ?>">
                 <div class="jp-summary">
