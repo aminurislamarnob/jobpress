@@ -121,6 +121,6 @@ class SettingsFormAppearance
 
     //Plugin settings page section text
     function jobpress_appearance_section_text() {
-        printf('%s %s %s', '<p>', __('You can adjust jobpress colors from here.', 'jobpress'), '</p>');
+        printf('%s %s %s', '<p>', __('You can adjust JobPress colors from here.', 'jobpress'), '</p>');
     }
 }

@@ -71,11 +71,11 @@ class SettingsFormGeneral
         $jobpress_design_type_value = get_option('jobpress_design_type');
     ?>
         <select name="jobpress_design_type" class="regular-text">
-            <option value="1"<?php echo esc_attr(( $jobpress_design_type_value == 1 ) ? 'selected' : ''); ?>><?php esc_html_e('Default Design'); ?></option>
-            <option value="2"<?php echo esc_attr(( $jobpress_design_type_value == 2 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V2'); ?></option>
-            <option value="3"<?php echo esc_attr(( $jobpress_design_type_value == 3 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V3'); ?></option>
-            <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4'); ?></option>
-            <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5'); ?></option>
+            <option value="1"<?php echo esc_attr(( $jobpress_design_type_value == 1 ) ? 'selected' : ''); ?>><?php esc_html_e('Default Design', 'jobpress'); ?></option>
+            <option value="2"<?php echo esc_attr(( $jobpress_design_type_value == 2 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V2', 'jobpress'); ?></option>
+            <option value="3"<?php echo esc_attr(( $jobpress_design_type_value == 3 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V3', 'jobpress'); ?></option>
+            <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4', 'jobpress'); ?></option>
+            <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5', 'jobpress'); ?></option>
         </select>
     <?php
     }
@@ -93,7 +93,7 @@ class SettingsFormGeneral
     function jobpress_single_resume_instruction_field_callback() {
         $jobpress_single_resume_instruction_value = get_option('jobpress_single_resume_instruction');
         ?>
-        <textarea name="jobpress_single_resume_instruction" type="text" id="jobpress_single_resume_instruction" class="regular-text" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php echo !empty($jobpress_single_resume_instruction_value) ? esc_html($jobpress_single_resume_instruction_value) : ''; ?></textarea>
+        <textarea name="jobpress_single_resume_instruction" type="text" id="jobpress_single_resume_instruction" class="regular-text" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php echo esc_html(!empty($jobpress_single_resume_instruction_value) ? $jobpress_single_resume_instruction_value : ''); ?></textarea>
         <br>
         <small><?php esc_html_e('Single Page Resume Submit Description With Email Address', 'jobpress'); ?></small>
         <?php

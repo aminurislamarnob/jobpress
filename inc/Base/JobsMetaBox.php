@@ -72,7 +72,7 @@ class JobsMetaBox
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_form" value="<?php echo esc_attr(2); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) echo esc_attr('checked'); ?> <?php echo (!$jobpress_wpcf7_exists) ? esc_attr('disabled') : ''; ?>>
-                <label class="form-check-label" for="application_by_form"> <?php esc_html_e('Collect application through form.', 'jobpress'); ?> <?php (!$jobpress_wpcf7_exists) ? esc_html_e('(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)', 'jobpress') : ''; ?></label>
+                <label class="form-check-label" for="application_by_form"> <?php esc_html_e('Collect application through form.', 'jobpress'); ?> <?php esc_html_e((!$jobpress_wpcf7_exists) ? '(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)' : ''); ?></label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_default" value="<?php echo esc_attr(3); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 3) ) echo esc_attr('checked'); ?>>
@@ -81,7 +81,7 @@ class JobsMetaBox
         </div>
         <div class="jobpress-text-field jobpress-field jobpress_email w-100<?php echo esc_attr(( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 1) ) ? '' : ' d-none'); ?>">
             <label for="jobpress_email"><?php esc_html_e( 'Resume Submit Description With Email Address', 'jobpress' )?></label>
-            <textarea rows="1" cols="40" name="jobpress_email" id="jobpress_email" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php if ( isset ( $jobpress_stored_meta['jobpress_email'] ) ) esc_html_e( $jobpress_stored_meta['jobpress_email'][0] ); ?></textarea>
+            <textarea rows="1" cols="40" name="jobpress_email" id="jobpress_email" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php if ( isset ( $jobpress_stored_meta['jobpress_email'] ) ) echo esc_html( $jobpress_stored_meta['jobpress_email'][0] ); ?></textarea>
         </div>
         <div class="jobpress-text-field jobpress-field jobpress_contact_form_id w-100<?php echo esc_attr(( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) ? '' : ' d-none'); ?>">
             <label for="jobpress_contact_form_7"><?php esc_html_e( 'Select Contact Form 7 (By this form candidate can apply to this job.)', 'jobpress' )?></label>
@@ -195,7 +195,7 @@ class JobsMetaBox
             )
         );
         if( isset( $_POST[ 'google_map_iframe' ] ) ) {
-            update_post_meta( $post_id, 'google_map_iframe', esc_html( wp_kses( $_POST['google_map_iframe'], $allowed_html ) ) );
+            update_post_meta( $post_id, 'google_map_iframe', wp_kses( $_POST['google_map_iframe'], $allowed_html ) );
         }
 
         if( isset( $_POST[ 'jobpress_application_collect_medium' ] ) ) {
