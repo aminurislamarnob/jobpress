@@ -1,6 +1,9 @@
 /*************
 JobPress Basic CSS
 **************/
+*{
+    box-sizing: border-box;
+}
 :root {
     --jp-primary-color: #283339;
     --jp-secondary-color: #5f7681;
@@ -109,6 +112,12 @@ JobPress Basic CSS
 
 .jp-mt-0 {
     margin-top: 0!important;
+}
+.jp-job-listing-area a {
+    text-decoration: none;
+}
+.jp-single-content-area a {
+    text-decoration: none;
 }
 
 /*************
@@ -466,6 +475,8 @@ Apply Job Form
     background: #fff;
     border: 1px solid var(--jp-border-color);
     font-size: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
 }
 .jp-form-group .jp-form-control:focus, .jp-job-apply-form form.wpcf7-form .wpcf7-form-control:focus{
     border: 1px solid var(--jp-brand-color);
@@ -529,6 +540,7 @@ Apply Job Form
     width: auto;
     padding-left: 40px;
     padding-right: 40px;
+    cursor: pointer;
 }
 .jp-form-title {
     font-weight: 700;

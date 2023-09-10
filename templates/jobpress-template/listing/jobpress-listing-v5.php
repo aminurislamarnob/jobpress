@@ -45,7 +45,7 @@
             $job_apply_deadline = get_post_meta(get_the_ID(), 'jobpress_apply_deadline', true);
             $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true );
             ?>
-            <div class="jp-col-4">
+            <div class="jp-grid-col">
                 <a href="<?php the_permalink(); ?>" class="jp-single-job-grid">
                     <div>
                         <div class="jp-category"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?></div>

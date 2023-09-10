@@ -32,6 +32,13 @@
                 'post_status' => 'publish',
                 'orderby' => 'publish_date',
                 'order' => 'DESC',
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'jobpress_category',
+                        'field'    => 'term_id',   
+                        'terms'    => $jobpress_cat->term_id,
+                    ),
+                ),
             );
             $jobs_query = new WP_Query( $jobs_query );
         ?>
