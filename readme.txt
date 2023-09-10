@@ -1,8 +1,8 @@
-=== JobPress ===
+=== JobPress - Your Own Job Board & Career Page ===
 Contributors: aminurislam01
-Tags: jobpress, job, board, job-solution, recruiter, circular, open, jobs, recruitment, easy, solution, company
+Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
 Requires at least: 5.6
-Tested up to: 5.8
+Tested up to: 6.1
 Requires PHP: 7.0
 Stable tag: 1.0.0
 License: GPLv2 or later
