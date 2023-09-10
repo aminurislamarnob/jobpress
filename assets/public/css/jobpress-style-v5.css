@@ -42,20 +42,21 @@ JobPress Basic CSS
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+    /* -ms-flex-wrap: wrap;
+    flex-wrap: wrap; */
+    gap: 24px;
 }
 .jp-single-content-area h1, .jp-single-content-area h2, .jp-single-content-area h3, .jp-single-content-area h4, .jp-single-content-area h5, .jp-single-content-area h6{
     color: var(--jp-primary-color);
 }
 
-.jp-content{
+/* .jp-content{
     padding-right: 15px;
-}
+} */
 
-.jp-sidebar {
+/* .jp-sidebar {
     padding-left: 15px;
-}
+} */
 
 .jp-content {
     width: 75%;
@@ -110,7 +111,10 @@ JobPress Basic CSS
 .jp-mt-0 {
     margin-top: 0!important;
 }
-
+.jp-job-listing-area{
+    width: 100%;
+    max-width: 100%!important;
+}
 /*************
 Default Style
 **************/
@@ -125,6 +129,7 @@ Default Style
 .jp-single-wrapper {
     padding: 60px 0;
     width: 100%;
+    max-width: 100%!important;
 }
 
 .jp-featured-image {
@@ -151,6 +156,7 @@ Default Style
     font-weight: 700;
     font-size: 22px;
     margin-bottom: 15px;
+    margin-top: 0px;
     color: var(--jp-primary-color);
 }
 
@@ -218,14 +224,14 @@ Default Style
     -ms-flex-order: 2;
     order: 2;
 }
-.jp-content.jp-order-2{
+/* .jp-content.jp-order-2{
     padding-left: 15px;
     padding-right: 0;
-}
-.jp-sidebar.jp-order-1{
+} */
+/* .jp-sidebar.jp-order-1{
     padding-left: 0px;
     padding-right: 15px;
-}
+} */
 .jp-single-job-exp div {
     color: var(--jp-secondary-color);
     font-size: 16px;
@@ -390,7 +396,8 @@ Default Job List
 .jp-apply-btn-radius {
     display: inline-block;
     text-transform: uppercase;
-    color: #fff;
+    color: #fff!important;
+    text-decoration: none!important;
     padding: 13px 39px;
     -webkit-box-shadow: 0 4px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px 0 rgb(0 0 0 / 8%);
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px 0 rgb(0 0 0 / 8%);
