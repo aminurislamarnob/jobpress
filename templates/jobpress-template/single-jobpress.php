@@ -54,17 +54,6 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
 }
 ?>
     <div class="jp-single-wrapper">
-        <!-- <div class="jp-single-job-header jp-row<?php //echo esc_attr(empty($jobpress_ft_image) ? ' border-bottom' : ''); ?>">
-            <div class="jp-single-title jp-col-6">
-                <h1 class="jp-job-title"><?php //the_title(); ?></h1>
-                <p>
-                    <span><?php //echo esc_html($jobpress_location); ?> · <?php //echo esc_html($job_type_str); ?></span>
-                </p>
-            </div>
-            <div class="jp-single-action jp-col-6 jp-text-right">
-                <a href="#job-apply" class="jp-btn jp-apply-now-sidebar-btn"><?php //esc_html_e( 'Apply', 'jobpress' ); ?></a>
-            </div>
-        </div> -->
         <div class="jp-single-content-area">
             <div class="jp-content <?php echo esc_attr( $jobpress_sidebar_order_1 ); ?>">
                 <?php if($jobpress_ft_image) : ?>

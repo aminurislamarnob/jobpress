@@ -124,7 +124,7 @@ Default Style
 .jp-single-wrapper {
     padding: 60px 0;
     width: 100%;
-    max-width: 100%!important;
+    /* max-width: 100%!important; */
 }
 
 .jp-featured-image {
@@ -325,7 +325,7 @@ Default Job List
 **************/
 .jp-job-listing-area{
     width: 100%;
-    max-width: 100%!important;
+    /* max-width: 100%!important; */
 }
 .jp-section-padding {
     padding: 100px 0;

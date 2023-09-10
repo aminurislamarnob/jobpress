@@ -9,7 +9,20 @@ class SinglePageTemplate
 	public function register() {
 		add_filter('the_content', array($this, 'jobpress_single_content'));
 		add_filter( 'post_thumbnail_html', array($this, 'jobpress_remove_single_content_featured_img'), 10, 3 );
+		// add_filter( 'the_title', array($this, 'jobpress_remove_single_content_title'), 10, 2 );
 		// add_filter( 'single_template', array( $this, 'jobpress_single_page_template' ) );
+	}
+
+	public function jobpress_remove_single_content_title( $title, $id = null ){
+		global $post;
+		if(!is_singular('jobpress') || !in_the_loop()) {
+			return $title;
+		}
+
+		if('jobpress' === $post->post_type) {
+			return '';
+		}
+		return $title;
 	}
 
 	/**

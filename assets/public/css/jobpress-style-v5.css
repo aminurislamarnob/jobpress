@@ -113,7 +113,7 @@ JobPress Basic CSS
 }
 .jp-job-listing-area{
     width: 100%;
-    max-width: 100%!important;
+    /* max-width: 100%!important; */
 }
 /*************
 Default Style
@@ -129,7 +129,7 @@ Default Style
 .jp-single-wrapper {
     padding: 60px 0;
     width: 100%;
-    max-width: 100%!important;
+    /* max-width: 100%!important; */
 }
 
 .jp-featured-image {
