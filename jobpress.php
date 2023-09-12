@@ -3,7 +3,7 @@
 Plugin Name: JobPress
 Plugin URI: https://wordpress.org/plugins/jobpress/
 Description: JobPress is the ultimate WordPress job board plugin for a company. It is designed & developed to build your company own job board and career page by few clicks.
-Version: 1.0.0
+Version: 1.1.0
 Author: Aminur Islam Arnob
 Author URI: https://aiarnob.com/
 License: GPLv2 or later

@@ -2,9 +2,9 @@
 Contributors: aminurislam01
 Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
 Requires at least: 5.6
-Tested up to: 6.1
+Tested up to: 6.3.1
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
