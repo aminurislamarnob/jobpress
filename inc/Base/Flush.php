@@ -6,7 +6,6 @@ class Flush
     public function register() 
 	{
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
-
 	}
 
     /**

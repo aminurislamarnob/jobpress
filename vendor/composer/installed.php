@@ -1,24 +1,23 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => 'aminurislam/plugin-starter-pack',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '1966fee55e5ea2f4ee5e96229adc3460ac26177b',
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => NULL,
-    'name' => 'aminurislam/plugin-starter-pack',
-  ),
-  'versions' => 
-  array (
-    'aminurislam/plugin-starter-pack' => 
-    array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => NULL,
+    'versions' => array(
+        'aminurislam/plugin-starter-pack' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '1966fee55e5ea2f4ee5e96229adc3460ac26177b',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-  ),
 );

@@ -22,13 +22,6 @@ class ComposerStaticInit0eb39e4ba6dba87cbf080b7009d02205
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'JobPressInc\\Base\\Activate' => __DIR__ . '/../..' . '/inc/Base/Activate.php',
-        'JobPressInc\\Base\\AdminEnqueue' => __DIR__ . '/../..' . '/inc/Base/AdminEnqueue.php',
-        'JobPressInc\\Base\\Deactivate' => __DIR__ . '/../..' . '/inc/Base/Deactivate.php',
-        'JobPressInc\\Base\\PublicEnqueue' => __DIR__ . '/../..' . '/inc/Base/PublicEnqueue.php',
-        'JobPressInc\\Base\\SettingsLinks' => __DIR__ . '/../..' . '/inc/Base/SettingsLinks.php',
-        'JobPressInc\\JobPressPluginInit' => __DIR__ . '/../..' . '/inc/JobPressPluginInit.php',
-        'JobPressInc\\Pages\\Admin\\Admin' => __DIR__ . '/../..' . '/inc/Pages/Admin/Admin.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
