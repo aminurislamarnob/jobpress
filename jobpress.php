@@ -40,6 +40,7 @@ use JobPressInc\Base\CreateDbTable;
 function jobpress_plugin_activate() {
 	Activate::activate();
 	CreateDbTable::create_application_db_table();
+	JobPressInc\Base\Flush::add_flush_rewrite_rules_flag();
 }
 
 /**

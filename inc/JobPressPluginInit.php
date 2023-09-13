@@ -22,6 +22,7 @@ final class JobPressPluginInit
 			Base\SinglePageTemplate::class, //single page template
 			Base\SettingsFormGeneral::class, //General Settings form
 			Base\SettingsFormAppearance::class, //Appearance Settings form
+			Base\Flush::class, //Flush rewrite rules
 		];
 	}
 
