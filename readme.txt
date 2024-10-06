@@ -2,9 +2,9 @@
 Contributors: aminurislam01
 Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
 Requires at least: 5.6
-Tested up to: 6.4
+Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.1.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,3 +70,14 @@ Yes, for now only support Contact Form 7. In-future we will add support for all 
 
 = How can change settings? =
 Just go to settings page from "JobPress" admin menu.
+
+
+== Changelog ==
+
+= 2.0 =
+* PCP detected security issues fix.
+* Update plugin tags.
+* Check compatibility with latest version of WordPress.
+
+= 1.0 =
+* Initial release.
