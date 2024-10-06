@@ -2,7 +2,7 @@
 Contributors: aminurislam01
 Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
 Requires at least: 5.6
-Tested up to: 6.3.1
+Tested up to: 6.4
 Requires PHP: 7.0
 Stable tag: 1.1.0
 License: GPLv2 or later
@@ -38,6 +38,20 @@ Installing this plugin is very easy just like any other WordPress plugin. Please
 4. Go to Setting > Permalinks and update the permalink settings by clicking on save change button.
 5. Now plugin is ready to go.
 6. Go to all pages from the admin pages menu then you will find the "Jobs Listing" page there. You can also create custom page just need to place shortcode "[jobpress]" there.
+
+
+== Screenshots ==
+
+1. Job List Style 01
+2. Job List Style 02
+3. Job List Style 03
+4. Job List Style 04
+5. Job Grid Style 01
+6. Job Details Style 01
+7. Job Details Style 02
+8. Admin Panel General Settings
+9. Job Appearance Settings
+10. Job List Shortcode
 
 
 == Frequently Asked Questions ==
