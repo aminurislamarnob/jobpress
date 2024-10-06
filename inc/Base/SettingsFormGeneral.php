@@ -101,6 +101,6 @@ class SettingsFormGeneral
 
     //Plugin settings page section text
     function jobpress_general_section_text() {
-        printf('%s %s %s', '<p>', __('You can change job listing & job single page design from here.', 'jobpress'), '</p>');
+        printf('%s %s %s', '<p>', esc_html__('You can change job listing & job single page design from here.', 'jobpress'), '</p>');
     }
 }

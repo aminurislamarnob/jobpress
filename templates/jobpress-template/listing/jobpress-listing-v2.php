@@ -22,7 +22,14 @@
                     <p><?php echo esc_html( $jobpress_cat->description) ?></p>
                     <?php } ?>
                 </div>
-                <div class="jp-category-count jp-text-right"><span class="jp-label"><?php esc_html_e( $jobpress_cat->category_count.' OPENINGS', 'jobpress' ); ?></span></div>
+                <div class="jp-category-count jp-text-right">
+                    <span class="jp-label">
+                        <?php
+                        // translators: %d is the number of job openings in the category
+                        printf( esc_html__( '%d OPENINGS', 'jobpress' ), esc_html( $jobpress_cat->category_count ) );
+                        ?>
+                    </span>
+                </div>
             </div>
             <?php
                 $jobs_per_page = -1;

@@ -72,7 +72,14 @@ class JobsMetaBox
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_form" value="<?php echo esc_attr(2); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 2) ) echo esc_attr('checked'); ?> <?php echo (!$jobpress_wpcf7_exists) ? esc_attr('disabled') : ''; ?>>
-                <label class="form-check-label" for="application_by_form"> <?php esc_html_e('Collect application through form.', 'jobpress'); ?> <?php esc_html_e((!$jobpress_wpcf7_exists) ? '(Please install & active contact form 7 plugin from wordpress.org then refresh this page.)' : ''); ?></label>
+                <label class="form-check-label" for="application_by_form">
+                    <?php esc_html_e('Collect application through form.', 'jobpress'); ?>
+                    <?php
+                    if (!$jobpress_wpcf7_exists) {
+                        esc_html_e('(Please install & activate the Contact Form 7 plugin from WordPress.org, then refresh this page.)', 'jobpress');
+                    }
+                    ?>
+                </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="jobpress_application_collect_medium" id="application_by_default" value="<?php echo esc_attr(3); ?>" <?php if ( isset ( $jobpress_stored_meta['jobpress_application_collect_medium'] ) && ($jobpress_stored_meta['jobpress_application_collect_medium'][0] == 3) ) echo esc_attr('checked'); ?>>

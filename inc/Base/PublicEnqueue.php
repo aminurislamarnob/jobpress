@@ -26,12 +26,12 @@ class PublicEnqueue
 		$jobpress_hover_color_value = !empty(get_option('jobpress_hover_color')) ? get_option('jobpress_hover_color') : '#006dcc';
 		echo '<style>
 		:root {
-			--jp-primary-color: '.$jobpress_heading_color_value.';
-			--jp-secondary-color: '.$jobpress_secondary_color_value.';
-			--jp-content-color: '.$jobpress_content_color_value.';
-			--jp-border-color: '.$jobpress_border_color_value.';
-			--jp-brand-color: '.$jobpress_brand_color_value.';
-			--jp-hover-color: '.$jobpress_hover_color_value.';
+			--jp-primary-color: '.esc_html($jobpress_heading_color_value).';
+			--jp-secondary-color: '.esc_html($jobpress_secondary_color_value).';
+			--jp-content-color: '.esc_html($jobpress_content_color_value).';
+			--jp-border-color: '.esc_html($jobpress_border_color_value).';
+			--jp-brand-color: '.esc_html($jobpress_brand_color_value).';
+			--jp-hover-color: '.esc_html($jobpress_hover_color_value).';
 		}
 		</style>';
 	}

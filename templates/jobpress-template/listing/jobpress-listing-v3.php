@@ -19,7 +19,12 @@
     ?>
     <div class="jp-section-title jp-text-center">
         <h2><?php esc_html_e( 'Job openings', 'jobpress' ); ?></h2>
-        <p><?php esc_html_e(  $total_job_opens . ' open positions', 'jobpress' ); ?></p>
+        <p>
+            <?php 
+            // translators: %d is the number of open job positions
+            printf( esc_html__( '%d open positions', 'jobpress' ), esc_html($total_job_opens) );
+            ?>
+        </p>
     </div>
     <div class="jobpress-job-lists">
         <?php
@@ -41,9 +46,24 @@
             <div class="jp-single-job-info">
                 <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                 <p>
-                    <span><?php esc_html_e( 'Job Type: '.$job_type_str, 'jobpress' ); ?></span>
-                    <span><?php esc_html_e( 'Vacancies: '.$job_vacancy, 'jobpress' ); ?></span>
-                    <span><?php esc_html_e( 'Deadline: '.$job_apply_deadline, 'jobpress' ); ?></span>
+                    <span>
+                        <?php
+                        // translators: %s is the job type
+                        printf( esc_html__( 'Job Type: %s', 'jobpress' ), esc_html( $job_type_str ) );
+                        ?>
+                    </span>
+                    <span>
+                        <?php
+                        // translators: %s is the number of job vacancies
+                        printf( esc_html__( 'Vacancies: %s', 'jobpress' ), esc_html( $job_vacancy ) );
+                        ?>
+                    </span>
+                    <span>
+                        <?php
+                        // translators: %s is the job application deadline
+                        printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( $job_apply_deadline ) );
+                        ?>
+                    </span>
                 </p>
             </div>
 

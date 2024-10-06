@@ -19,7 +19,12 @@
     ?>
     <div class="jp-section-title jp-text-center">
         <h2><?php esc_html_e( 'Job openings', 'jobpress' ); ?></h2>
-        <p><?php esc_html_e(  $total_job_opens . ' open positions', 'jobpress' ); ?></p>
+        <p>
+            <?php 
+            // translators: %d is the number of open job positions
+            printf( esc_html__( '%d open positions', 'jobpress' ), esc_html($total_job_opens) );
+            ?>
+        </p>
     </div>
     <div class="jobpress-job-grids">
         <div class="jp-row">

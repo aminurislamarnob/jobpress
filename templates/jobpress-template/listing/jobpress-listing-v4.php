@@ -22,7 +22,14 @@
                 <p><?php echo esc_html( $jobpress_cat->description ) ?></p>
                 <?php } ?>
             </div>
-            <div class="jp-category-count jp-text-right"><span class="jp-label"><?php esc_html_e( $jobpress_cat->category_count.' OPENINGS', 'jobpress' ); ?></span></div>
+            <div class="jp-category-count jp-text-right">
+                <span class="jp-label">
+                    <?php
+                    // translators: %d is the number of job openings in the category
+                    printf( esc_html__( '%d OPENINGS', 'jobpress' ), esc_html( $jobpress_cat->category_count ) );
+                    ?>
+                </span>
+            </div>
         </div>
         <?php
             $jobs_per_page = -1;
@@ -62,9 +69,24 @@
                 <div class="jp-single-job-info">
                     <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                     <p>
-                        <span><?php esc_html_e( 'Job Type: '.$job_type_str, 'jobpress' ); ?></span>
-                        <span><?php esc_html_e( 'Vacancies: '.$job_vacancy, 'jobpress' ); ?></span>
-                        <span><?php esc_html_e( 'Deadline: '.$job_apply_deadline, 'jobpress' ); ?></span>
+                        <span>
+                            <?php
+                            // translators: %s is the job type
+                            printf( esc_html__( 'Job Type: %s', 'jobpress' ), esc_html( $job_type_str ) );
+                            ?>
+                        </span>
+                        <span>
+                            <?php
+                            // translators: %s is the number of job vacancies
+                            printf( esc_html__( 'Vacancies: %d', 'jobpress' ), esc_html( $job_vacancy ) );
+                            ?>
+                        </span>
+                        <span>
+                            <?php
+                            // translators: %s is the job application deadline
+                            printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( $job_apply_deadline ) );
+                            ?>
+                        </span>
                     </p>
                 </div>
 
