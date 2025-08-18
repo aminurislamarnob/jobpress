@@ -1,10 +1,10 @@
-=== JobPress - Your Own Job Board & Career Page ===
+=== JobPress - Your Company Job Board & Career Page ===
 Contributors: aminurislam01
 Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
 Requires at least: 5.6
-Tested up to: 6.6
-Requires PHP: 7.0
-Stable tag: 2.0.0
+Tested up to: 6.8.2
+Requires PHP: 7.4
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ JobPress is the ultimate WordPress job board plugin for a company.
 
 == Description ==
 
-This plugin enables you to build/create your own job board inside your WordPress website. It's designed & developed to build your company own job board and career page by few clicks. It's easy to use just install, active and ready to go.
+This plugin enables you to build/create your company job board inside your WordPress website. It's designed & developed to build your company own job board and career page by few clicks. It's easy to use just install, active and ready to go.
 
 = Plugin Features =
 * Dedicated "JobPress" WordPress admin menu for manage jobs.
@@ -84,14 +84,6 @@ Just go to settings page from "JobPress" admin menu.
 ### Enhanced
 - Added filter hook for open positions text:
   - `jobpress_open_positions_text` - Customize "open positions" text display
-
-### Example Usage
-```php
-// Customize open positions text
-add_filter('jobpress_open_positions_text', function($text, $count) {
-    return sprintf('%d Available Jobs', $count);
-}, 10, 2);
-```
 
 = 2.0 =
 * PCP detected security issues fix.
