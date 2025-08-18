@@ -76,12 +76,9 @@ Just go to settings page from "JobPress" admin menu.
 
 = 2.1.0 =
 
-### Added
 - New shortcode attributes for job listing customization:
   - `[jobpress title="Custom Title"]` - Customize listing title
   - `[jobpress subtitle="Custom Subtitle"]` - Customize listing subtitle
-
-### Enhanced
 - Added filter hook for open positions text:
   - `jobpress_open_positions_text` - Customize "open positions" text display
 
