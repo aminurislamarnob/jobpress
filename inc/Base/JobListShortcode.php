@@ -13,8 +13,9 @@ class JobListShortcode
     function jobpress_jobs_shortcode($atts) {
         extract( shortcode_atts( array(
             'expand' => '',
-            'title' => esc_html__('Job openings', 'jobpress'),
-            'subtitle' => esc_html__('Find your dream job', 'jobpress')
+            'title' => '',
+            'subtitle' => '',
+            'show_positions' => 'yes' // yes/no to show/hide open positions count
         ), $atts) );
     
         //Load Template
@@ -24,6 +25,7 @@ class JobListShortcode
         if ( $exists_in_theme != '' ) {
             require $exists_in_theme;
         }else{
+            // First check shortcode type, then fallback to global setting
             $jobpress_design_type = !empty(get_option('jobpress_design_type')) ? get_option('jobpress_design_type') : '1';
             require JOBPRESS_PLUGIN_PATH . 'templates/jobpress-template/listing/jobpress-listing-v'.$jobpress_design_type.'.php';
         }

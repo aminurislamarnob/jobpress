@@ -18,7 +18,13 @@
         }
     ?>
     <div class="jp-section-title jp-text-center">
-        <h2><?php echo esc_html( $title ); ?></h2>
+        <?php if( !empty( $title ) ): ?>
+            <h2><?php echo esc_html( $title ); ?></h2>
+        <?php endif; ?>
+        <?php if( !empty( $subtitle ) ): ?>
+            <p><?php echo esc_html( $subtitle ); ?></p>
+        <?php endif; ?>
+        <?php if( $show_positions === 'yes' ): ?>
         <p>
             <?php 
             // translators: %d is the number of open job positions
@@ -36,6 +42,7 @@
             echo apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens );
             ?>
         </p>
+        <?php endif; ?>
     </div>
     <div class="jobpress-job-lists">
         <?php

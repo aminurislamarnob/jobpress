@@ -10,7 +10,7 @@ final class JobPressPluginInit
 	 */
 	public static function get_services() 
 	{
-		return [
+		$services = [
 			Base\LoadTextDomain::class, //load text domain
 			Base\SettingsLinks::class, //plugin settings link
 			Pages\Admin\Admin::class, //admin page
@@ -24,6 +24,13 @@ final class JobPressPluginInit
 			Base\SettingsFormAppearance::class, //Appearance Settings form
 			Base\Flush::class, //Flush rewrite rules
 		];
+
+		// Add Elementor integration if Elementor is active
+		if ( did_action( 'elementor/loaded' ) ) {
+			$services[] = Base\ElementorInit::class; //elementor integration
+		}
+
+		return $services;
 	}
 
     /**
