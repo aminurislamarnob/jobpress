@@ -74,6 +74,25 @@ Just go to settings page from "JobPress" admin menu.
 
 == Changelog ==
 
+= 2.1.0 =
+
+### Added
+- New shortcode attributes for job listing customization:
+  - `[jobpress title="Custom Title"]` - Customize listing title
+  - `[jobpress subtitle="Custom Subtitle"]` - Customize listing subtitle
+
+### Enhanced
+- Added filter hook for open positions text:
+  - `jobpress_open_positions_text` - Customize "open positions" text display
+
+### Example Usage
+```php
+// Customize open positions text
+add_filter('jobpress_open_positions_text', function($text, $count) {
+    return sprintf('%d Available Jobs', $count);
+}, 10, 2);
+```
+
 = 2.0 =
 * PCP detected security issues fix.
 * Update plugin tags.

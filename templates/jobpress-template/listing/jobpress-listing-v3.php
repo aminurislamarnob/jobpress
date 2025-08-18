@@ -18,11 +18,22 @@
         }
     ?>
     <div class="jp-section-title jp-text-center">
-        <h2><?php esc_html_e( 'Job openings', 'jobpress' ); ?></h2>
+        <h2><?php echo esc_html( $title ); ?></h2>
         <p>
             <?php 
             // translators: %d is the number of open job positions
-            printf( esc_html__( '%d open positions', 'jobpress' ), esc_html($total_job_opens) );
+            $jobpress_open_positions_text = sprintf(
+                esc_html__( '%d open positions', 'jobpress' ),
+                esc_html( $total_job_opens )
+            );
+
+            /**
+             * Filter the text that displays total open job positions.
+             *
+             * @param string $jobpress_open_positions_text The full text (e.g., "10 open positions").
+             * @param int    $total_job_opens              The number of open positions.
+             */
+            echo apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens );
             ?>
         </p>
     </div>

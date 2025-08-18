@@ -10,8 +10,8 @@
 ?>
     <div class="jp-job-listing-area jp-section-padding">
         <div class="jp-section-title jp-text-center">
-            <h2><?php esc_html_e( 'Job openings', 'jobpress' ); ?></h2>
-            <p><?php esc_html_e( 'Find the right job for you no matter what it is that you do.', 'jobpress' ); ?></p>
+            <h2><?php echo esc_html( $title ); ?></h2>
+            <p><?php echo esc_html( $subtitle ); ?></p>
         </div>
         <?php foreach($jobpress_cats as $jobpress_cat) { ?>
         <div class="jp-category-list-group">

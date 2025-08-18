@@ -13,6 +13,8 @@ class JobListShortcode
     function jobpress_jobs_shortcode($atts) {
         extract( shortcode_atts( array(
             'expand' => '',
+            'title' => esc_html__('Job openings', 'jobpress'),
+            'subtitle' => esc_html__('Find your dream job', 'jobpress')
         ), $atts) );
     
         //Load Template
