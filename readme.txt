@@ -1,6 +1,6 @@
 === JobPress - Your Company Job Board & Career Page ===
 Contributors: aminurislam01
-Tags: jobpress, jobs, job board, job openings, job page, jobs plugin, job-solution, recruiter, circular, jobs, recruitment, easy job, job solution, job listing
+Tags: jobpress, job board, careers, job listing, job manager, job portal, job openings, jobs
 Requires at least: 5.6
 Tested up to: 6.8.2
 Requires PHP: 7.4
@@ -14,18 +14,18 @@ JobPress is the ultimate WordPress job board plugin for a company.
 
 This plugin enables you to build/create your company job board inside your WordPress website. It's designed & developed to build your company own job board and career page by few clicks. It's easy to use just install, active and ready to go.
 
-= Plugin Features =
-* Dedicated "JobPress" WordPress admin menu for manage jobs.
-* Add/Edit/Delete jobs from WordPress admin panel.
-* Job type support.
-* Job category support.
-* Job list page.
-* There are 5 different types of job listing page.
-* Well organized cool job details page.
-* Contact form 7 support for collecting resume or job application.
-* Change branding color easily.
-* Cool plugin settings panel for admin.
-* You can also add location google map iFrame embed code.
+= ✨ Plugin Features =
+* Dedicated "JobPress" WordPress admin menu for manage jobs
+* Add/Edit/Delete jobs from WordPress admin panel
+* Job type support
+* Job category support
+* Job list page with 5 different layout styles
+* Well organized job details page
+* ⚡ Contact form 7 support for job applications
+* 🎨 Change branding color easily
+* ⚙️ Cool plugin settings panel for admin
+* 🗺️ You can also add location google map iFrame embed code
+* ⚡ Elementor widget support for easy page building
 
 
 == Installation ==
@@ -71,16 +71,18 @@ Yes, for now only support Contact Form 7. In-future we will add support for all 
 = How can change settings? =
 Just go to settings page from "JobPress" admin menu.
 
+= How to use JobPress with Elementor? =
+Simply drag and drop the "JobPress Jobs" widget from the Elementor editor. You can customize the title, subtitle, and toggle position count display. The design style follows your global JobPress settings.
+
 
 == Changelog ==
 
-= 2.1.0 =
-
-- New shortcode attributes for job listing customization:
-  - `[jobpress title="Custom Title"]` - Customize listing title
-  - `[jobpress subtitle="Custom Subtitle"]` - Customize listing subtitle
-- Added filter hook for open positions text:
-  - `jobpress_open_positions_text` - Customize "open positions" text display
+= 2.1.0 (Aug 18, 2025)  =
+* Added new shortcode attribute 'title' to customize job listing title
+* Added new shortcode attribute 'subtitle' to customize job listing subtitle
+* Added new shortcode attribute 'show_positions' to control visibility of open positions count
+* Added new "JobPress" category in Elementor editor
+* Added Elementor widget support with title, subtitle and position count controls
 
 = 2.0 =
 * PCP detected security issues fix.
