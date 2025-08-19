@@ -13,8 +13,8 @@ class JobListShortcode
     function jobpress_jobs_shortcode($atts) {
         extract( shortcode_atts( array(
             'expand' => '',
-            'title' => '',
-            'subtitle' => '',
+            'title' => esc_html__('Job openings', 'jobpress'),
+            'subtitle' => esc_html__('Find the right job for you no matter what it is that you do.', 'jobpress'),
             'show_positions' => 'yes' // yes/no to show/hide open positions count
         ), $atts) );
     
