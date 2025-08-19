@@ -4,7 +4,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 6.8.2
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,36 @@ Just go to settings page from "JobPress" admin menu.
 = How to use JobPress with Elementor? =
 Simply drag and drop the "JobPress Jobs" widget from the Elementor editor. You can customize the title, subtitle, and toggle position count display. The design style follows your global JobPress settings.
 
+= How to use the JobPress shortcode? =
+You can use the JobPress shortcode in two ways:
+
+1. In WordPress Posts/Pages:
+```
+[jobpress] // Basic usage with default settings
+[jobpress title="We're Hiring!" subtitle="Join Our Team"] // With custom title/subtitle
+[jobpress show_positions="no"] // Hide position counts
+```
+
+2. In PHP Files (e.g., theme templates):
+```php
+<?php 
+// Basic usage
+echo do_shortcode('[jobpress]');
+
+// With custom attributes
+echo do_shortcode('[jobpress title="Current Openings" subtitle="Find Your Dream Job" show_positions="yes"]');
+?>
+```
+
+Available Shortcode Attributes:
+* title - Custom title for the job listing page (default: empty)
+* subtitle - Custom subtitle for the job listing page (default: empty)
+* show_positions - Show/hide number of open positions (default: 'yes', set to 'no' to hide)
+
+Example with all attributes:
+```
+[jobpress title="Join Our Team" subtitle="Explore Amazing Opportunities" show_positions="yes"]
+```
 
 == Changelog ==
 
