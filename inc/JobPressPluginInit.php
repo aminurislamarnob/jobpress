@@ -19,7 +19,10 @@ final class JobPressPluginInit
 			Base\AdminEnqueue::class, //admin style & scripts
 			Base\PublicEnqueue::class, //public style & scripts
 			Base\JobListShortcode::class, //job list page shortcode
-			Base\SinglePageTemplate::class, //single page template
+			Base\TemplateLoader::class, //template loader
+			Base\AdminBarMenu::class, //admin bar menu
+			Base\PostStates::class, //post states
+			Base\BodyClasses::class, //body classes
 			Base\SettingsFormGeneral::class, //General Settings form
 			Base\SettingsFormAppearance::class, //Appearance Settings form
 			Base\Flush::class, //Flush rewrite rules

@@ -28,6 +28,11 @@ define( 'JOBPRESS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'JOBPRESS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'JOBPRESS_PLUGIN', plugin_basename( __FILE__ ) );
 
+// Include core files
+require_once JOBPRESS_PLUGIN_PATH . 'inc/core-functions.php';
+require_once JOBPRESS_PLUGIN_PATH . 'inc/template-functions.php';
+require_once JOBPRESS_PLUGIN_PATH . 'inc/template-hooks.php';
+
 use JobPressInc\Base\Activate;
 use JobPressInc\Base\Deactivate;
 use JobPressInc\JobPressPluginInit;

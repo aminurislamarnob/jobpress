@@ -52,7 +52,7 @@ class CustomPostType
             'menu_icon'          => 'dashicons-clipboard',
             'rewrite'            => array( 'slug' => 'jobs' ),
             'capability_type'    => 'post',
-            'has_archive'        => false,
+            'has_archive'        => true,
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),

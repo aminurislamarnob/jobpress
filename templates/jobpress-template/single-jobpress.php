@@ -4,16 +4,11 @@
  *
  */
 
-use JobPressInc\Base\SinglePageTemplate;
-
-
-// global $post;
-// get_header('jobpress');
-// while ( have_posts() ) : the_post();
+get_header('jobpress');
 
 $jobpress_ft_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
-//jobpress meta
 
+//jobpress meta
 $jobpress_vacancy = get_post_meta( get_the_ID(), 'jobpress_vacancy', true );
 $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true );
 $jobpress_work_hour = get_post_meta( get_the_ID(), 'jobpress_working_hour', true );
@@ -207,5 +202,4 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
         </div>
     </div>
 <?php
-// endwhile;
-// get_footer('jobpress');
+get_footer('jobpress');
