@@ -26,17 +26,67 @@ do_action( 'jobpress_before_main_content' );
          * Hook: jobpress_job_loop_header.
          */
         do_action( 'jobpress_job_loop_header' );
+
+        // Query for jobs
+        $jobs_query = new WP_Query( array(
+            'post_type'      => 'jobpress',
+            'post_status'    => 'publish',
+            'posts_per_page' => get_option( 'jobs_per_page', 10 ),
+            'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+        ) );
+
+        if ( $jobs_query->have_posts() ) {
+
+            // Get design template version from plugin settings
+            $design_option = get_option( 'jobpress_design_type', '' );
+            $design_option = sanitize_text_field( $design_option );
+
+            $jobpress_design_type = ! empty( $design_option ) ? 'v' . $design_option : 'default';
+
+            // If design template version is v1, set it to default
+            if ( 'v1' === $jobpress_design_type ) {
+                $jobpress_design_type = 'default';
+            }
+
+            /**
+             * Hook: jobpress_before_jobs_loop.
+             *
+             */
+            do_action( 'jobpress_before_jobs_loop', $jobpress_design_type );
+        
+            jobpress_jobs_loop_start();
+        
+            while ( $jobs_query->have_posts() ) {
+                $jobs_query->the_post();
+    
+                /**
+                 * Hook: jobpress_job_loop.
+                 */
+                do_action( 'jobpress_job_loop' );
+
+                jobpress_get_template_part( 'content', 'job-style-'.$jobpress_design_type );
+            }
+        
+            jobpress_jobs_loop_end();
+        
+            /**
+             * Hook: jobpress_after_jobs_loop.
+             *
+             * @hooked jobpress_pagination - 10
+             */
+            do_action( 'jobpress_after_jobs_loop' );
+
+            // Reset post data
+            wp_reset_postdata();
+        } else {
+            /**
+             * Hook: jobpress_no_jobs_found.
+             *
+             * @hooked jobpress_no_jobs_found - 10
+             */
+            do_action( 'jobpress_no_jobs_found' );
+        }
         ?>
-        <?php if ( have_posts() ) : ?>
-
-            <?php
-            // Use the default listing template
-            echo do_shortcode('[jobpress]');
-            ?>
-
-        <?php else : ?>
-            <p><?php esc_html_e( 'No jobs found', 'jobpress' ); ?></p>
-        <?php endif; ?>
     </main>
 </div>
 <?php

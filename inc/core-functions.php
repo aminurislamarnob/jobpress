@@ -108,3 +108,64 @@ function jobpress_get_jobs_archive_page_permalink() {
     $page_id = jobpress_get_jobs_page_id();
     return $page_id ? get_permalink( $page_id ) : get_post_type_archive_link( 'jobpress' );
 }
+
+/**
+ * Get template part (for templates like the job-loop).
+ *
+ * @param mixed  $slug Template slug.
+ * @param string $name Template name (default: '').
+ */
+function jobpress_get_template_part( $slug, $name = '' ) {
+    $template = '';
+
+    if ( $name ) {
+        $template = locate_template(
+            array(
+                "{$slug}-{$name}.php",
+                'jobpress/' . "{$slug}-{$name}.php",
+            )
+        );
+
+        if ( ! $template ) {
+            $fallback = JOBPRESS_PLUGIN_PATH . "templates/{$slug}-{$name}.php";
+            $template = file_exists( $fallback ) ? $fallback : '';
+        }
+    }
+
+    if ( ! $template ) {
+        // If template file doesn't exist, look in yourtheme/slug.php and yourtheme/jobpress/slug.php.
+        $template = locate_template(
+            array(
+                "{$slug}.php",
+                'jobpress/' . "{$slug}.php",
+            )
+        );
+    }
+
+    // Allow 3rd party plugins to filter template file from their plugin.
+    $template = apply_filters( 'jobpress_get_template_part', $template, $slug, $name );
+
+    if ( $template ) {
+        load_template( $template, false );
+    }
+}
+
+/**
+ * Display pagination for jobs loop.
+ */
+function jobpress_pagination() {
+    global $wp_query;
+    
+    $big = 999999999; // need an unlikely integer
+    
+    echo '<div class="jobpress-pagination">';
+    echo paginate_links( array(
+        'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+        'format'    => '?paged=%#%',
+        'current'   => max( 1, get_query_var( 'paged' ) ),
+        'total'     => $wp_query->max_num_pages,
+        'prev_text' => __( '&laquo; Previous', 'jobpress' ),
+        'next_text' => __( 'Next &raquo;', 'jobpress' ),
+    ) );
+    echo '</div>';
+}

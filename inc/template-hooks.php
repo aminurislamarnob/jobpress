@@ -15,3 +15,10 @@ defined( 'ABSPATH' ) || exit;
  * @see jobpress_get_job_loop_header()
  */
 add_action( 'jobpress_job_loop_header', 'jobpress_get_job_loop_header', 10 );
+
+/**
+ * Pagination
+ *
+ * @see jobpress_pagination()
+ */
+add_action( 'jobpress_after_jobs_loop', 'jobpress_pagination', 10 );

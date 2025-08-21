@@ -56,3 +56,62 @@ if ( ! function_exists( 'jobpress_page_title' ) ) {
         }
     }
 }
+
+if ( ! function_exists( 'jobpress_jobs_loop' ) ) {
+
+    /**
+     * Should the JobPress jobs exists?
+     * @return bool
+     */
+    function jobpress_jobs_loop() {
+        return have_posts();
+    }
+}
+
+if ( ! function_exists( 'jobpress_jobs_loop_start' ) ) {
+
+	/**
+	 * Output the start of a job loop.
+	 *
+	 * @param bool $echo Should echo?.
+	 * @return string
+	 */
+	function jobpress_jobs_loop_start( $echo = true ) {
+		ob_start();
+
+		jobpress_get_template( 'loop/loop-start.php' );
+
+		$loop_start = apply_filters( 'jobpress_jobs_loop_start', ob_get_clean() );
+
+		if ( $echo ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $loop_start;
+		} else {
+			return $loop_start;
+		}
+	}
+}
+
+if ( ! function_exists( 'jobpress_jobs_loop_end' ) ) {
+
+	/**
+	 * Output the end of a job loop.
+	 *
+	 * @param bool $echo Should echo?.
+	 * @return string
+	 */
+	function jobpress_jobs_loop_end( $echo = true ) {
+		ob_start();
+
+		jobpress_get_template( 'loop/loop-end.php' );
+
+		$loop_end = apply_filters( 'jobpress_jobs_loop_end', ob_get_clean() );
+
+		if ( $echo ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $loop_end;
+		} else {
+			return $loop_end;
+		}
+	}
+}
