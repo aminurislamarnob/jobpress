@@ -25,6 +25,7 @@ final class JobPressPluginInit
 			Base\BodyClasses::class, //body classes
 			Base\SettingsFormGeneral::class, //General Settings form
 			Base\SettingsFormAppearance::class, //Appearance Settings form
+			Base\SettingsFormShortcode::class, //Shortcode Settings form
 			Base\Flush::class, //Flush rewrite rules
 		];
 

@@ -36,18 +36,7 @@ do_action( 'jobpress_before_main_content' );
         ) );
 
         if ( $jobs_query->have_posts() ) {
-
-            // Get design template version from plugin settings
-            $design_option = get_option( 'jobpress_design_type', '' );
-            $design_option = sanitize_text_field( $design_option );
-
-            $jobpress_design_type = ! empty( $design_option ) ? 'v' . $design_option : 'default';
-
-            // If design template version is v1, set it to default
-            if ( 'v1' === $jobpress_design_type ) {
-                $jobpress_design_type = 'default';
-            }
-
+            
             /**
              * Hook: jobpress_before_jobs_loop.
              *
@@ -64,7 +53,7 @@ do_action( 'jobpress_before_main_content' );
                  */
                 do_action( 'jobpress_job_loop' );
 
-                jobpress_get_template_part( 'content', 'job-style-'.$jobpress_design_type );
+                jobpress_get_template_part( 'content', 'job' );
             }
         
             jobpress_jobs_loop_end();

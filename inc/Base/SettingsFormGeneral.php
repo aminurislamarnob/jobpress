@@ -22,20 +22,6 @@ class SettingsFormGeneral
         );
 
         /**
-        *Design type field
-         **/
-        // register a new field in the "jobpress_general_settings_section" section for design type field
-        add_settings_field(
-            'jobpress_design_type', 
-            __('Select Design','jobpress'), array( $this, 'jobpress_design_type_field_callback' ), 
-            'jobpress_general_section',  
-            'jobpress_general_settings_section'
-        );
-
-        // register a new setting for design type field
-        register_setting('jobpress_general_settings_section', 'jobpress_design_type');
-
-        /**
          *Sidebar field
          **/
         // register a new field in the "jobpress_general_settings_section" section for category checkbox field
@@ -64,20 +50,20 @@ class SettingsFormGeneral
         // register a new setting for application instruction text
         register_setting('jobpress_general_settings_section', 'jobpress_single_resume_instruction');
 
-    }
+        /**
+         * Jobs Page Selection field
+         **/
+        // register a new field in the "jobpress_general_settings_section" section for jobs page selection
+        add_settings_field(
+            'jobpress_jobs_page_id',
+            __('Jobs Page', 'jobpress'), array( $this, 'jobpress_jobs_page_field_callback' ),
+            'jobpress_general_section',
+            'jobpress_general_settings_section'
+        );
 
-    //Design select dropdown
-    function jobpress_design_type_field_callback(){
-        $jobpress_design_type_value = get_option('jobpress_design_type');
-    ?>
-        <select name="jobpress_design_type" class="regular-text">
-            <option value="1"<?php echo esc_attr(( $jobpress_design_type_value == 1 ) ? 'selected' : ''); ?>><?php esc_html_e('Default Design', 'jobpress'); ?></option>
-            <option value="2"<?php echo esc_attr(( $jobpress_design_type_value == 2 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V2', 'jobpress'); ?></option>
-            <option value="3"<?php echo esc_attr(( $jobpress_design_type_value == 3 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V3', 'jobpress'); ?></option>
-            <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4', 'jobpress'); ?></option>
-            <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5', 'jobpress'); ?></option>
-        </select>
-    <?php
+        // register a new setting for jobs page selection
+        register_setting('jobpress_general_settings_section', 'jobpress_jobs_page_id');
+
     }
 
     //Single page sidebar
@@ -96,6 +82,30 @@ class SettingsFormGeneral
         <textarea name="jobpress_single_resume_instruction" type="text" id="jobpress_single_resume_instruction" class="regular-text" placeholder="<?php esc_attr_e('Example: Send your resume along with your cover letter to career@aiarnob.com', 'jobpress');?>"><?php echo esc_html(!empty($jobpress_single_resume_instruction_value) ? $jobpress_single_resume_instruction_value : ''); ?></textarea>
         <br>
         <small><?php esc_html_e('Single Page Resume Submit Description With Email Address', 'jobpress'); ?></small>
+        <?php
+    }
+
+    //Jobs Page selection field
+    function jobpress_jobs_page_field_callback() {
+        $selected_page_id = get_option('jobpress_jobs_page_id', 0);
+        
+        // Get all published pages
+        $pages = get_pages(array(
+            'sort_column' => 'menu_order,post_title',
+            'hierarchical' => 0,
+            'post_status' => 'publish'
+        ));
+        ?>
+        <select name="jobpress_jobs_page_id" id="jobpress_jobs_page_id">
+            <option value="0"><?php esc_html_e('-- Select a Page --', 'jobpress'); ?></option>
+            <?php foreach ($pages as $page) : ?>
+                <option value="<?php echo esc_attr($page->ID); ?>" <?php selected($selected_page_id, $page->ID); ?>>
+                    <?php echo esc_html($page->post_title); ?> (ID: <?php echo esc_html($page->ID); ?>)
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <br>
+        <small><?php esc_html_e('Select the page that will display the jobs listing. This page ID will be used by the plugin to identify the jobs page.', 'jobpress'); ?></small>
         <?php
     }
 

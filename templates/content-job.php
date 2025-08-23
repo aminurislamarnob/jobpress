@@ -2,7 +2,7 @@
 /**
  * The template for displaying job content within loops
  *
- * This template can be overridden by copying it to yourtheme/jobpress/content-job-style-v3.php.
+ * This template can be overridden by copying it to yourtheme/jobpress/content-job-style-default.php.
  *
  * @version 2.2.0
  */

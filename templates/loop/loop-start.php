@@ -11,5 +11,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="jp-job-listing-area jp-section-padding">
+<div class="jp-job-listing-area">
     <div class="jobpress-job-lists">
