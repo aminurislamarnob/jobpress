@@ -64,6 +64,20 @@ class SettingsFormGeneral
         // register a new setting for jobs page selection
         register_setting('jobpress_general_settings_section', 'jobpress_jobs_page_id');
 
+        /**
+         * Jobs Per Page field
+         **/
+        // register a new field in the "jobpress_general_settings_section" section for jobs per page
+        add_settings_field(
+            'jobpress_jobs_per_page',
+            __('Jobs Per Page', 'jobpress'), array( $this, 'jobpress_jobs_per_page_field_callback' ),
+            'jobpress_general_section',
+            'jobpress_general_settings_section'
+        );
+
+        // register a new setting for jobs per page
+        register_setting('jobpress_general_settings_section', 'jobpress_jobs_per_page');
+
     }
 
     //Single page sidebar
@@ -106,6 +120,17 @@ class SettingsFormGeneral
         </select>
         <br>
         <small><?php esc_html_e('Select the page that will display the jobs listing. This page ID will be used by the plugin to identify the jobs page.', 'jobpress'); ?></small>
+        <?php
+    }
+
+    //Jobs Per Page field
+    function jobpress_jobs_per_page_field_callback() {
+        $jobs_per_page = get_option('jobpress_jobs_per_page', 10);
+        ?>
+        <input name="jobpress_jobs_per_page" type="number" id="jobpress_jobs_per_page" class="small-text" 
+               value="<?php echo esc_attr($jobs_per_page); ?>" min="1" max="100" step="1">
+        <br>
+        <small><?php esc_html_e('Number of jobs to display per page. This affects both shortcode displays and archive pages.', 'jobpress'); ?></small>
         <?php
     }
 

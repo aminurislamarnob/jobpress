@@ -17,6 +17,20 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'jobpress_job_loop_header', 'jobpress_get_job_loop_header', 10 );
 
 /**
+ * Loop Setup
+ *
+ * @see jobpress_setup_loop()
+ */
+add_action( 'jobpress_before_jobs_loop', 'jobpress_setup_loop', 5 );
+
+/**
+ * Loop Reset
+ *
+ * @see jobpress_reset_loop()
+ */
+add_action( 'jobpress_after_jobs_loop', 'jobpress_reset_loop', 999 );
+
+/**
  * Pagination
  *
  * @see jobpress_pagination()

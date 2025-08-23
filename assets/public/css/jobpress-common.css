@@ -1,0 +1,187 @@
+/*************
+Modern Pagination Styles
+**************/
+.jobpress-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.jobpress-pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--jp-secondary-color);
+    background: #ffffff;
+    border: 2px solid var(--jp-border-color);
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.jobpress-pagination .page-numbers:hover {
+    color: var(--jp-brand-color);
+    border-color: var(--jp-brand-color);
+    background: #f8f9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 134, 254, 0.15);
+}
+
+.jobpress-pagination .page-numbers.current {
+    color: #ffffff;
+    background: var(--jp-brand-color);
+    border-color: var(--jp-brand-color);
+    box-shadow: 0 4px 15px rgba(0, 134, 254, 0.3);
+}
+
+.jobpress-pagination .page-numbers.current:hover {
+    background: var(--jp-hover-color);
+    border-color: var(--jp-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 134, 254, 0.25);
+}
+
+/* Previous and Next buttons */
+.jobpress-pagination .prev,
+.jobpress-pagination .next {
+    font-weight: 600;
+    color: var(--jp-primary-color);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-color: #dee2e6;
+    position: relative;
+}
+
+.jobpress-pagination .prev:hover,
+.jobpress-pagination .next:hover {
+    color: var(--jp-brand-color);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border-color: var(--jp-brand-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 134, 254, 0.15);
+}
+
+.jobpress-pagination .prev svg,
+.jobpress-pagination .next svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+    transform: scale(0.6);
+    -webkit-transform: scale(0.6);
+    -moz-transform: scale(0.6);
+    -ms-transform: scale(0.6);
+    -o-transform: scale(0.6);
+}
+
+/* .jobpress-pagination .prev:hover svg {
+    transform: translateX(-3px);
+    -webkit-transform: translateX(-3px);
+    -moz-transform: translateX(-3px);
+    -ms-transform: translateX(-3px);
+    -o-transform: translateX(-3px);
+}
+
+.jobpress-pagination .next:hover svg {
+    transform: translateX(3px);
+} */
+
+/* Disabled state for prev/next */
+.jobpress-pagination .prev.disabled,
+.jobpress-pagination .next.disabled {
+    color: #adb5bd;
+    background: #f8f9fa;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.jobpress-pagination .prev.disabled:hover,
+.jobpress-pagination .next.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    color: #adb5bd;
+    background: #f8f9fa;
+    border-color: #e9ecef;
+}
+
+.jobpress-pagination .prev.disabled svg,
+.jobpress-pagination .next.disabled svg {
+    fill: #adb5bd;
+}
+
+/* Page numbers container */
+.jobpress-pagination .page-numbers-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.jobpress-pagination .page-numbers-container .page-numbers {
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Dots/ellipsis styling */
+.jobpress-pagination .page-numbers.dots {
+    background: transparent;
+    border: none;
+    color: var(--jp-secondary-color);
+    cursor: default;
+    min-width: auto;
+    padding: 0 8px;
+}
+
+.jobpress-pagination .page-numbers.dots:hover {
+    background: transparent;
+    border: none;
+    color: var(--jp-secondary-color);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive pagination */
+@media only screen and (max-width: 767px) {
+    .jobpress-pagination {
+        gap: 6px;
+        margin: 30px 0;
+    }
+    
+    .jobpress-pagination .page-numbers {
+        min-width: 40px;
+        height: 40px;
+        font-size: 13px;
+        padding: 0 8px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .jobpress-pagination {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .jobpress-pagination .page-numbers-container {
+        order: 2;
+    }
+    
+    .jobpress-pagination .prev {
+        order: 1;
+    }
+    
+    .jobpress-pagination .next {
+        order: 3;
+    }
+}

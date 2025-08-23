@@ -19,6 +19,7 @@ class PublicEnqueue
 			$jobpress_design_type = !empty(get_option('jobpress_design_type')) ? get_option('jobpress_design_type') : '1';
 			wp_enqueue_style( 'jobpress-css', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-style-v'.$jobpress_design_type.'.css', array(), JOBPRESS_VERSION, 'all' );
 		}
+		wp_enqueue_style( 'jobpress-common', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-common.css', array(), JOBPRESS_VERSION, 'all' );
 	}
 
 	function settings_appeareance_styles(){
