@@ -4,7 +4,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 6.8.2
 Requires PHP: 7.4
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,17 +107,29 @@ Example with all attributes:
 
 == Changelog ==
 
-= 2.1.0 (Aug 18, 2025)  =
+= v2.1.3 (Aug 24, 2025)  =
+* **feat** Introduced a new template feature to the plugin, enabling extended customization and layout control for job listings.
+* **feat** Added support for template management within the plugin’s workflow.
+* **feat** Implemented initial template files and supporting code.
+* **update** Refactored codebase to accommodate new template structure.
+* **update** Updated various components to integrate seamlessly with the new template system.
+* **fix** Minor bug fixes and code improvements during template integration.
+
+= v2.1.1 & v2.1.2 (Aug 19, 2025)  =
+* Set the shortcode title & subtitle default value.
+* Update readme file to guide user how to use Shortcode in proper way.
+
+= v2.1.0 (Aug 18, 2025)  =
 * Added new shortcode attribute 'title' to customize job listing title
 * Added new shortcode attribute 'subtitle' to customize job listing subtitle
 * Added new shortcode attribute 'show_positions' to control visibility of open positions count
 * Added new "JobPress" category in Elementor editor
 * Added Elementor widget support with title, subtitle and position count controls
 
-= 2.0 =
+= v2.0.0 =
 * PCP detected security issues fix.
 * Update plugin tags.
 * Check compatibility with latest version of WordPress.
 
-= 1.0 =
+= v1.0.0 =
 * Initial release.
