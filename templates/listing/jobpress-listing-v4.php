@@ -8,7 +8,7 @@
     $jobpress_cats = get_categories($jobpress_args);
     
 ?>
-<div class="jp-job-listing-area jp-section-padding">
+<div class="jp-job-listing-area">
     <div class="jp-section-title jp-text-center">
         <?php if( !empty( $title ) ): ?>
             <h2><?php echo esc_html( $title ); ?></h2>

@@ -1,4 +1,4 @@
-<div class="jp-job-listing-area jp-section-padding">
+<div class="jp-job-listing-area">
     <?php
         $jobs_per_page = -1;
         $jobs_query = array(

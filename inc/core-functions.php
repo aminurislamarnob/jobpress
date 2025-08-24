@@ -85,6 +85,16 @@ function jobpress_locate_template( $template_name, $template_path = '', $default
  *
  * @return int
  */
+function jobpress_get_short_design_type() {
+    $style_type = !empty( get_option( 'jobpress_design_type' ) ) ? get_option( 'jobpress_design_type' ) : '1';
+    return (int) $style_type;
+}
+
+/**
+ * Get the jobs page ID.
+ *
+ * @return int
+ */
 function jobpress_get_jobs_page_id() {
     $page_id = get_option( 'jobpress_jobs_page_id', 0 );
     return (int) $page_id;

@@ -38,7 +38,7 @@ class TemplateLoader {
             $template     = locate_template( $search_files );
 
             if ( ! $template ) {
-                $template = JOBPRESS_PLUGIN_PATH . 'templates/jobpress-template/' . $default_file;
+                $template = JOBPRESS_PLUGIN_PATH . 'templates/' . $default_file;
             }
         }
 
