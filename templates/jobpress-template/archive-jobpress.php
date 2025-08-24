@@ -54,7 +54,7 @@ do_action( 'jobpress_before_main_content' );
              * Hook: jobpress_before_jobs_loop.
              *
              */
-            do_action( 'jobpress_before_jobs_loop', $jobpress_design_type );
+            do_action( 'jobpress_before_jobs_loop' );
         
             jobpress_jobs_loop_start();
         

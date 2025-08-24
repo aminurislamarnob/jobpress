@@ -12,6 +12,26 @@ class Activate
     }
 
     /**
+     * Handle plugin updates and ensure jobs page exists.
+     */
+    public static function handle_update() {
+        // Check if this is an update
+        $current_version = get_option( 'jobpress_version', '0.0.0' );
+        $plugin_version = defined( 'JOBPRESS_VERSION' ) ? JOBPRESS_VERSION : '0.0.0';
+        
+        if ( version_compare( $current_version, $plugin_version, '<' ) ) {
+            // This is an update - ensure jobs page exists
+            self::create_jobs_page();
+            
+            // Update version
+            update_option( 'jobpress_version', $plugin_version );
+            
+            // Flush rewrite rules for new features
+            flush_rewrite_rules();
+        }
+    }
+
+    /**
      * Create Jobs page on activation.
      */
     private static function create_jobs_page() {

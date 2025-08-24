@@ -64,3 +64,21 @@ register_deactivation_hook( __FILE__, 'jobpress_plugin_deactivate' );
 if ( class_exists( 'JobPressInc\\JobPressPluginInit' ) ) {
 	JobPressPluginInit::register_services();
 }
+
+/**
+ * Handle plugin updates via WordPress upgrader
+ */
+function jobpress_upgrader_process_complete( $upgrader, $options ) {
+	// Only run for our plugin
+	if ( $options['action'] === 'update' && $options['type'] === 'plugin' ) {
+		foreach ( $options['plugins'] as $plugin ) {
+			if ( $plugin === plugin_basename( __FILE__ ) ) {
+				Activate::handle_update();
+				break;
+			}
+		}
+	}
+}
+
+// Hook to run when plugins are updated (more efficient)
+add_action( 'upgrader_process_complete', 'jobpress_upgrader_process_complete', 10, 2 );
