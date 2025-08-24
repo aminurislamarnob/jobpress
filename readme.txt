@@ -27,6 +27,42 @@ This plugin enables you to build/create your company job board inside your WordP
 * 🗺️ You can also add location google map iFrame embed code
 * ⚡ Elementor widget support for easy page building
 
+= **Documentation** =
+
+**👉 Getting Started**
+* Install and activate the **JobPress** plugin.
+* After activation, you will see a new menu called **JobPress** in your WordPress admin dashboard.
+* From there, you can add, edit, and manage jobs just like WordPress posts.
+
+**👉 Job Management**
+* **Jobs**: Create and manage job listings.
+* **Job Categories**: Organize jobs into categories (submenu under JobPress).
+* **Job Types**: Manage job types (submenu under JobPress).
+
+**👉 Settings**
+JobPress provides a dedicated **Settings** menu to configure plugin options:
+
+**👉 👉 General Settings**
+* Set sidebar position for the Single Job page.
+* Add global resume submission instructions.
+* Select the Job Archive page (default page created during activation).
+* Control how many jobs to display on the Job Archive page.
+
+**👉 👉 Appearance Settings**
+* Customize plugin colors to match your theme style.
+
+**👉 👉 Shortcodes Settings**
+* You can display job listings anywhere using shortcodes.  
+* The `design` attribute matches the **Select Design** field option.
+
+**👉 Elementor Integration**
+Prefer a visual builder?  
+JobPress includes a **dedicated Elementor Addon** to display job lists without shortcodes. Simply drag and drop the JobPress widget onto your page.
+
+**👉 Quick Access**
+From the WordPress Admin Bar, you’ll get **quick access** to:
+* Job Archive / Default Job Listing Page
+* JobPress settings
 
 == Installation ==
 
@@ -108,12 +144,12 @@ Example with all attributes:
 == Changelog ==
 
 = v2.1.3 (Aug 24, 2025)  =
-* **feat** Introduced a new template feature to the plugin, enabling extended customization and layout control for job listings.
-* **feat** Added support for template management within the plugin’s workflow.
-* **feat** Implemented initial template files and supporting code.
-* **update** Refactored codebase to accommodate new template structure.
-* **update** Updated various components to integrate seamlessly with the new template system.
-* **fix** Minor bug fixes and code improvements during template integration.
+* **feat:** Introduced a new template feature to the plugin, enabling extended customization and layout control for job listings.
+* **feat:** Added support for template management within the plugin’s workflow.
+* **feat:** Implemented initial template files and supporting code.
+* **update:** Refactored codebase to accommodate new template structure.
+* **update:** Updated various components to integrate seamlessly with the new template system.
+* **fix:** Minor bug fixes and code improvements during template integration.
 
 = v2.1.1 & v2.1.2 (Aug 19, 2025)  =
 * Set the shortcode title & subtitle default value.
