@@ -18,8 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @param string $default_path  Default path. (default: '').
  */
 function jobpress_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+    // Takes the keys of the array and makes them into variables inside the local scope.
     if ( ! empty( $args ) && is_array( $args ) ) {
-        extract( $args ); // @codingStandardsIgnoreLine
+        extract( $args ); // phpcs:ignore
     }
 
     $located = jobpress_locate_template( $template_name, $template_path, $default_path );
