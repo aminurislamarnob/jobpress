@@ -15,6 +15,7 @@ class CustomPostType
 	 * Jobs custom post type.
 	 */
     function jobpress_jobs_cpt() {
+        $permalinks = jobpress_get_permalink_structure();
         $labels = array(
             'name'                  => __( 'Jobs', 'jobpress' ),
             'singular_name'         => __( 'Job', 'jobpress' ),
@@ -50,9 +51,9 @@ class CustomPostType
             'show_in_menu'       => true,
             'query_var'          => true,
             'menu_icon'          => 'dashicons-clipboard',
-            'rewrite'            => array( 'slug' => 'jobs' ),
+            'rewrite'            => array( 'slug' => $permalinks['job_rewrite_slug'] ),
             'capability_type'    => 'post',
-            'has_archive'        => true,
+            'has_archive'        => false,
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),

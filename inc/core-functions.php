@@ -259,24 +259,32 @@ function jobpress_pagination() {
         return;
     }
 
-    $args = array(
-        'total'   => jobpress_get_loop_prop( 'total_pages' ),
-        'current' => jobpress_get_loop_prop( 'current_page' ),
-        'base'    => esc_url_raw( add_query_arg( 'job-page', '%#%', false ) ),
-        'format'  => '?job-page=%#%',
-    );
+    $is_shortcode  = jobpress_get_loop_prop( 'is_shortcode' );
+    $current_page  = jobpress_get_loop_prop( 'current_page' );
+    $total_pages   = jobpress_get_loop_prop( 'total_pages' );
 
-    if ( ! jobpress_get_loop_prop( 'is_shortcode' ) ) {
-        $args['format'] = '';
-        $args['base']   = esc_url_raw( str_replace( 999999999, '%#%', remove_query_arg( 'add-to-cart', get_pagenum_link( 999999999, false ) ) ) );
+    // Build base + format depending on context
+    if ( $is_shortcode ) {
+        $args = array(
+            'base'    => esc_url_raw( add_query_arg( 'job-page', '%#%', false ) ),
+            'format'  => '?job-page=%#%',
+            'current' => $current_page,
+            'total'   => $total_pages,
+        );
+    } else {
+        $args = array(
+            'base'    => esc_url_raw(
+                str_replace(
+                    999999999,
+                    '%#%',
+                    get_pagenum_link( 999999999, false )
+                )
+            ),
+            'format'  => '',
+            'current' => $current_page,
+            'total'   => $total_pages,
+        );
     }
-
-    // Use WordPress paginate_links function
-    echo '<div class="jobpress-pagination">';
-    
-    // Custom pagination that always shows prev/next buttons
-    $current_page = $args['current'];
-    $total_pages = $args['total'];
     
     // Page numbers
     $page_numbers = paginate_links( array(
@@ -284,8 +292,8 @@ function jobpress_pagination() {
         'format'    => $args['format'],
         'current'   => $current_page,
         'total'     => $total_pages,
-        'prev_text' => '',
-        'next_text' => '',
+        'prev_text' => jobpress_get_left_arrow_svg(),
+        'next_text' => jobpress_get_right_arrow_svg(),
         'type'      => 'array',
         'show_all'  => false,
         'end_size'  => 1,
@@ -293,31 +301,12 @@ function jobpress_pagination() {
     ) );
     
     if ( $page_numbers ) {
+        echo '<div class="jobpress-pagination" role="navigation" aria-label="Jobs Pagination">';
         echo '<span class="page-numbers-container">';
-        
-        // Previous button - always show
-        if ( $current_page > 1 ) {
-            $prev_page = $current_page - 1;
-            $prev_url = get_pagenum_link( $prev_page );
-            echo '<a class="prev page-numbers" href="' . esc_url( $prev_url ) . '">' . apply_filters( 'jobpress_pagination_prev_text', jobpress_get_left_arrow_svg() ) . '</a>';
-        } else {
-            echo '<span class="prev page-numbers disabled">' . apply_filters( 'jobpress_pagination_prev_text', jobpress_get_left_arrow_svg() ) . '</span>';
-        }
-
         echo implode( '', $page_numbers );
-
-        // Next button - always show
-        if ( $current_page < $total_pages ) {
-            $next_page = $current_page + 1;
-            $next_url = get_pagenum_link( $next_page );
-            echo '<a class="next page-numbers" href="' . esc_url( $next_url ) . '">' . apply_filters( 'jobpress_pagination_next_text', jobpress_get_right_arrow_svg() ) . '</a>';
-        } else {
-            echo '<span class="next page-numbers disabled">' . apply_filters( 'jobpress_pagination_next_text', jobpress_get_right_arrow_svg() ) . '</span>';
-        }
         echo '</span>';
+        echo '</div>';
     }
-    
-    echo '</div>';
 }
 
 /**
@@ -374,4 +363,24 @@ function jobpress_get_right_arrow_svg() {
     $svg_icon = wp_kses( $svg, $allowed_svg );
     
     return $svg_icon;
+}
+
+/**
+ * Get permalink settings for things like products and taxonomies.
+ *
+ * @return array
+ */
+function jobpress_get_permalink_structure() {
+    $permalinks = [];
+	$job_permalinks = array(
+        'job_base'  => _x( 'job', 'slug', 'jobpress' ),
+        'job_category_base' => _x( 'job-category', 'slug', 'jobpress' ),
+        'job_tag_base'  => _x( 'job-tag', 'slug', 'jobpress' ),
+    );
+
+	$permalinks['job_rewrite_slug']   = untrailingslashit( $job_permalinks['job_base'] );
+	$permalinks['job_category_rewrite_slug']  = untrailingslashit( $job_permalinks['job_category_base'] );
+	$permalinks['job_tag_rewrite_slug']       = untrailingslashit( $job_permalinks['job_tag_base'] );
+
+	return $permalinks;
 }
