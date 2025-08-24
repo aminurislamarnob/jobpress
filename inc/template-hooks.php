@@ -36,3 +36,12 @@ add_action( 'jobpress_after_jobs_loop', 'jobpress_reset_loop', 999 );
  * @see jobpress_pagination()
  */
 add_action( 'jobpress_after_jobs_loop', 'jobpress_pagination', 10 );
+
+/**
+ * Content Wrappers.
+ *
+ * @see jobpress_output_content_wrapper()
+ * @see jobpress_output_content_wrapper_end()
+ */
+add_action( 'jobpress_before_main_content', 'jobpress_output_content_wrapper', 10 );
+add_action( 'jobpress_after_main_content', 'jobpress_output_content_wrapper_end', 10 );

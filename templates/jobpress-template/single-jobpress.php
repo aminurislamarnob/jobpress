@@ -6,7 +6,14 @@
 
 get_header('jobpress');
 
-$jobpress_ft_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+/**
+ * jobpress_before_main_content hook.
+ *
+ * @hooked jobpress_output_content_wrapper - 10 (outputs opening divs for the content)
+ */
+do_action( 'jobpress_before_main_content' );
+
+$jobpress_ft_image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 
 //jobpress meta
 $jobpress_vacancy = get_post_meta( get_the_ID(), 'jobpress_vacancy', true );
@@ -22,7 +29,7 @@ $jobpress_application_collect_medium = get_post_meta( get_the_ID(), 'jobpress_ap
 $jobpress_email = get_post_meta( get_the_ID(), 'jobpress_email', true );
 
 //Resume submit instruction common
-$jobpress_resume_common_instruction = get_option('jobpress_single_resume_instruction');
+$jobpress_resume_common_instruction = get_option( 'jobpress_single_resume_instruction' );
 
 //job category
 $job_category = get_the_terms( get_the_ID(), 'jobpress_category' );
@@ -202,4 +209,11 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
         </div>
     </div>
 <?php
+/**
+ * jobpress_after_main_content hook.
+ *
+ * @hooked jobpress_output_content_wrapper_end - 10 (outputs closing divs for the content)
+ */
+do_action( 'jobpress_after_main_content' );
+
 get_footer('jobpress');

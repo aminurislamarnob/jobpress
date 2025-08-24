@@ -115,3 +115,35 @@ if ( ! function_exists( 'jobpress_jobs_loop_end' ) ) {
 		}
 	}
 }
+
+/**
+ * Get a slug identifying the current activated theme.
+ *
+ * @return string
+ */
+function jobpress_get_theme_slug_for_templates() {
+	return apply_filters( 'jobpress_theme_slug_for_templates', get_option( 'template' ) );
+}
+
+/**
+ * Global
+ */
+
+ if ( ! function_exists( 'jobpress_output_content_wrapper' ) ) {
+
+	/**
+	 * Output the start of the page wrapper.
+	 */
+	function jobpress_output_content_wrapper() {
+		jobpress_get_template( 'global/wrapper-start.php' );
+	}
+}
+if ( ! function_exists( 'jobpress_output_content_wrapper_end' ) ) {
+
+	/**
+	 * Output the end of the page wrapper.
+	 */
+	function jobpress_output_content_wrapper_end() {
+		jobpress_get_template( 'global/wrapper-end.php' );
+	}
+}
