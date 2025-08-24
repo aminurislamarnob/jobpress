@@ -143,6 +143,9 @@ Example with all attributes:
 
 == Changelog ==
 
+= v2.1.4 (Aug 24, 2025)  =
+* **Update:** Added plugin setup and configuration quick guideline in documentation.
+
 = v2.1.3 (Aug 24, 2025)  =
 * **feat:** Introduced a new template feature to the plugin, enabling extended customization and layout control for job listings.
 * **feat:** Added support for template management within the plugin’s workflow.
