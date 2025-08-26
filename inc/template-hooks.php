@@ -45,3 +45,5 @@ add_action( 'jobpress_after_jobs_loop', 'jobpress_pagination', 10 );
  */
 add_action( 'jobpress_before_main_content', 'jobpress_output_content_wrapper', 10 );
 add_action( 'jobpress_after_main_content', 'jobpress_output_content_wrapper_end', 10 );
+
+add_action( 'jobpress_job_loop_header', 'jobpress_archive_job_filter_and_search', 10 );

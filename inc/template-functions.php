@@ -147,3 +147,13 @@ if ( ! function_exists( 'jobpress_output_content_wrapper_end' ) ) {
 		jobpress_get_template( 'global/wrapper-end.php' );
 	}
 }
+
+if ( ! function_exists( 'jobpress_archive_job_filter_and_search' ) ) {
+
+	/**
+	 * Output the filter and search form.
+	 */
+	function jobpress_archive_job_filter_and_search() {
+		jobpress_get_template( 'global/filter-and-search.php' );
+	}
+}

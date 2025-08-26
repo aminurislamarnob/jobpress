@@ -185,3 +185,132 @@ Modern Pagination Styles
         order: 3;
     }
 }
+
+
+/* Job Search Form Styles */
+.jobpress-search-form-wrapper {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px 0 rgb(0 0 0 / 3%);
+    border: 1px solid var(--jp-border-color);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.jobpress-search-form-wrapper form {
+    display: grid;
+    grid-template-columns: 1fr 250px 250px 120px;
+    gap: 0;
+    align-items: center;
+}
+
+.jobpress-search-form-wrapper .search-field {
+    display: flex;
+    flex-direction: column;
+}
+.jobpress-search-form-wrapper .search-field:first-child, .jobpress-search-form-wrapper .search-field:nth-child(2){
+    border-right: 1px solid var(--jp-border-color);
+    margin-right: 10px;
+    padding-right: 10px;
+}
+.jobpress-search-form-wrapper .search-field:first-child {
+    padding-left: 5px;
+}
+.jobpress-search-form-wrapper .search-field:nth-child(3){
+    padding-right: 10px;
+}
+.search-field.search-submit-field {
+    width: 120px;
+}
+
+.jobpress-search-form-wrapper .search-field label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 14px;
+}
+
+.jobpress-search-form-wrapper .search-field input,
+.jobpress-search-form-wrapper .search-field select {
+    padding: 0px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1;
+    transition: border-color 0.3s ease;
+    height: 28px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.jobpress-search-form-wrapper .search-field input:focus,
+.jobpress-search-form-wrapper .search-field select:focus {
+    outline: none;
+    border-color: var(--jp-border-color);
+    box-shadow: none;
+}
+.jobpress-search-form-wrapper .search-field input::placeholder {
+    color: var(--jp-secondary-color);
+    opacity: 1; /* Firefox */
+}
+
+.jobpress-search-form-wrapper .search-field input::-webkit-input-placeholder {
+    color: var(--jp-secondary-color);
+}
+
+.jobpress-search-form-wrapper .search-field input::-moz-placeholder {
+    color: var(--jp-secondary-color);
+    opacity: 1;
+}
+
+.jobpress-search-form-wrapper .search-field input:-ms-input-placeholder {
+    color: var(--jp-secondary-color);
+}
+
+.jobpress-search-form-wrapper button[type="submit"].search-submit{
+    display: block;
+    color: #fff !important;
+    text-decoration: none !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    background: var(--jp-brand-color);
+    font-weight: 500;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    font-size: 14px;
+    height: 36px;
+    font-weight: 500;
+    border: none;
+    line-height: 1;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.jobpress-search-form-wrapper .search-submit:hover {
+    background: #005a87;
+}
+
+.jobpress-search-form-wrapper .clear-filters:hover {
+    background: #6c757d;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .jobpress-search-form-wrapper form {
+        grid-template-columns: 1fr;
+    }
+    
+    .jobpress-search-form-wrapper .search-field {
+        margin-bottom: 10px;
+    }
+}
