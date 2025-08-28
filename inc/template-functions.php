@@ -157,3 +157,13 @@ if ( ! function_exists( 'jobpress_archive_job_filter_and_search' ) ) {
 		jobpress_get_template( 'global/filter-and-search.php' );
 	}
 }
+
+if ( ! function_exists( 'jobpress_no_jobs_found' ) ) {
+
+	/**
+	 * Handles the loop when no jobs were found/no job exist.
+	 */
+	function jobpress_no_jobs_found() {
+		jobpress_get_template( 'loop/no-jobs-found.php' );
+	}
+}

@@ -395,3 +395,21 @@ function jobpress_get_permalink_structure() {
 
 	return $permalinks;
 }
+
+/**
+ * Check if a term is selected.
+ *
+ * @param string $term_slug The term slug.
+ * @param string $taxonomy The taxonomy.
+ * @return bool
+ */
+function jobpress_is_term_selected( $term_slug, $taxonomy ){
+    if( empty( $term_slug ) ){
+        return false;
+    }
+    $term_exists = term_exists( $term_slug, $taxonomy );
+    if ( $term_exists ) {
+        return true;
+    }
+    return false;
+}

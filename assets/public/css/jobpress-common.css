@@ -203,14 +203,15 @@ Modern Pagination Styles
 
 .jobpress-search-form-wrapper form {
     display: grid;
-    grid-template-columns: 1fr 250px 250px 120px;
+    grid-template-columns: 1fr 270px 270px 120px;
     gap: 0;
     align-items: center;
 }
 
 .jobpress-search-form-wrapper .search-field {
     display: flex;
-    flex-direction: column;
+    gap: 10px;
+    align-items: center;
 }
 .jobpress-search-form-wrapper .search-field:first-child, .jobpress-search-form-wrapper .search-field:nth-child(2){
     border-right: 1px solid var(--jp-border-color);
@@ -229,13 +230,14 @@ Modern Pagination Styles
 
 .jobpress-search-form-wrapper .search-field label {
     font-weight: 600;
-    margin-bottom: 5px;
-    color: #333;
-    font-size: 14px;
+    margin-bottom: 0px;
+    font-size: 16px;
 }
 
 .jobpress-search-form-wrapper .search-field input,
 .jobpress-search-form-wrapper .search-field select {
+    width: 100%;
+    color: var(--jp-primary-color);
     padding: 0px;
     border: none;
     border-radius: 4px;
@@ -247,6 +249,35 @@ Modern Pagination Styles
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.jobpress-search-form-wrapper .select-field{
+    position: relative;
+}
+.jobpress-search-form-wrapper .select-field::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'><path d='M18.71,8.21a1,1,0,0,0-1.42,0l-4.58,4.58a1,1,0,0,1-1.42,0L6.71,8.21a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.59,4.59a3,3,0,0,0,4.24,0l4.59-4.59A1,1,0,0,0,18.71,8.21Z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.5;
+  }
+.jobpress-search-form-wrapper .search-field select{
+    padding-right: 20px;
+}
+.jobpress-search-form-wrapper .search-field select{
+    color: var(--jp-secondary-color);
+}
+.jobpress-search-form-wrapper .search-field select.selected{
+    color: var(--jp-primary-color);
 }
 
 .jobpress-search-form-wrapper .search-field input:focus,
@@ -274,6 +305,7 @@ Modern Pagination Styles
 }
 
 .jobpress-search-form-wrapper button[type="submit"].search-submit{
+    width: 100%;
     display: block;
     color: #fff !important;
     text-decoration: none !important;
@@ -285,7 +317,7 @@ Modern Pagination Styles
     -o-transition: .3s;
     transition: .3s;
     font-size: 14px;
-    height: 36px;
+    height: 40px;
     font-weight: 500;
     border: none;
     line-height: 1;
@@ -295,14 +327,51 @@ Modern Pagination Styles
     -o-border-radius: 4px;
 }
 
-.jobpress-search-form-wrapper .search-submit:hover {
-    background: #005a87;
+.jobpress-search-form-wrapper button[type="submit"].search-submit:hover {
+    background: var(--jp-hover-color);
+    color: #fff;
 }
 
 .jobpress-search-form-wrapper .clear-filters:hover {
     background: #6c757d;
     color: white;
 }
+.jobpress-search-form-wrapper .job-field-icon svg {
+    fill: var(--jp-secondary-color);
+    width: 17px;
+    height: 17px;
+    opacity: 0.6;
+}
+
+.jobpress-search-form-wrapper .job-field-icon {
+    line-height: 16px;
+}
+.jobpress-no-jobs-found {
+    text-align: center;
+    border-radius: 5px;
+    padding-top: 25px;
+    margin-bottom: 30px;
+}
+
+.jobpress-no-jobs-found h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--jp-primary-color);
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.jobpress-no-jobs-found p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--jp-secondary-color);
+}
+
+.jobpress-no-jobs-found img {
+    width: 85px;
+    margin-bottom: 30px;
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
