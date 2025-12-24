@@ -3,7 +3,7 @@
         'name' => 'aminurislam/plugin-starter-pack',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '1966fee55e5ea2f4ee5e96229adc3460ac26177b',
+        'reference' => '72f5d6c104d4a9f67163a1e408a990d709ce78a9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'aminurislam/plugin-starter-pack' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '1966fee55e5ea2f4ee5e96229adc3460ac26177b',
+            'reference' => '72f5d6c104d4a9f67163a1e408a990d709ce78a9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

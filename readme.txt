@@ -2,9 +2,9 @@
 Contributors: aminurislam01
 Tags: jobpress, job board, careers, job listing, job manager, job portal, job openings, jobs
 Requires at least: 5.6
-Tested up to: 6.8.2
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,9 @@ JobPress includes a **dedicated Elementor Addon** to display job lists without s
 From the WordPress Admin Bar, you’ll get **quick access** to:
 * Job Archive / Default Job Listing Page
 * JobPress settings
+
+== Support ==
+If you find this plugin useful, consider supporting its development through a [donation](https://www.buymeacoffee.com/aiarnob).
 
 == Installation ==
 
@@ -142,6 +145,9 @@ Example with all attributes:
 ```
 
 == Changelog ==
+
+= v2.1.5 (Dec 24, 2025)  =
+* Compatibility check with latest WordPress Version v6.9
 
 = v2.1.4 (Aug 24, 2025)  =
 * **Update:** Added plugin setup and configuration quick guideline in documentation.
