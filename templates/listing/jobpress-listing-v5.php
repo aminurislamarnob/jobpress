@@ -13,7 +13,7 @@
  * @var int      $total_jobs     Number of jobs matching the listing.
  * @var string   $search_form    Search form HTML (already escaped), or '' when the search bar is off.
  *
- * @version 2.3.0
+ * @version 2.2.0
  */
 
 defined( 'ABSPATH' ) || exit;

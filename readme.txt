@@ -5,7 +5,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.4.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,54 +167,46 @@ Example:
 
 == Changelog ==
 
-= v2.4.0 (Oct 9, 2026)  =
+= v2.2.0 (Oct 9, 2026)  =
 * **feat:** JobPress Jobs block for the block editor (WordPress 6.3+), with a live preview: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list. Settings left on "Default" follow the global settings, and each Default option shows the value it uses.
 * **feat:** Block styles: listing colors, space between job cards, card padding, radius and background, apply button colors, and the most grid columns, plus the standard block spacing, background and width options.
 * **feat:** Convert a `[jobpress]` Shortcode block, or a pasted `[jobpress]` shortcode, into the block, and the block back into a shortcode.
-* **update:** Pages with the block load only the stylesheets of the designs they show, in the page head.
-* **fix:** Designs v1, v3 and v4 fit narrow columns (e.g. a listing in a column block): cards stack instead of squeezing the apply button onto one letter per line, and very narrow lists use smaller job titles.
-
-= v2.3.0 (Oct 9, 2026)  =
 * **feat:** Full-featured Elementor widget: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list, and style everything from the Style tab (colors, typography, spacing, borders, shadows, hover states). Settings left on "Default" follow the global settings.
 * **feat:** New `[jobpress]` attributes: `design`, the six colors, `show_title`, `show_subtitle`, job card toggles (`show_category`, `show_type`, `show_location`, `show_experience`, `show_vacancy`, `show_deadline`), `button_text`, `show_search`, `show_view_all`, `view_all_text`, and query attributes `per_page`, `category`, `type`, `include`, `exclude`, `orderby`, `order`.
 * **feat:** New Listing Defaults settings (Settings > Shortcodes): default title and subtitle, header and job card visibility, button text, search bar and "View all jobs" link. The job card options also apply to the Jobs Page.
-* **feat:** Listings with different designs can share a page.
-* **feat:** The open positions count counts the jobs the listing shows (e.g. one category's), not all jobs.
-* **feat:** Admin notice when the theme overrides JobPress templates with outdated copies.
-* **feat:** Developer hooks `jobpress_listing_defaults`, `jobpress_listing_query_args` and `jobpress_elementor_widget_controls`; `shortcode_atts_jobpress` now fires.
-* **update:** Each page only loads the stylesheets of the designs it shows. Rules shared by all designs moved to `jobpress-common.css`, and design stylesheets are registered as `jobpress-design-v1` to `jobpress-design-v5` (previously one `jobpress-css` handle).
-* **fix:** Design v5 (grid) overflowed narrow columns and phones. Narrow cards now scale their text down instead of breaking words, and the cards in a row share one height.
-* **fix:** The Elementor widget fills its container when the container is set to a row direction, instead of shrinking to the width of its header.
-* **fix:** Design v2 gives the job title the free space in narrow listings, and its experience text no longer inherits the theme's body size.
-* **fix:** Designs v3 and v4 keep each job detail (e.g. the deadline) on one line when they wrap.
-* **fix:** Category groups show "1 OPENING" instead of "1 OPENINGS".
-* **fix:** The Jobs Page search form no longer shows its field dividers when the fields stack on phones.
-* **fix:** Design v1 no longer starts a job's details with a dash when the job has no category.
-* **Upgrade notes:**
-* Design stylesheet rules are now scoped to `.jp-design-v1` to `.jp-design-v5` (on each listing's wrapper, and on the body of the jobs archive and single job pages). Custom CSS that overrides listing styles may need a more specific selector, e.g. `.jp-listing .jp-single-job-list`.
-* An empty `title` or `subtitle` attribute now uses the default text; hide them with `show_title="no"` or `show_subtitle="no"`.
-* Elementor widgets saved before 2.3.0 that kept the widget's default title "Job Openings" or subtitle "Find your dream job" may now show the global listing title and subtitle instead (set them in Settings > Shortcodes > Listing Defaults, or in the widget).
-* Theme copies of the listing templates keep working, and still show the jobs a listing selects, but don't get the new options or style hooks until updated from the plugin's `templates/listing` folder.
-
-= v2.2.0 (Oct 9, 2026)  =
 * **feat:** Search, category and job type filters on the jobs page.
 * **feat:** Block theme support: job pages now show the theme's header and footer on block themes such as Twenty Twenty-Five.
 * **feat:** The single job page shows the job title (can be hidden with the `jobpress_show_single_job_title` filter).
 * **feat:** "No jobs found" message when a search or filter has no results.
+* **feat:** Listings with different designs can share a page.
 * **feat:** Designs v2 and v4 list jobs without a category under "Other openings".
+* **feat:** The open positions count counts the jobs the listing shows (e.g. one category's), not all jobs.
+* **feat:** Admin notice when the theme overrides JobPress templates with outdated copies.
+* **feat:** Developer hooks `jobpress_listing_defaults`, `jobpress_listing_query_args` and `jobpress_elementor_widget_controls`; `shortcode_atts_jobpress` now fires.
+* **update:** Each page only loads the stylesheets of the designs it shows, in the page head, including pages with the block or the Elementor widget, and the Elementor editor preview. Rules shared by all designs moved to `jobpress-common.css`, and design stylesheets are registered as `jobpress-design-v1` to `jobpress-design-v5` (previously one `jobpress-css` handle).
 * **update:** Job pages and listings sit in a centered, padded container on themes without their own wrapper.
 * **update:** Application deadlines use the site's date format.
 * **update:** Email addresses in the application text are clickable links.
-* **update:** Styles only load on pages that show jobs, and load in the Elementor editor preview.
+* **fix:** Listings fit narrow columns and phones: design v5 (grid) drops columns and scales its text instead of overflowing, designs v1, v3 and v4 stack their cards instead of squeezing the apply button, design v2 gives the job title the free space, and very narrow lists use smaller job titles.
+* **fix:** The Elementor widget fills its container when the container is set to a row direction, instead of shrinking to the width of its header.
+* **fix:** An Elementor widget title or subtitle containing "]" lost all widget settings.
+* **fix:** Designs v3 and v4 keep each job detail (e.g. the deadline) on one line when they wrap, and design v2's experience text no longer inherits the theme's body size.
+* **fix:** Category groups show "1 OPENING" instead of "1 OPENINGS".
+* **fix:** The Jobs Page search form no longer shows its field dividers when the fields stack on phones.
+* **fix:** Design v1 no longer starts a job's details with a dash when the job has no category.
 * **fix:** Job details are only saved from the job editor, with a valid security check.
 * **fix:** Job, category and type URLs could return "Page not found" after activating the plugin.
 * **fix:** Category and type archives use the JobPress jobs layout and show only that category's or type's jobs.
 * **fix:** The jobs page styles loaded on every page when no Jobs Page was set.
-* **fix:** An Elementor widget title or subtitle containing "]" lost all widget settings.
 * **fix:** Translations were not loaded.
 * **fix:** Settings are sanitized on save, and output is escaped throughout the templates.
 * **fix:** Replaced the deprecated `get_page_by_title()` function.
 * Tested up to WordPress 7.1.
+* **Upgrade notes:**
+* Design stylesheet rules are now scoped to `.jp-design-v1` to `.jp-design-v5` (on each listing's wrapper, and on the body of the jobs archive and single job pages). Custom CSS that overrides listing styles may need a more specific selector, e.g. `.jp-listing .jp-single-job-list`.
+* An empty `title` or `subtitle` attribute now uses the default text; hide them with `show_title="no"` or `show_subtitle="no"`.
+* Elementor widgets saved before 2.2.0 that kept the widget's default title "Job Openings" or subtitle "Find your dream job" may now show the global listing title and subtitle instead (set them in Settings > Shortcodes > Listing Defaults, or in the widget).
+* Theme copies of the listing templates keep working, and still show the jobs a listing selects, but don't get the new options or style hooks until updated from the plugin's `templates/listing` folder.
 
 = v2.1.5 & v2.1.6 (Dec 24, 2025)  =
 * Compatibility check with latest WordPress Version v6.9

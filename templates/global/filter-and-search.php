@@ -11,7 +11,7 @@
  * @var string $selected_category   Optional. Category slug to preselect.
  * @var string $selected_type       Optional. Type slug to preselect.
  *
- * @version 2.3.0
+ * @version 2.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

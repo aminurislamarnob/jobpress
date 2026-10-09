@@ -37,7 +37,7 @@ test.describe( 'Elementor widget', () => {
 		await expectNoPhpErrors( page );
 	} );
 
-	test( 'keeps the positions count hidden in widgets saved before 2.3.0', async ( { page, jobPress } ) => {
+	test( 'keeps the positions count hidden in widgets saved before 2.2.0', async ( { page, jobPress } ) => {
 		// The old show_positions switcher saved '' when switched off.
 		const widgetPage = await jobPress.createElementorPage( `Widget page ${ token }`, [
 			{ show_positions: '' },

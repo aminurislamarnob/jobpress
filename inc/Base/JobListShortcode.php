@@ -155,7 +155,7 @@ class JobListShortcode
     /**
      * Render a listing template.
      *
-     * Theme copies of the listing templates made before 2.3.0 run their own jobs
+     * Theme copies of the listing templates made before 2.2.0 run their own jobs
      * queries; while one renders, the listing's query attributes are applied to
      * those queries so the theme copy still shows the right jobs.
      *

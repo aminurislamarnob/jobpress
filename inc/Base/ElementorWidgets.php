@@ -1159,7 +1159,7 @@ class ElementorWidgets extends Widget_Base {
             }
         }
 
-        // Widgets saved before 2.3.0 had a show_positions switcher, which saved '' when switched off.
+        // Widgets saved before 2.2.0 had a show_positions switcher, which saved '' when switched off.
         if ( ! isset( $atts['show_positions'] ) && isset( $settings['show_positions'] ) && '' === $settings['show_positions'] ) {
             $atts['show_positions'] = 'no';
         }

@@ -6,7 +6,7 @@
  *
  * Which fields show, and the button text, follow the Listing Defaults settings.
  *
- * @version 2.3.0
+ * @version 2.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
