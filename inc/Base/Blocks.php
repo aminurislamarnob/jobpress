@@ -103,18 +103,18 @@ class Blocks
 		}
 
 		return array(
-			'designs'      => jobpress_get_design_names(),
-			'globalDesign' => (string) jobpress_get_short_design_type(),
-			'settings'     => $settings,
+			'designs'             => jobpress_get_design_names(),
+			'globalDesign'        => (string) jobpress_get_short_design_type(),
+			'settings'            => $settings,
 			// Designs that render each element: card fields, the text button, the open positions
 			// count, the apply button (v2's is an arrow link) and the grid columns.
-			'designFields' => jobpress_get_listing_design_fields() + array(
+			'designFields'        => jobpress_get_listing_design_fields() + array(
 				'positions'   => array( 1, 3, 5 ),
 				'applyButton' => array( 1, 2, 3, 4 ),
 				'columns'     => array( 5 ),
 			),
-			'settingsUrl'  => admin_url( 'edit.php?post_type=jobpress&page=jobpress_shortcode' ),
-			'addJobUrl'    => admin_url( 'post-new.php?post_type=jobpress' ),
+			'settingsUrl'         => admin_url( 'edit.php?post_type=jobpress&page=jobpress_shortcode' ),
+			'addJobUrl'           => admin_url( 'post-new.php?post_type=jobpress' ),
 			// For converting [jobpress] shortcodes: the attributes the block shares with them.
 			'shortcodeAttributes' => array_keys( JobListShortcode::get_default_atts() ),
 		);

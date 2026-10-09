@@ -4,8 +4,8 @@ namespace JobPressInc\Base;
 /**
 * Job List Shortcode
 *
-* The [jobpress] shortcode is the listing engine shared by the shortcode and the
-* Elementor widget: it resolves the attributes, runs the jobs query and wraps the
+* The [jobpress] shortcode is the listing engine shared by the shortcode, the
+* JobPress Jobs block and the Elementor widget: it resolves the attributes, runs the jobs query and wraps the
 * listing design template in an element scoped to that design.
 */
 class JobListShortcode

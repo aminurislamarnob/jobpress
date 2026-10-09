@@ -1,6 +1,6 @@
 # `[jobpress]` attributes
 
-The `[jobpress]` shortcode renders a job listing. The JobPress Elementor widget renders the same listing, and each of its settings maps onto one of these attributes.
+The `[jobpress]` shortcode renders a job listing. The JobPress Elementor widget and the JobPress Jobs block (`jobpress/jobs`) render the same listing. Each widget setting maps onto one of these attributes, and the block's attributes have the same names and values (strings; empty inherits), so converting between a `[jobpress]` Shortcode block and the block copies them. The block's style settings (`columns`, `cardGap`, `cardPadding`, `cardRadius`, `cardBackground`, `buttonColor`, `buttonBackground`, `buttonHoverColor`, `buttonHoverBackground`) are block-only and aren't kept when converting to a shortcode.
 
 **Defaults.** Every attribute falls back to the global settings when it is missing or empty: **Settings → Shortcodes** (the *Select Design* field and the *Listing Defaults* section) and **Settings → Appearance** (colors). Developers can change the defaults with the `jobpress_listing_defaults` filter. Yes/no attributes take `yes` or `no`.
 

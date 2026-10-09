@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: JobPress 2.3.0\n"
+"Project-Id-Version: JobPress 2.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-09T13:16:16+00:00\n"
+"POT-Creation-Date: 2026-10-09T14:57:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobpress\n"
@@ -224,388 +224,422 @@ msgid "Job Types"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:79
+#: assets/blocks/jobs/index.js:4
 msgid "JobPress Jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:144
-msgid "Design V1: list"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:145
-msgid "Design V2: grouped by category"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:146
-msgid "Design V3: cards"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:147
-msgid "Design V4: cards grouped by category"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:148
-msgid "Design V5: grid"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:176
-#: inc/Base/ElementorWidgets.php:188
+#: inc/Base/ElementorWidgets.php:170
+#: inc/Base/ElementorWidgets.php:182
+#: assets/blocks/jobs/index.js:3
+#: assets/blocks/jobs/index.js:4
 msgid "Show"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:176
-#: inc/Base/ElementorWidgets.php:189
+#: inc/Base/ElementorWidgets.php:170
+#: inc/Base/ElementorWidgets.php:183
+#: assets/blocks/jobs/index.js:3
+#: assets/blocks/jobs/index.js:4
 msgid "Hide"
 msgstr ""
 
 #. translators: %s: Show or Hide, the global setting
 #. translators: %s: name of the design selected in the JobPress settings
-#: inc/Base/ElementorWidgets.php:187
-#: inc/Base/ElementorWidgets.php:235
-#, php-format
+#: inc/Base/ElementorWidgets.php:181
+#: inc/Base/ElementorWidgets.php:229
+#: assets/blocks/jobs/index.js:4
+#: assets/blocks/jobs/index.js:6
+#, php-format,js-format
 msgid "Default (%s)"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:214
+#: inc/Base/ElementorWidgets.php:208
+#: assets/blocks/jobs/index.js:4
 msgid "Leave empty to use the JobPress settings."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:228
+#: inc/Base/ElementorWidgets.php:222
+#: assets/blocks/jobs/index.js:6
 msgid "Layout"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:239
+#: inc/Base/ElementorWidgets.php:233
+#: assets/blocks/jobs/index.js:6
 msgid "Design"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:248
+#: inc/Base/ElementorWidgets.php:242
 msgid "Designs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:258
+#: inc/Base/ElementorWidgets.php:252
+#: assets/blocks/jobs/index.js:6
 msgid "Columns"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:263
+#: inc/Base/ElementorWidgets.php:257
+#: assets/blocks/jobs/index.js:6
 msgid "Most cards per row. Fewer are shown where cards would get too narrow."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:283
-#: inc/Base/ElementorWidgets.php:572
+#: inc/Base/ElementorWidgets.php:277
+#: inc/Base/ElementorWidgets.php:566
+#: assets/blocks/jobs/index.js:6
 msgid "Header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:288
-#: inc/Base/ElementorWidgets.php:459
-#: inc/Base/ElementorWidgets.php:602
-#: inc/core-functions.php:176
+#: inc/Base/ElementorWidgets.php:282
+#: inc/Base/ElementorWidgets.php:453
+#: inc/Base/ElementorWidgets.php:596
+#: inc/core-functions.php:192
+#: assets/blocks/jobs/index.js:3
+#: assets/blocks/jobs/index.js:6
 msgid "Title"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:289
+#: inc/Base/ElementorWidgets.php:283
+#: assets/blocks/jobs/index.js:6
 msgid "Title text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:293
-#: inc/Base/ElementorWidgets.php:605
-#: inc/core-functions.php:188
+#: inc/Base/ElementorWidgets.php:287
+#: inc/Base/ElementorWidgets.php:599
+#: inc/core-functions.php:204
+#: assets/blocks/jobs/index.js:6
 msgid "Subtitle"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:294
+#: inc/Base/ElementorWidgets.php:288
+#: assets/blocks/jobs/index.js:6
 msgid "Subtitle text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:298
-#: inc/Base/ElementorWidgets.php:609
+#: inc/Base/ElementorWidgets.php:292
+#: inc/Base/ElementorWidgets.php:603
+#: assets/blocks/jobs/index.js:6
 msgid "Open positions count"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:327
-#: inc/Base/ElementorWidgets.php:622
+#: inc/Base/ElementorWidgets.php:321
+#: inc/Base/ElementorWidgets.php:616
+#: assets/blocks/jobs/index.js:6
 msgid "Job Card"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:334
+#: inc/Base/ElementorWidgets.php:328
+#: assets/blocks/jobs/index.js:6
 msgid "Category"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:335
+#: inc/Base/ElementorWidgets.php:329
+#: assets/blocks/jobs/index.js:6
 msgid "Job type"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:336
+#: inc/Base/ElementorWidgets.php:330
 #: templates/single-jobpress.php:108
+#: assets/blocks/jobs/index.js:6
 msgid "Location"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:337
+#: inc/Base/ElementorWidgets.php:331
 #: inc/Base/JobsMetaBox.php:35
 #: templates/content-job.php:67
 #: templates/listing/jobpress-listing-v2.php:95
 #: templates/listing/jobpress-listing-v3.php:111
 #: templates/listing/jobpress-listing-v4.php:106
 #: templates/single-jobpress.php:146
+#: assets/blocks/jobs/index.js:6
 msgid "Experience"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:338
+#: inc/Base/ElementorWidgets.php:332
+#: assets/blocks/jobs/index.js:6
 msgid "Vacancies"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:339
+#: inc/Base/ElementorWidgets.php:333
+#: assets/blocks/jobs/index.js:6
 msgid "Deadline"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:347
+#: inc/Base/ElementorWidgets.php:341
+#: assets/blocks/jobs/index.js:4
+#: assets/blocks/jobs/index.js:6
 msgid "Button text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:361
+#: inc/Base/ElementorWidgets.php:355
+#: assets/blocks/jobs/index.js:6
 msgid "Search & Links"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:366
+#: inc/Base/ElementorWidgets.php:360
+#: assets/blocks/jobs/index.js:6
 msgid "Search bar"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:367
+#: inc/Base/ElementorWidgets.php:361
+#: assets/blocks/jobs/index.js:6
 msgid "Searches open the Jobs Page results."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:370
+#: inc/Base/ElementorWidgets.php:364
+#: assets/blocks/jobs/index.js:6
 msgid "\"View all jobs\" link"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:373
+#: inc/Base/ElementorWidgets.php:367
+#: assets/blocks/jobs/index.js:6
 msgid "Link text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:387
+#: inc/Base/ElementorWidgets.php:381
+#: assets/blocks/jobs/index.js:3
 msgid "Query"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:395
+#: inc/Base/ElementorWidgets.php:389
+#: assets/blocks/jobs/index.js:3
 msgid "Number of jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:399
+#: inc/Base/ElementorWidgets.php:393
+#: assets/blocks/jobs/index.js:3
 msgid "Leave empty to show all jobs. Grouped designs show this many per category."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:406
+#: inc/Base/ElementorWidgets.php:400
+#: assets/blocks/jobs/index.js:3
 msgid "Categories"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:411
+#: inc/Base/ElementorWidgets.php:405
+#: assets/blocks/jobs/index.js:3
 msgid "Show jobs in any of these categories. Leave empty for all."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:418
+#: inc/Base/ElementorWidgets.php:412
+#: assets/blocks/jobs/index.js:3
 msgid "Job types"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:423
+#: inc/Base/ElementorWidgets.php:417
+#: assets/blocks/jobs/index.js:3
 msgid "Show jobs of any of these types. Leave empty for all."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:431
+#: inc/Base/ElementorWidgets.php:425
+#: assets/blocks/jobs/index.js:3
 msgid "Only these jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:443
+#: inc/Base/ElementorWidgets.php:437
 msgid "Exclude jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:454
+#: inc/Base/ElementorWidgets.php:448
+#: assets/blocks/jobs/index.js:3
 msgid "Order by"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:458
+#: inc/Base/ElementorWidgets.php:452
+#: assets/blocks/jobs/index.js:3
 msgid "Date"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:460
+#: inc/Base/ElementorWidgets.php:454
+#: assets/blocks/jobs/index.js:3
 msgid "Menu order"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:461
+#: inc/Base/ElementorWidgets.php:455
+#: assets/blocks/jobs/index.js:3
 msgid "Random"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:470
+#: inc/Base/ElementorWidgets.php:464
+#: assets/blocks/jobs/index.js:3
 msgid "Order"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:474
+#: inc/Base/ElementorWidgets.php:468
+#: assets/blocks/jobs/index.js:3
 msgid "Descending"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:475
+#: inc/Base/ElementorWidgets.php:469
+#: assets/blocks/jobs/index.js:3
 msgid "Ascending"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:495
-#: inc/Base/ElementorWidgets.php:721
-#: inc/Base/ElementorWidgets.php:783
-#: inc/Base/ElementorWidgets.php:959
-#: inc/Base/ElementorWidgets.php:980
+#: inc/Base/ElementorWidgets.php:489
+#: inc/Base/ElementorWidgets.php:715
+#: inc/Base/ElementorWidgets.php:777
+#: inc/Base/ElementorWidgets.php:953
+#: inc/Base/ElementorWidgets.php:974
 msgid "Color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:512
-#: inc/Base/ElementorWidgets.php:750
+#: inc/Base/ElementorWidgets.php:506
+#: inc/Base/ElementorWidgets.php:744
 msgid "Spacing"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:528
+#: inc/Base/ElementorWidgets.php:522
 msgid "Colors"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:537
+#: inc/Base/ElementorWidgets.php:531
 msgid "Override the JobPress Appearance colors for this listing. The sections below style individual elements."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:543
+#: inc/Base/ElementorWidgets.php:537
+#: assets/blocks/jobs/index.js:4
 msgid "Brand"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:544
-#: inc/Base/ElementorWidgets.php:679
-#: inc/Base/ElementorWidgets.php:836
+#: inc/Base/ElementorWidgets.php:538
+#: inc/Base/ElementorWidgets.php:673
+#: inc/Base/ElementorWidgets.php:830
+#: assets/blocks/jobs/index.js:4
 msgid "Hover"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:545
+#: inc/Base/ElementorWidgets.php:539
+#: assets/blocks/jobs/index.js:4
 msgid "Headings"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:546
+#: inc/Base/ElementorWidgets.php:540
+#: assets/blocks/jobs/index.js:4
 msgid "Secondary text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:547
+#: inc/Base/ElementorWidgets.php:541
+#: assets/blocks/jobs/index.js:4
 msgid "Content text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:548
+#: inc/Base/ElementorWidgets.php:542
+#: assets/blocks/jobs/index.js:4
 msgid "Borders"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:580
-#: inc/Base/ElementorWidgets.php:1079
+#: inc/Base/ElementorWidgets.php:574
+#: inc/Base/ElementorWidgets.php:1073
 msgid "Alignment"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:583
-#: inc/Base/ElementorWidgets.php:1082
+#: inc/Base/ElementorWidgets.php:577
+#: inc/Base/ElementorWidgets.php:1076
 msgid "Left"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:584
-#: inc/Base/ElementorWidgets.php:1083
+#: inc/Base/ElementorWidgets.php:578
+#: inc/Base/ElementorWidgets.php:1077
 msgid "Center"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:585
-#: inc/Base/ElementorWidgets.php:1084
+#: inc/Base/ElementorWidgets.php:579
+#: inc/Base/ElementorWidgets.php:1078
 msgid "Right"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:594
-#: inc/Base/ElementorWidgets.php:947
+#: inc/Base/ElementorWidgets.php:588
+#: inc/Base/ElementorWidgets.php:941
 msgid "Space below header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:632
-#: inc/Base/ElementorWidgets.php:816
-#: inc/Base/ElementorWidgets.php:927
+#: inc/Base/ElementorWidgets.php:626
+#: inc/Base/ElementorWidgets.php:810
+#: inc/Base/ElementorWidgets.php:921
 msgid "Padding"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:642
+#: inc/Base/ElementorWidgets.php:636
 msgid "Space between cards"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:657
-#: inc/Base/ElementorWidgets.php:826
-#: inc/Base/ElementorWidgets.php:937
-#: inc/Base/ElementorWidgets.php:1027
+#: inc/Base/ElementorWidgets.php:651
+#: inc/Base/ElementorWidgets.php:820
+#: inc/Base/ElementorWidgets.php:931
+#: inc/Base/ElementorWidgets.php:1021
 msgid "Border radius"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:666
-#: inc/Base/ElementorWidgets.php:836
+#: inc/Base/ElementorWidgets.php:660
+#: inc/Base/ElementorWidgets.php:830
 msgid "Normal"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:670
-#: inc/Base/ElementorWidgets.php:683
-#: inc/Base/ElementorWidgets.php:858
-#: inc/Base/ElementorWidgets.php:918
-#: inc/Base/ElementorWidgets.php:988
-#: inc/Base/ElementorWidgets.php:1016
+#: inc/Base/ElementorWidgets.php:664
+#: inc/Base/ElementorWidgets.php:677
+#: inc/Base/ElementorWidgets.php:852
+#: inc/Base/ElementorWidgets.php:912
+#: inc/Base/ElementorWidgets.php:982
+#: inc/Base/ElementorWidgets.php:1010
 msgid "Background"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:691
-#: inc/Base/ElementorWidgets.php:867
+#: inc/Base/ElementorWidgets.php:685
+#: inc/Base/ElementorWidgets.php:861
 msgid "Border color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:711
+#: inc/Base/ElementorWidgets.php:705
 msgid "Job Title"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:730
+#: inc/Base/ElementorWidgets.php:724
 msgid "Hover color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:768
+#: inc/Base/ElementorWidgets.php:762
 msgid "Job Details"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:850
-#: inc/Base/ElementorWidgets.php:1039
+#: inc/Base/ElementorWidgets.php:844
+#: inc/Base/ElementorWidgets.php:1033
 msgid "Text color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:886
+#: inc/Base/ElementorWidgets.php:880
 msgid "Apply Button"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:907
+#: inc/Base/ElementorWidgets.php:901
 msgid "Category Group Header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:955
+#: inc/Base/ElementorWidgets.php:949
 msgid "Category name"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:969
+#: inc/Base/ElementorWidgets.php:963
 msgid "Description color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:976
+#: inc/Base/ElementorWidgets.php:970
 msgid "Openings badge"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1005
+#: inc/Base/ElementorWidgets.php:999
 msgid "Search Bar"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1051
+#: inc/Base/ElementorWidgets.php:1045
 msgid "Divider color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1057
+#: inc/Base/ElementorWidgets.php:1051
 msgid "Button"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1070
+#: inc/Base/ElementorWidgets.php:1064
 msgid "View All Jobs Link"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1093
+#: inc/Base/ElementorWidgets.php:1087
 msgid "Space above"
 msgstr ""
 
@@ -764,6 +798,7 @@ msgid "You can change job listing & job single page design from here."
 msgstr ""
 
 #: inc/Base/SettingsFormListing.php:22
+#: assets/blocks/jobs/index.js:6
 msgid "Listing Defaults"
 msgstr ""
 
@@ -772,7 +807,7 @@ msgid "(also on the jobs archive)"
 msgstr ""
 
 #: inc/Base/SettingsFormListing.php:97
-msgid "Defaults for every job listing shown with the [jobpress] shortcode or the JobPress Elementor widget. Each listing can override them with shortcode attributes or widget settings. Leave a text field empty to use the built-in text."
+msgid "Defaults for every job listing shown with the [jobpress] shortcode, the JobPress Jobs block or the JobPress Elementor widget. Each listing can override them with shortcode attributes or block and widget settings. Leave a text field empty to use the built-in text."
 msgstr ""
 
 #: inc/Base/SettingsFormShortcode.php:20
@@ -844,89 +879,109 @@ msgstr ""
 msgid "%s does not exist."
 msgstr ""
 
-#: inc/core-functions.php:129
+#: inc/core-functions.php:101
+msgid "Design V1: list"
+msgstr ""
+
+#: inc/core-functions.php:102
+msgid "Design V2: grouped by category"
+msgstr ""
+
+#: inc/core-functions.php:103
+msgid "Design V3: cards"
+msgstr ""
+
+#: inc/core-functions.php:104
+msgid "Design V4: cards grouped by category"
+msgstr ""
+
+#: inc/core-functions.php:105
+msgid "Design V5: grid"
+msgstr ""
+
+#: inc/core-functions.php:144
 msgid "Other openings"
 msgstr ""
 
-#: inc/core-functions.php:177
+#: inc/core-functions.php:193
 msgid "Job openings"
 msgstr ""
 
-#: inc/core-functions.php:182
+#: inc/core-functions.php:198
 msgid "Show the title"
 msgstr ""
 
-#: inc/core-functions.php:189
+#: inc/core-functions.php:205
 msgid "Find the right job for you no matter what it is that you do."
 msgstr ""
 
-#: inc/core-functions.php:194
+#: inc/core-functions.php:210
 msgid "Show the subtitle"
 msgstr ""
 
-#: inc/core-functions.php:200
+#: inc/core-functions.php:216
 msgid "Show the open positions count"
 msgstr ""
 
-#: inc/core-functions.php:206
+#: inc/core-functions.php:222
 msgid "Show the job category"
 msgstr ""
 
-#: inc/core-functions.php:212
+#: inc/core-functions.php:228
 msgid "Show the job type"
 msgstr ""
 
-#: inc/core-functions.php:219
+#: inc/core-functions.php:235
 msgid "Show the location"
 msgstr ""
 
-#: inc/core-functions.php:225
+#: inc/core-functions.php:241
 msgid "Show the experience"
 msgstr ""
 
-#: inc/core-functions.php:232
+#: inc/core-functions.php:248
 msgid "Show the vacancies"
 msgstr ""
 
-#: inc/core-functions.php:239
+#: inc/core-functions.php:255
 msgid "Show the application deadline"
 msgstr ""
 
-#: inc/core-functions.php:246
+#: inc/core-functions.php:262
 msgid "Apply button text"
 msgstr ""
 
-#: inc/core-functions.php:247
+#: inc/core-functions.php:263
 msgid "Apply"
 msgstr ""
 
-#: inc/core-functions.php:253
+#: inc/core-functions.php:269
 msgid "Show a search bar that opens the Jobs Page results"
 msgstr ""
 
-#: inc/core-functions.php:259
+#: inc/core-functions.php:275
 msgid "Show a \"View all jobs\" link to the Jobs Page"
 msgstr ""
 
-#: inc/core-functions.php:265
+#: inc/core-functions.php:281
 msgid "\"View all jobs\" link text"
 msgstr ""
 
-#: inc/core-functions.php:266
+#: inc/core-functions.php:282
 msgid "View all jobs"
 msgstr ""
 
-#: inc/core-functions.php:830
+#: inc/core-functions.php:846
 msgctxt "slug"
 msgid "job"
 msgstr ""
 
-#: inc/core-functions.php:831
+#: inc/core-functions.php:847
 msgctxt "slug"
 msgid "job-category"
 msgstr ""
 
-#: inc/core-functions.php:832
+#: inc/core-functions.php:848
 msgctxt "slug"
 msgid "job-tag"
 msgstr ""
@@ -1071,7 +1126,7 @@ msgid "Job List Shortcode:"
 msgstr ""
 
 #: templates/task-pages/shortcodes-settings.php:10
-msgid "Shows a job listing using the settings below. Each listing can override them with attributes, and the JobPress Elementor widget offers the same options. A missing or empty attribute uses the setting."
+msgid "Shows a job listing using the settings below. Each listing can override them with attributes, and the JobPress Jobs block and Elementor widget offer the same options. A missing or empty attribute uses the setting."
 msgstr ""
 
 #: templates/task-pages/shortcodes-settings.php:12
@@ -1124,4 +1179,113 @@ msgstr ""
 
 #: templates/task-pages/shortcodes-settings.php:25
 msgid "Hex colors overriding the Appearance colors."
+msgstr ""
+
+#. translators: 1: job title, 2: job ID
+#: assets/blocks/jobs/index.js:3
+#, js-format
+msgid "%1$s (#%2$d)"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:3
+msgid "Leave empty to show every matching job."
+msgstr ""
+
+#: assets/blocks/jobs/index.js:3
+msgid "Leave out these jobs"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:3
+msgid "Jobs to hide from this list."
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Listing colors"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Leave a color unset to use the JobPress appearance settings."
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Job cards"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Space between cards (px)"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Padding (px)"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Border radius (px)"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Card colors"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Card background"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Button background"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Button text on hover"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Button background on hover"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "No jobs yet. Your published jobs will be listed here."
+msgstr ""
+
+#: assets/blocks/jobs/index.js:4
+msgid "Add job"
+msgstr ""
+
+#: assets/blocks/jobs/index.js:6
+msgid "Settings left on Default use the global Listing Defaults."
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block title"
+msgid "JobPress Jobs"
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block description"
+msgid "A list of your job openings, in any JobPress design."
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block keyword"
+msgid "jobs"
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block keyword"
+msgid "job"
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block keyword"
+msgid "careers"
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block keyword"
+msgid "listing"
+msgstr ""
+
+#: assets/blocks/jobs/block.json
+msgctxt "block keyword"
+msgid "jobpress"
 msgstr ""

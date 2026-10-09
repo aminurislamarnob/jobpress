@@ -177,7 +177,8 @@ function jobpress_string_to_bool( $value ) {
 
 /**
  * The global listing settings (Settings > Shortcodes > Listing Defaults): defaults
- * for every [jobpress] shortcode and JobPress Elementor widget, which can override them.
+ * for every [jobpress] shortcode, JobPress Jobs block and JobPress Elementor widget,
+ * which can override them.
  *
  * @return array[] Keyed by shortcode attribute: 'option' name, 'type' (text or
  *                 checkbox), 'label', 'default', and 'archive' when the setting
