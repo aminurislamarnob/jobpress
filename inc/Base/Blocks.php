@@ -114,6 +114,7 @@ class Blocks
 				'columns'     => array( 5 ),
 			),
 			'settingsUrl'  => admin_url( 'edit.php?post_type=jobpress&page=jobpress_shortcode' ),
+			'addJobUrl'    => admin_url( 'post-new.php?post_type=jobpress' ),
 		);
 	}
 

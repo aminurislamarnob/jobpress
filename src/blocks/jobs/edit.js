@@ -5,16 +5,59 @@
 import { createElement } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Disabled, ExternalLink, PanelBody, RangeControl, SelectControl } from '@wordpress/components';
+import { Button, Disabled, ExternalLink, PanelBody, Placeholder, RangeControl, SelectControl, Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
 import ServerSideRender from '@wordpress/server-side-render';
 
 import QueryPanel from './query';
 import StylesPanels from './styles';
 import { data, hasDesign, isShown, InheritedTextControl, VisibilityControl } from './controls';
 
+// The preview leaves out the block wrapper: the editor's own has the wrapper styles.
+const PREVIEW_QUERY_ARGS = { jobpress_preview: 1 };
+
+/**
+ * While the preview re-renders, keep the previous one in view with a spinner.
+ *
+ * @param {Object}  props
+ * @param {Element} props.children The previous preview, if any.
+ */
+function LoadingPreview( { children } ) {
+	return (
+		<div className="jobpress-block-preview is-loading">
+			{ children }
+			<Spinner />
+		</div>
+	);
+}
+
+/**
+ * Shown instead of the preview while the site has no published jobs.
+ */
+function NoJobsPlaceholder() {
+	return (
+		<Placeholder
+			icon="clipboard"
+			label={ __( 'JobPress Jobs', 'jobpress' ) }
+			instructions={ __( 'No jobs yet. Your published jobs will be listed here.', 'jobpress' ) }
+		>
+			<Button variant="primary" href={ data.addJobUrl } target="_blank">
+				{ __( 'Add job', 'jobpress' ) }
+			</Button>
+		</Placeholder>
+	);
+}
+
 export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
 	const props = { attributes, setAttributes };
+
+	// null while loading.
+	const hasJobs = useSelect( ( select ) => {
+		const jobs = select( coreStore ).getEntityRecords( 'postType', 'jobpress', { per_page: 1, status: 'publish', _fields: 'id' } );
+		return jobs ? jobs.length > 0 : null;
+	}, [] );
 
 	const designOptions = [
 		{
@@ -107,14 +150,18 @@ export default function Edit( { attributes, setAttributes } ) {
 				<QueryPanel { ...props } />
 			</InspectorControls>
 			<StylesPanels { ...props } />
-			<Disabled>
-				<ServerSideRender
-					block="jobpress/jobs"
-					attributes={ attributes }
-					// The preview leaves out the block wrapper: the editor's own has the wrapper styles.
-					urlQueryArgs={ { jobpress_preview: 1 } }
-				/>
-			</Disabled>
+			{ false === hasJobs ? (
+				<NoJobsPlaceholder />
+			) : (
+				<Disabled>
+					<ServerSideRender
+						block="jobpress/jobs"
+						attributes={ attributes }
+						urlQueryArgs={ PREVIEW_QUERY_ARGS }
+						LoadingResponsePlaceholder={ LoadingPreview }
+					/>
+				</Disabled>
+			) }
 		</div>
 	);
 }

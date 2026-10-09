@@ -343,6 +343,49 @@ test.describe( 'JobPress Jobs block', () => {
 		await expect( preview.locator( '.jp-listing__title' ) ).toHaveCount( 0 );
 	} );
 
+	test( 'keeps the previous preview in view while it re-renders', async ( { admin, editor, page } ) => {
+		await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+		await editor.insertBlock( { name: 'jobpress/jobs', attributes: { design: '1' } } );
+		const preview = editor.canvas.locator( '.wp-block-jobpress-jobs .jp-listing' );
+		await expect( preview ).toHaveClass( /jp-design-v1/ );
+
+		// Hold the next render back until the loading state was checked.
+		let release;
+		const held = new Promise( ( resolve ) => ( release = resolve ) );
+		await page.route(
+			( url ) => decodeURIComponent( url.href ).includes( 'block-renderer/jobpress/jobs' ),
+			async ( route ) => {
+				await held;
+				await route.continue();
+			}
+		);
+
+		await editor.openDocumentSettingsSidebar();
+		await page.getByRole( 'region', { name: 'Editor settings' } ).getByLabel( 'Design' ).selectOption( '5' );
+		await expect( editor.canvas.locator( '.jobpress-block-preview.is-loading .components-spinner' ) ).toBeVisible();
+		await expect( preview ).toHaveClass( /jp-design-v1/ );
+		await expect( preview.getByText( `Block Job ${ token }` ) ).toBeVisible();
+
+		release();
+		await expect( preview ).toHaveClass( /jp-design-v5/ );
+		await expect( editor.canvas.locator( '.jobpress-block-preview.is-loading' ) ).toHaveCount( 0 );
+	} );
+
+	test( 'invites adding a job while the site has none', async ( { admin, editor, page } ) => {
+		// Answer the editor's published jobs query as if there were none.
+		await page.route(
+			( url ) => /wp\/v2\/jobpress(\?|&|$)/.test( decodeURIComponent( url.href ) ),
+			( route ) => route.fulfill( { json: [], headers: { 'X-WP-Total': '0', 'X-WP-TotalPages': '0' } } )
+		);
+		await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+		await editor.insertBlock( { name: 'jobpress/jobs' } );
+
+		const block = editor.canvas.locator( '.wp-block-jobpress-jobs' );
+		await expect( block.getByText( 'No jobs yet.' ) ).toBeVisible();
+		await expect( block.getByRole( 'link', { name: 'Add job' } ) ).toHaveAttribute( 'href', /post-new\.php\?post_type=jobpress/ );
+		await expect( block.locator( '.jp-listing' ) ).toHaveCount( 0 );
+	} );
+
 	test( 'can be added and configured in the editor', async ( { admin, editor, page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );

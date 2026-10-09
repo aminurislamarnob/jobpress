@@ -2,3 +2,18 @@
 .jobpress-block-panel > .components-panel__body-title ~ * ~ * {
 	margin-top: 16px;
 }
+
+/* The previous preview stays in view, dimmed, while the block re-renders. */
+.jobpress-block-preview.is-loading {
+	position: relative;
+	min-height: 40px;
+}
+.jobpress-block-preview.is-loading > :not(.components-spinner) {
+	opacity: 0.5;
+}
+.jobpress-block-preview.is-loading > .components-spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -8px 0 0 -8px;
+}
