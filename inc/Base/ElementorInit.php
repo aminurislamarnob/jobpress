@@ -15,6 +15,9 @@ class ElementorInit {
         
         // Register Elementor widgets
         add_action( 'elementor/widgets/register', array( $this, 'register_widgets' ) );
+
+        // The editor preview renders widgets over AJAX, so the shortcode can't enqueue its styles there.
+        add_action( 'elementor/preview/enqueue_styles', array( PublicEnqueue::class, 'enqueue_styles' ) );
     }
 
     /**

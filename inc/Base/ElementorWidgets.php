@@ -105,20 +105,20 @@ class ElementorWidgets extends Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        // Generate shortcode attributes
-        $shortcode_atts = array();
-        
-        if (!empty($settings['title'])) {
-            $shortcode_atts[] = 'title="' . esc_attr($settings['title']) . '"';
-        }
-        
-        if (!empty($settings['subtitle'])) {
-            $shortcode_atts[] = 'subtitle="' . esc_attr($settings['subtitle']) . '"';
-        }
-        
-        $shortcode_atts[] = 'show_positions="' . esc_attr($settings['show_positions']) . '"';
+        // Pass the settings to the shortcode handler directly rather than building a
+        // shortcode string, where a "]" in the title or subtitle would end the shortcode.
+        $shortcode_atts = array(
+            'show_positions' => $settings['show_positions'],
+        );
 
-        // Build and echo shortcode
-        echo do_shortcode('[jobpress ' . implode(' ', $shortcode_atts) . ']');
+        if (!empty($settings['title'])) {
+            $shortcode_atts['title'] = $settings['title'];
+        }
+
+        if (!empty($settings['subtitle'])) {
+            $shortcode_atts['subtitle'] = $settings['subtitle'];
+        }
+
+        echo ( new JobListShortcode() )->jobpress_jobs_shortcode( $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the listing template.
     }
 }
