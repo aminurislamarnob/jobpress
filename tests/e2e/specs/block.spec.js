@@ -202,6 +202,109 @@ test.describe( 'JobPress Jobs block', () => {
 		await expectNoPhpErrors( page );
 	} );
 
+	test.describe( 'style settings', () => {
+		test( 'style the cards and apply button of one block', async ( { page, jobPress } ) => {
+			const blockPage = await jobPress.createBlockPage( `Block styles ${ token }`, [
+				{
+					design: '3',
+					brand_color: '#ff0000',
+					heading_color: '#00aa00',
+					cardGap: 40,
+					cardPadding: 12,
+					cardRadius: 9,
+					cardBackground: '#fafa00',
+					buttonColor: '#111111',
+					buttonBackground: '#00ff00',
+					buttonHoverColor: '#222222',
+					buttonHoverBackground: '#0000ff',
+				},
+				{ design: '3' },
+			] );
+			await jobPress.createJob( { title: `Second Job ${ token }` } );
+			await page.goto( blockPage.link );
+
+			const [ styled, plain ] = [ page.locator( '.jp-listing' ).nth( 0 ), page.locator( '.jp-listing' ).nth( 1 ) ];
+			const card = styled.locator( '.jp-listing__card' ).first();
+			await expect( styled.locator( '.jp-listing__title' ) ).toHaveCSS( 'color', 'rgb(0, 170, 0)' );
+			await expect( card ).toHaveCSS( 'background-color', 'rgb(250, 250, 0)' );
+			await expect( card ).toHaveCSS( 'padding', '12px' );
+			await expect( card ).toHaveCSS( 'border-radius', '9px' );
+			await expect( styled.locator( '.jp-listing__jobs' ) ).toHaveCSS( 'row-gap', '40px' );
+
+			const button = styled.locator( '.jp-listing__button' ).first();
+			await expect( button ).toHaveCSS( 'color', 'rgb(17, 17, 17)' );
+			await expect( button ).toHaveCSS( 'background-color', 'rgb(0, 255, 0)' );
+			await button.hover();
+			await expect( button ).toHaveCSS( 'color', 'rgb(34, 34, 34)' );
+			await expect( button ).toHaveCSS( 'background-color', 'rgb(0, 0, 255)' );
+
+			// The other block keeps the design's styles and the global colors.
+			const plainCard = plain.locator( '.jp-listing__card' ).first();
+			await expect( plainCard ).not.toHaveCSS( 'background-color', 'rgb(250, 250, 0)' );
+			await expect( plainCard ).not.toHaveCSS( 'padding', '12px' );
+			await expect( plain.locator( '.jp-listing__button' ).first() ).not.toHaveCSS( 'background-color', 'rgb(0, 255, 0)' );
+			await expect( plain.locator( '.jp-listing__title' ) ).not.toHaveCSS( 'color', 'rgb(0, 170, 0)' );
+			await expectNoPhpErrors( page );
+		} );
+
+		test( 'color the arrow link in design v2', async ( { page, jobPress } ) => {
+			const blockPage = await jobPress.createBlockPage( `Block styles ${ token }`, [ { design: '2', buttonColor: '#123456' } ] );
+			await page.goto( blockPage.link );
+			await expect( page.locator( '.jp-listing__button svg' ).first() ).toHaveCSS( 'fill', 'rgb(18, 52, 86)' );
+		} );
+
+		test( 'set the most grid columns, dropping some where cards would get too narrow', async ( { page, jobPress } ) => {
+			await jobPress.createJob( { title: `Second Job ${ token }` } );
+			await jobPress.createJob( { title: `Third Job ${ token }` } );
+			const blockPage = await jobPress.createBlockPage( `Block grid ${ token }`, [
+				{ design: '5', columns: 1, cardGap: 10 },
+				{ design: '5', columns: 3 },
+			] );
+			await page.goto( blockPage.link );
+
+			const rows = page.locator( '.jp-listing .jp-row' );
+			const columnCount = ( n ) =>
+				rows.nth( n ).evaluate( ( el ) => getComputedStyle( el ).gridTemplateColumns.split( ' ' ).length );
+			expect( await columnCount( 0 ) ).toBe( 1 );
+			expect( await columnCount( 1 ) ).toBeGreaterThan( 1 );
+			await expect( rows.nth( 0 ) ).toHaveCSS( 'row-gap', '10px' );
+
+			await page.setViewportSize( { width: 390, height: 800 } );
+			await expect.poll( () => columnCount( 1 ) ).toBe( 1 );
+			const cardWidth = await rows.nth( 1 ).locator( '.jp-listing__card' ).first().evaluate( ( el ) => el.offsetWidth );
+			expect( cardWidth ).toBeGreaterThanOrEqual( 180 );
+		} );
+
+		test( 'support the wrapper spacing and background of other blocks', async ( { page, jobPress } ) => {
+			const blockPage = await jobPress.createBlockPage( `Block wrapper ${ token }`, [
+				{ style: { spacing: { padding: { top: '21px', right: '21px', bottom: '21px', left: '21px' } }, color: { background: '#eeeeee' } } },
+			] );
+			await page.goto( blockPage.link );
+
+			const wrapper = page.locator( '.wp-block-jobpress-jobs' );
+			await expect( wrapper ).toHaveCSS( 'padding-top', '21px' );
+			await expect( wrapper ).toHaveCSS( 'background-color', 'rgb(238, 238, 238)' );
+			await expect( wrapper ).toHaveClass( /has-background/ );
+		} );
+
+		test( 'style the editor preview', async ( { admin, editor, page } ) => {
+			await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+			await editor.insertBlock( { name: 'jobpress/jobs', attributes: { design: '3', cardPadding: 13 } } );
+			const preview = editor.canvas.locator( '.wp-block-jobpress-jobs .jp-listing' );
+			await expect( preview.locator( '.jp-listing__card' ).first() ).toHaveCSS( 'padding', '13px' );
+
+			await editor.openDocumentSettingsSidebar();
+			const sidebar = page.getByRole( 'region', { name: 'Editor settings' } );
+			await sidebar.getByRole( 'tab', { name: 'Styles' } ).click();
+			await sidebar.getByRole( 'button', { name: 'Job cards' } ).click();
+			await sidebar.getByRole( 'spinbutton', { name: 'Border radius (px)' } ).fill( '7' );
+			await expect( preview.locator( '.jp-listing__card' ).first() ).toHaveCSS( 'border-radius', '7px' );
+
+			// Only the editor's own block wrapper is rendered around the preview.
+			await expect( editor.canvas.locator( '.wp-block-jobpress-jobs' ) ).toHaveCount( 1 );
+		} );
+	} );
+
 	test( 'shows the settings each design uses, with the global values they inherit', async ( { admin, editor, page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', {
 			jobpress_design_type: '1',

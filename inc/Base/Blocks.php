@@ -106,8 +106,13 @@ class Blocks
 			'designs'      => jobpress_get_design_names(),
 			'globalDesign' => (string) jobpress_get_short_design_type(),
 			'settings'     => $settings,
-			// Designs that render each element: card fields, the button and the open positions count.
-			'designFields' => jobpress_get_listing_design_fields() + array( 'positions' => array( 1, 3, 5 ) ),
+			// Designs that render each element: card fields, the text button, the open positions
+			// count, the apply button (v2's is an arrow link) and the grid columns.
+			'designFields' => jobpress_get_listing_design_fields() + array(
+				'positions'   => array( 1, 3, 5 ),
+				'applyButton' => array( 1, 2, 3, 4 ),
+				'columns'     => array( 5 ),
+			),
 			'settingsUrl'  => admin_url( 'edit.php?post_type=jobpress&page=jobpress_shortcode' ),
 		);
 	}
@@ -138,6 +143,109 @@ class Blocks
 	public function render( $attributes ) {
 		$listing = ( new JobListShortcode() )->jobpress_jobs_shortcode( self::get_shortcode_atts( $attributes ) );
 
-		return sprintf( '<div %s>%s</div>', get_block_wrapper_attributes(), $listing );
+		// The style settings are scoped by a class named after them, so blocks with
+		// the same styles share it, also across separately rendered editor previews.
+		$declarations = self::get_style_rules( $attributes );
+		$class        = $declarations ? 'jp-block-' . substr( md5( wp_json_encode( $declarations ) ), 0, 8 ) : '';
+		$style        = '';
+		if ( $declarations ) {
+			foreach ( $declarations as $selector => $css ) {
+				$scope  = '.' . $class . ' .jp-listing.jp-listing';
+				$style .= $scope . str_replace( ', ', ', ' . $scope . ' ', $selector ) . '{' . $css . '}';
+			}
+			$style = '<style>' . $style . '</style>';
+		}
+
+		// The editor preview sits inside the editor's own block wrapper, which has the block supports' styles.
+		$is_preview = defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_GET['jobpress_preview'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$wrapper    = $is_preview
+			? ( $class ? 'class="' . esc_attr( $class ) . '"' : '' )
+			: get_block_wrapper_attributes( $class ? array( 'class' => $class ) : array() );
+
+		return $style . sprintf( '<div %s>%s</div>', $wrapper, $listing );
+	}
+
+	/**
+	 * CSS of the block's style settings, as declarations keyed by selector. The
+	 * selectors are relative to the listing; one may list several, separated by ", ".
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string[]
+	 */
+	public static function get_style_rules( $attributes ) {
+		$rules = array();
+		$add   = function ( $selector, $css ) use ( &$rules ) {
+			$rules[ $selector ] = ( isset( $rules[ $selector ] ) ? $rules[ $selector ] : '' ) . $css;
+		};
+		$number = function ( $key, $max ) use ( $attributes ) {
+			if ( ! isset( $attributes[ $key ] ) || ! is_numeric( $attributes[ $key ] ) ) {
+				return null;
+			}
+			return max( 0, min( $max, (int) $attributes[ $key ] ) );
+		};
+		$color = function ( $key ) use ( $attributes ) {
+			return isset( $attributes[ $key ] ) ? self::sanitize_color( $attributes[ $key ] ) : '';
+		};
+
+		$columns = $number( 'columns', 6 );
+		if ( $columns ) {
+			// A maximum, like the Elementor widget's: the grid drops columns where cards would be narrower than 180px.
+			$add( ' .jobpress-job-grids .jp-row', 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,max(180px,calc(100% / ' . $columns . ' - var(--jp-grid-gap, 24px)))),1fr));' );
+		}
+
+		$gap = $number( 'cardGap', 200 );
+		if ( null !== $gap ) {
+			$add( ' .jobpress-job-lists.jp-listing__jobs', 'display:flex;flex-direction:column;gap:' . $gap . 'px;' );
+			$add( ' .jobpress-job-grids .jp-row', 'gap:' . $gap . 'px;--jp-grid-gap:' . $gap . 'px;' );
+			$add( ' .jp-listing__jobs .jp-listing__card', 'margin-bottom:0;' );
+		}
+
+		$padding = $number( 'cardPadding', 200 );
+		if ( null !== $padding ) {
+			$add( ' .jp-listing__jobs .jp-listing__card', 'padding:' . $padding . 'px;' );
+		}
+
+		$radius = $number( 'cardRadius', 200 );
+		if ( null !== $radius ) {
+			$add( ' .jp-listing__jobs .jp-listing__card', 'border-radius:' . $radius . 'px;' );
+		}
+
+		if ( $color( 'cardBackground' ) ) {
+			$add( ' .jp-listing__jobs .jp-listing__card', 'background-color:' . $color( 'cardBackground' ) . ';' );
+		}
+
+		$button = ' .jp-listing__button';
+		$hover  = ' .jp-listing__button:hover, .jp-listing__button:focus';
+		if ( $color( 'buttonColor' ) ) {
+			// The designs set the button text color with !important; v2's arrow button is an icon.
+			$add( $button, 'color:' . $color( 'buttonColor' ) . ' !important;' );
+			$add( ' .jp-listing__button svg', 'fill:' . $color( 'buttonColor' ) . ';' );
+		}
+		if ( $color( 'buttonBackground' ) ) {
+			$add( $button, 'background-color:' . $color( 'buttonBackground' ) . ';' );
+		}
+		if ( $color( 'buttonHoverColor' ) ) {
+			$add( $hover, 'color:' . $color( 'buttonHoverColor' ) . ' !important;' );
+			$add( ' .jp-listing__button:hover svg, .jp-listing__button:focus svg', 'fill:' . $color( 'buttonHoverColor' ) . ';' );
+		}
+		if ( $color( 'buttonHoverBackground' ) ) {
+			$add( $hover, 'background-color:' . $color( 'buttonHoverBackground' ) . ';' );
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Validate a color from the block's color pickers.
+	 *
+	 * @param mixed $color Hex, rgb() or hsl() color.
+	 * @return string The color, or '' when it is not one.
+	 */
+	public static function sanitize_color( $color ) {
+		$color = trim( (string) $color );
+		if ( sanitize_hex_color( $color ) ) {
+			return $color;
+		}
+		return preg_match( '/^(rgb|hsl)a?\([\d\s.,%\/deg]+\)$/i', $color ) ? $color : '';
 	}
 }

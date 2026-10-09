@@ -5,10 +5,11 @@
 import { createElement } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Disabled, ExternalLink, PanelBody, SelectControl } from '@wordpress/components';
+import { Disabled, ExternalLink, PanelBody, RangeControl, SelectControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 import QueryPanel from './query';
+import StylesPanels from './styles';
 import { data, hasDesign, isShown, InheritedTextControl, VisibilityControl } from './controls';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -49,6 +50,19 @@ export default function Edit( { attributes, setAttributes } ) {
 						options={ designOptions }
 						onChange={ ( design ) => setAttributes( { design } ) }
 					/>
+					{ hasDesign( attributes, data.designFields.columns ) && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							label={ __( 'Columns', 'jobpress' ) }
+							help={ __( 'Most cards per row. Fewer are shown where cards would get too narrow.', 'jobpress' ) }
+							value={ attributes.columns }
+							min={ 1 }
+							max={ 6 }
+							allowReset
+							onChange={ ( columns ) => setAttributes( { columns } ) }
+						/>
+					) }
 				</PanelBody>
 
 				<PanelBody className="jobpress-block-panel" title={ __( 'Header', 'jobpress' ) } initialOpen={ false }>
@@ -92,8 +106,14 @@ export default function Edit( { attributes, setAttributes } ) {
 
 				<QueryPanel { ...props } />
 			</InspectorControls>
+			<StylesPanels { ...props } />
 			<Disabled>
-				<ServerSideRender block="jobpress/jobs" attributes={ attributes } />
+				<ServerSideRender
+					block="jobpress/jobs"
+					attributes={ attributes }
+					// The preview leaves out the block wrapper: the editor's own has the wrapper styles.
+					urlQueryArgs={ { jobpress_preview: 1 } }
+				/>
 			</Disabled>
 		</div>
 	);

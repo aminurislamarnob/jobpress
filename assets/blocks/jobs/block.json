@@ -46,10 +46,79 @@
     "order": {
       "type": "string",
       "default": ""
+    },
+    "heading_color": {
+      "type": "string",
+      "default": ""
+    },
+    "secondary_color": {
+      "type": "string",
+      "default": ""
+    },
+    "content_color": {
+      "type": "string",
+      "default": ""
+    },
+    "border_color": {
+      "type": "string",
+      "default": ""
+    },
+    "brand_color": {
+      "type": "string",
+      "default": ""
+    },
+    "hover_color": {
+      "type": "string",
+      "default": ""
+    },
+    "columns": {
+      "type": "number"
+    },
+    "cardGap": {
+      "type": "number"
+    },
+    "cardPadding": {
+      "type": "number"
+    },
+    "cardRadius": {
+      "type": "number"
+    },
+    "cardBackground": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonColor": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonBackground": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonHoverColor": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonHoverBackground": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
-    "html": false
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "background": true,
+      "text": false,
+      "link": false
+    }
   },
   "editorScript": "file:./index.js",
   "editorStyle": [
