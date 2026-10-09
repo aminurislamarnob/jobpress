@@ -11,6 +11,7 @@
  * @var string   $show_type      'yes' to show each job's type.
  * @var WP_Query $jobs_query     Jobs to list.
  * @var int      $total_jobs     Number of jobs matching the listing.
+ * @var string   $search_form    Search form HTML (already escaped), or '' when the search bar is off.
  *
  * @version 2.3.0
  */
@@ -52,6 +53,7 @@ if($total_jobs < 10){
         </p>
         <?php endif; ?>
     </div>
+    <?php echo $search_form; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the search template. ?>
     <div class="jobpress-job-grids jp-listing__jobs">
         <div class="jp-row">
             <?php

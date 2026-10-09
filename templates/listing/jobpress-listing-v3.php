@@ -4,16 +4,17 @@
  *
  * This template can be overridden by copying it to yourtheme/jobpress/listing/jobpress-listing-v3.php.
  *
- * @var string   $title          Listing title.
- * @var string   $subtitle       Listing subtitle.
+ * @var string   $title           Listing title.
+ * @var string   $subtitle        Listing subtitle.
  * @var string   $show_positions  'yes' to show the open positions count.
  * @var string   $show_type       'yes' to show each job's type.
  * @var string   $show_vacancy    'yes' to show each job's vacancies.
  * @var string   $show_deadline   'yes' to show each job's application deadline.
  * @var string   $show_experience 'yes' to show each job's experience.
  * @var string   $button_text     Apply button text.
- * @var WP_Query $jobs_query     Jobs to list.
- * @var int      $total_jobs     Number of jobs matching the listing.
+ * @var WP_Query $jobs_query      Jobs to list.
+ * @var int      $total_jobs      Number of jobs matching the listing.
+ * @var string   $search_form     Search form HTML (already escaped), or '' when the search bar is off.
  *
  * @version 2.3.0
  */
@@ -55,6 +56,7 @@ if($total_jobs < 10){
         </p>
         <?php endif; ?>
     </div>
+    <?php echo $search_form; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the search template. ?>
     <div class="jobpress-job-lists jp-listing__jobs">
         <?php
         while($jobs_query->have_posts()) : $jobs_query->the_post();

@@ -13,6 +13,7 @@
  * @var string   $button_text    Apply button text.
  * @var WP_Query $jobs_query     Jobs to list.
  * @var int      $total_jobs     Number of jobs matching the listing.
+ * @var string   $search_form    Search form HTML (already escaped), or '' when the search bar is off.
  *
  * @version 2.3.0
  */
@@ -54,6 +55,7 @@ if($total_jobs < 10){
         </p>
         <?php endif; ?>
     </div>
+    <?php echo $search_form; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the search template. ?>
     <div class="jobpress-job-lists jp-listing__jobs">
         <?php
         while($jobs_query->have_posts()) : $jobs_query->the_post();

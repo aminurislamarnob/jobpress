@@ -247,6 +247,24 @@ function jobpress_get_listing_settings() {
             'default' => __( 'Apply', 'jobpress' ),
             'archive' => true,
         ),
+        'show_search'     => array(
+            'option'  => 'jobpress_listing_show_search',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show a search bar that opens the Jobs Page results', 'jobpress' ),
+            'default' => 'no',
+        ),
+        'show_view_all'   => array(
+            'option'  => 'jobpress_listing_show_view_all',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show a "View all jobs" link to the Jobs Page', 'jobpress' ),
+            'default' => 'no',
+        ),
+        'view_all_text'   => array(
+            'option'  => 'jobpress_listing_view_all_text',
+            'type'    => 'text',
+            'label'   => __( '"View all jobs" link text', 'jobpress' ),
+            'default' => __( 'View all jobs', 'jobpress' ),
+        ),
     );
 }
 

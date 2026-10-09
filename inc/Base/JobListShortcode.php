@@ -37,11 +37,10 @@ class JobListShortcode
             'exclude' => '', // comma-separated job IDs
             'orderby' => 'date', // date, title, menu_order or rand
             'order' => 'DESC', // ASC or DESC
-            'show_view_all' => 'no', // yes/no to show a "View all jobs" link to the Jobs Page
-            'view_all_text' => esc_html__('View all jobs', 'jobpress'),
         ) + array_fill_keys( array_keys( PublicEnqueue::get_colors() ), '' ); // hex colors; empty uses the appearance settings
 
-        // title, subtitle, show_title, show_subtitle, show_positions (yes/no), ...
+        // Header (title, subtitle, show_title, show_subtitle, show_positions), card fields
+        // (show_category, ..., button_text), show_search, show_view_all and view_all_text.
         foreach ( array_keys( jobpress_get_listing_settings() ) as $key ) {
             $defaults[ $key ] = jobpress_get_listing_setting( $key );
         }
@@ -108,6 +107,7 @@ class JobListShortcode
             $template_args[ $key ] = $atts[ $key ];
         }
         $template_args = array_merge( $template_args, jobpress_get_listing_jobs( $design, $atts ) );
+        $template_args['search_form'] = 'yes' === $atts['show_search'] ? $this->get_search_form( $listing_id, $atts ) : '';
 
         //Load Template
         ob_start();
@@ -131,6 +131,28 @@ class JobListShortcode
     }
 
     /**
+     * Render the search form of a listing: it opens the Jobs Page results, with
+     * the listing's category or type preselected when it shows a single one.
+     *
+     * @param string $listing_id Listing element ID, used to keep the form's IDs unique.
+     * @param array  $atts       Shortcode attributes.
+     * @return string
+     */
+    private function get_search_form( $listing_id, $atts ) {
+        $query = jobpress_get_listing_query_atts( $atts );
+
+        ob_start();
+        echo '<div class="jp-listing__search">';
+        jobpress_get_template( 'global/filter-and-search.php', array(
+            'form_id_suffix'    => '-' . $listing_id,
+            'selected_category' => 1 === count( $query['categories'] ) ? $query['categories'][0] : '',
+            'selected_type'     => 1 === count( $query['types'] ) ? $query['types'][0] : '',
+        ) );
+        echo '</div>';
+        return ob_get_clean();
+    }
+
+    /**
      * Render a listing template.
      *
      * Theme copies of the listing templates made before 2.3.0 run their own jobs
@@ -147,6 +169,10 @@ class JobListShortcode
             jobpress_get_template( $template_name, $template_args );
             return;
         }
+
+        // The plugin's templates print the search form under their header; theme copies may not.
+        echo $template_args['search_form']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the search template.
+        $template_args['search_form'] = '';
 
         $apply_query_atts = function ( $query ) use ( $atts ) {
             if ( 'jobpress' !== $query->get( 'post_type' ) ) {

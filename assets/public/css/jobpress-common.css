@@ -774,3 +774,40 @@ Listing footer: "View all jobs" link
     background: var(--jp-hover-color);
     color: #fff;
 }
+
+/*************
+Listing search bar: sized by the listing's width, which is often narrower than the archive's
+**************/
+.jp-listing__search {
+    container-type: inline-size;
+}
+.jp-listing__search .jobpress-search-form-wrapper form {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+}
+/* Medium: keyword on its own row, then category, type and the button. */
+@container (max-width: 800px) {
+    .jp-listing__search .jobpress-search-form-wrapper form {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+        row-gap: 10px;
+    }
+    .jp-listing__search .jobpress-search-form-wrapper .search-field:first-child {
+        grid-column: 1 / -1;
+        border-right: 0;
+        margin-right: 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--jp-border-color);
+    }
+}
+/* Narrow: one field per row. */
+@container (max-width: 520px) {
+    .jp-listing__search .jobpress-search-form-wrapper form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .jp-listing__search .jobpress-search-form-wrapper .search-field:nth-child(2) {
+        border-right: 0;
+        margin-right: 0;
+    }
+    .jp-listing__search .search-field.search-submit-field {
+        width: 100%;
+    }
+}

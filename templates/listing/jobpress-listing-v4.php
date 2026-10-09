@@ -13,6 +13,7 @@
  * @var string  $button_text     Apply button text.
  * @var array[] $job_groups      Category groups with jobs: 'name', 'description' and a 'query' WP_Query.
  * @var int     $total_jobs      Number of jobs matching the listing.
+ * @var string  $search_form     Search form HTML (already escaped), or '' when the search bar is off.
  *
  * @version 2.3.0
  */
@@ -28,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
             <p class="jp-listing__subtitle"><?php echo esc_html( $subtitle ); ?></p>
         <?php endif; ?>
     </div>
+    <?php echo $search_form; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the search template. ?>
     <?php
     foreach ( $job_groups as $jobpress_group ) {
         $jobs_query = $jobpress_group['query'];
