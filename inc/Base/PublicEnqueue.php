@@ -3,20 +3,35 @@ namespace JobPressInc\Base;
 
 /**
 * Enqueue public/frontend styles and scripts
+*
+* jobpress-common.css holds the shared styles; each listing design has its own
+* stylesheet (jobpress-design-v{N}) with rules scoped to .jp-design-v{N}, and
+* only the designs shown on the page are loaded.
 */
 class PublicEnqueue
 {
 	public function register() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
+		add_filter( 'body_class', array( $this, 'add_design_body_class' ) );
 	}
-	
+
 	function enqueue() {
 		self::register_styles();
 
 		// Only load assets where JobPress output is shown. The [jobpress] shortcode
 		// also enqueues them itself, as a fallback for content we can't detect here.
-		if ( self::is_archive_view() || is_singular( 'jobpress' ) || $this->current_post_shows_jobs() ) {
-			self::enqueue_styles();
+		$page_design = self::get_page_design();
+		if ( $page_design ) {
+			self::enqueue_styles( $page_design );
+		}
+
+		// The Jobs Page holds [jobpress], but the archive template replaces its content.
+		if ( self::is_archive_view() ) {
+			return;
+		}
+
+		foreach ( $this->get_current_post_designs() as $design ) {
+			self::enqueue_styles( $design );
 		}
 	}
 
@@ -28,20 +43,73 @@ class PublicEnqueue
 			return;
 		}
 
-		// The jobs archive layout is styled by the v3 stylesheet; everything else follows the selected design.
-		$design_type = self::is_archive_view() ? 3 : jobpress_get_short_design_type();
-		wp_register_style( 'jobpress-css', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-style-v' . $design_type . '.css', array(), JOBPRESS_VERSION, 'all' );
-		wp_register_style( 'jobpress-common', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-common.css', array( 'jobpress-css' ), JOBPRESS_VERSION, 'all' );
+		wp_register_style( 'jobpress-common', JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-common.css', array(), JOBPRESS_VERSION, 'all' );
 		wp_add_inline_style( 'jobpress-common', self::get_appearance_styles() );
+
+		for ( $design = 1; $design <= 5; $design++ ) {
+			wp_register_style( 'jobpress-design-v' . $design, JOBPRESS_PLUGIN_URL . 'assets/public/css/jobpress-style-v' . $design . '.css', array( 'jobpress-common' ), JOBPRESS_VERSION, 'all' );
+		}
 	}
 
 	/**
 	 * Enqueue the public styles, registering them first if needed.
+	 *
+	 * @param int $design Listing design whose stylesheet to load (1-5). Defaults to the
+	 *                    design of the current page or, failing that, the global design.
 	 */
-	public static function enqueue_styles() {
+	public static function enqueue_styles( $design = 0 ) {
 		self::register_styles();
-		wp_enqueue_style( 'jobpress-css' );
+
+		$design = jobpress_sanitize_design( $design );
+		if ( ! $design ) {
+			$design = self::get_page_design();
+		}
+		if ( ! $design ) {
+			$design = jobpress_get_short_design_type();
+		}
+
 		wp_enqueue_style( 'jobpress-common' );
+		wp_enqueue_style( 'jobpress-design-v' . $design );
+	}
+
+	/**
+	 * Enqueue the shared styles and every design's stylesheet, e.g. for the
+	 * Elementor editor preview, where the design can change without a page load.
+	 */
+	public static function enqueue_all_styles() {
+		for ( $design = 1; $design <= 5; $design++ ) {
+			self::enqueue_styles( $design );
+		}
+	}
+
+	/**
+	 * Mark JobPress pages with the design that styles them, so the design's scoped rules apply.
+	 *
+	 * @param string[] $classes Body classes.
+	 * @return string[]
+	 */
+	public function add_design_body_class( $classes ) {
+		$design = self::get_page_design();
+		if ( $design ) {
+			$classes[] = 'jp-design-v' . $design;
+		}
+		return $classes;
+	}
+
+	/**
+	 * Design of a JobPress page: the jobs archive layout is styled by the v3
+	 * stylesheet, and single job pages follow the selected design.
+	 *
+	 * @return int Design number, or 0 when the current view is not a JobPress page.
+	 */
+	private static function get_page_design() {
+		if ( self::is_archive_view() ) {
+			return 3;
+		}
+		if ( is_singular( 'jobpress' ) ) {
+			return jobpress_get_short_design_type();
+		}
+		return 0;
 	}
 
 	/**
@@ -54,26 +122,68 @@ class PublicEnqueue
 	}
 
 	/**
-	 * Check whether the current singular post shows a job list: the [jobpress]
-	 * shortcode in its content, or the JobPress widget in its Elementor layout.
+	 * Designs of the job lists the current singular post shows: [jobpress]
+	 * shortcodes in its content, and JobPress widgets in its Elementor layout.
 	 *
-	 * Detecting it here loads the styles in the head; otherwise the shortcode
+	 * Detecting them here loads the styles in the head; otherwise the shortcode
 	 * enqueues them late and they print in the footer, after the list renders.
 	 *
-	 * @return bool
+	 * @return int[]
 	 */
-	private function current_post_shows_jobs() {
+	private function get_current_post_designs() {
 		$post = get_post();
 		if ( ! is_singular() || ! $post ) {
-			return false;
+			return array();
 		}
 
-		if ( has_shortcode( $post->post_content, 'jobpress' ) ) {
-			return true;
+		$designs = array();
+
+		if ( has_shortcode( $post->post_content, 'jobpress' ) && preg_match_all( '/' . get_shortcode_regex( array( 'jobpress' ) ) . '/', $post->post_content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$atts      = shortcode_parse_atts( $match[3] );
+				$designs[] = isset( $atts['design'] ) ? $atts['design'] : '';
+			}
 		}
 
 		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
-		return is_string( $elementor_data ) && false !== strpos( $elementor_data, '"widgetType":"jobpress_jobs"' );
+		if ( is_string( $elementor_data ) && false !== strpos( $elementor_data, '"widgetType":"jobpress_jobs"' ) ) {
+			$elements = json_decode( $elementor_data, true );
+			if ( is_array( $elements ) ) {
+				$designs = array_merge( $designs, self::get_elementor_widget_designs( $elements ) );
+			}
+		}
+
+		$designs = array_map(
+			function ( $design ) {
+				$design = jobpress_sanitize_design( $design );
+				return $design ? $design : jobpress_get_short_design_type();
+			},
+			$designs
+		);
+
+		return array_values( array_unique( $designs ) );
+	}
+
+	/**
+	 * Collect the design setting of every JobPress widget in Elementor data.
+	 *
+	 * @param array $elements Elementor elements.
+	 * @return string[] Raw design settings ('' means the global design).
+	 */
+	private static function get_elementor_widget_designs( $elements ) {
+		$designs = array();
+		foreach ( $elements as $element ) {
+			if ( ! is_array( $element ) ) {
+				continue;
+			}
+			if ( isset( $element['widgetType'] ) && 'jobpress_jobs' === $element['widgetType'] ) {
+				$designs[] = isset( $element['settings']['design'] ) ? $element['settings']['design'] : '';
+			}
+			if ( ! empty( $element['elements'] ) && is_array( $element['elements'] ) ) {
+				$designs = array_merge( $designs, self::get_elementor_widget_designs( $element['elements'] ) );
+			}
+		}
+		return $designs;
 	}
 
 	/**

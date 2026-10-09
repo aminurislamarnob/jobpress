@@ -28,10 +28,12 @@ test.describe( '[jobpress] shortcode', () => {
 			await jobPress.updateSettings( 'shortcode', { jobpress_design_type: String( design ) } );
 			await page.goto( shortcodePage.link );
 
-			await expect( page.locator( 'link#jobpress-css-css' ) ).toHaveAttribute(
+			// Only this design's stylesheet loads, in the head.
+			await expect( page.locator( `head link#jobpress-design-v${ design }-css` ) ).toHaveAttribute(
 				'href',
 				new RegExp( `jobpress-style-v${ design }\\.css` )
 			);
+			await expect( page.locator( 'link[id^="jobpress-design-v"]' ) ).toHaveCount( 1 );
 			await expect( page.getByRole( 'heading', { name: `Join us ${ token }` } ) ).toBeVisible();
 
 			// Every design links each job to its page, including jobs without a category.
@@ -80,6 +82,51 @@ test.describe( '[jobpress] shortcode', () => {
 		const ids = await page.locator( '.jp-listing' ).evaluateAll( ( els ) => els.map( ( el ) => el.id ) );
 		expect( ids ).toHaveLength( 2 );
 		expect( new Set( ids ).size ).toBe( 2 );
+	} );
+
+	test( 'uses the design attribute over the global design', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
+		const designPage = await jobPress.createPage( `Careers grid ${ token }`, '[jobpress design="5"]' );
+		await page.goto( designPage.link );
+
+		await expect( page.locator( '.jp-listing.jp-design-v5' ) ).toHaveCount( 1 );
+		await expect( page.locator( 'head link#jobpress-design-v5-css' ) ).toHaveCount( 1 );
+		// The global design's stylesheet isn't needed on this page.
+		await expect( page.locator( 'link#jobpress-design-v1-css' ) ).toHaveCount( 0 );
+		await expect( page.locator( '.jp-listing__jobs .jp-row' ) ).toHaveCSS( 'display', 'grid' );
+	} );
+
+	test( 'falls back to the global design for an invalid design attribute', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '3' } );
+		const designPage = await jobPress.createPage( `Careers invalid ${ token }`, '[jobpress design="9"]' );
+		await page.goto( designPage.link );
+
+		await expect( page.locator( '.jp-listing.jp-design-v3' ) ).toHaveCount( 1 );
+	} );
+
+	test( 'renders different designs side by side on one page', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
+		const mixedPage = await jobPress.createPage(
+			`Careers mixed ${ token }`,
+			'[jobpress design="1" title="List"][jobpress design="3" title="Cards"][jobpress design="5" title="Grid"]'
+		);
+		await page.goto( mixedPage.link );
+
+		for ( const design of [ 1, 3, 5 ] ) {
+			await expect( page.locator( `head link#jobpress-design-v${ design }-css` ) ).toHaveCount( 1 );
+		}
+
+		// Each listing keeps its own design's look: v1 is one bordered box with
+		// divided rows, v3 separate shadowed cards, v5 a grid.
+		const v1Card = page.locator( '.jp-design-v1 .jp-listing__card' ).first();
+		const v3Card = page.locator( '.jp-design-v3 .jp-listing__card' ).first();
+		await expect( page.locator( '.jp-design-v1 .jp-listing__jobs' ) ).toHaveCSS( 'border-top-width', '1px' );
+		await expect( v1Card ).toHaveCSS( 'box-shadow', 'none' );
+		await expect( v1Card ).toHaveCSS( 'margin-bottom', '0px' );
+		await expect( page.locator( '.jp-design-v3 .jp-listing__jobs' ) ).toHaveCSS( 'border-top-width', '0px' );
+		await expect( v3Card ).not.toHaveCSS( 'box-shadow', 'none' );
+		await expect( v3Card ).toHaveCSS( 'margin-bottom', '20px' );
+		await expect( page.locator( '.jp-design-v5 .jp-listing__jobs .jp-row' ) ).toHaveCSS( 'display', 'grid' );
 	} );
 
 	test( 'links job titles in design v1', async ( { page, jobPress } ) => {

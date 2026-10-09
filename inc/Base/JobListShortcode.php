@@ -24,15 +24,19 @@ class JobListShortcode
     function jobpress_jobs_shortcode($atts) {
         $atts = shortcode_atts( array(
             'expand' => '',
+            'design' => '', // 1-5; empty uses the design selected in the shortcode settings
             'title' => esc_html__('Job openings', 'jobpress'),
             'subtitle' => esc_html__('Find the right job for you no matter what it is that you do.', 'jobpress'),
             'show_positions' => 'yes' // yes/no to show/hide open positions count
         ), $atts, 'jobpress' );
 
-        $design = jobpress_get_short_design_type();
+        $design = jobpress_sanitize_design( $atts['design'] );
+        if ( ! $design ) {
+            $design = jobpress_get_short_design_type();
+        }
 
         // Make sure styles load wherever the shortcode renders (e.g. Elementor content).
-        PublicEnqueue::enqueue_styles();
+        PublicEnqueue::enqueue_styles( $design );
 
         self::$instance_count++;
         $listing_id = 'jp-listing-' . self::$instance_count;

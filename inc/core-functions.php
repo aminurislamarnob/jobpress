@@ -139,6 +139,17 @@ function jobpress_get_listing_category_groups() {
 }
 
 /**
+ * Validate a listing design number.
+ *
+ * @param mixed $design Design number, e.g. from a shortcode attribute.
+ * @return int The design (1-5), or 0 when the value is empty or invalid.
+ */
+function jobpress_sanitize_design( $design ) {
+    $design = is_numeric( $design ) ? (int) $design : 0;
+    return ( $design >= 1 && $design <= 5 ) ? $design : 0;
+}
+
+/**
  * Whether a listing design groups jobs under category headings.
  *
  * @param int $design Listing design number (1-5).
