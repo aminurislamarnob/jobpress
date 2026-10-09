@@ -151,6 +151,81 @@ function jobpress_sanitize_design( $design ) {
 }
 
 /**
+ * Interpret a yes/no attribute or setting value.
+ *
+ * @param mixed $value E.g. 'yes', 'no', 'true', '1', or a boolean.
+ * @return bool
+ */
+function jobpress_string_to_bool( $value ) {
+    return is_bool( $value ) ? $value : in_array( strtolower( trim( (string) $value ) ), array( 'yes', 'true', '1', 'on' ), true );
+}
+
+/**
+ * The global listing settings (Settings > Shortcodes > Listing Defaults): defaults
+ * for every [jobpress] shortcode and JobPress Elementor widget, which can override them.
+ *
+ * @return array[] Keyed by shortcode attribute: 'option' name, 'type' (text or
+ *                 checkbox), 'label', 'default', and 'archive' when the setting
+ *                 also applies to the jobs archive.
+ */
+function jobpress_get_listing_settings() {
+    return array(
+        'title'          => array(
+            'option'  => 'jobpress_listing_title',
+            'type'    => 'text',
+            'label'   => __( 'Title', 'jobpress' ),
+            'default' => __( 'Job openings', 'jobpress' ),
+        ),
+        'show_title'     => array(
+            'option'  => 'jobpress_listing_show_title',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the title', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'subtitle'       => array(
+            'option'  => 'jobpress_listing_subtitle',
+            'type'    => 'text',
+            'label'   => __( 'Subtitle', 'jobpress' ),
+            'default' => __( 'Find the right job for you no matter what it is that you do.', 'jobpress' ),
+        ),
+        'show_subtitle'  => array(
+            'option'  => 'jobpress_listing_show_subtitle',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the subtitle', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_positions' => array(
+            'option'  => 'jobpress_listing_show_positions',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the open positions count', 'jobpress' ),
+            'default' => 'yes',
+        ),
+    );
+}
+
+/**
+ * Get the value of a global listing setting.
+ *
+ * @param string $key Shortcode attribute, see jobpress_get_listing_settings().
+ * @return string Text, or 'yes'/'no' for checkboxes. Empty text falls back to the default.
+ */
+function jobpress_get_listing_setting( $key ) {
+    $settings = jobpress_get_listing_settings();
+    if ( ! isset( $settings[ $key ] ) ) {
+        return '';
+    }
+
+    $setting = $settings[ $key ];
+    $value   = get_option( $setting['option'], '' );
+
+    if ( 'checkbox' === $setting['type'] ) {
+        return in_array( $value, array( 'yes', 'no' ), true ) ? $value : $setting['default'];
+    }
+
+    return '' === trim( (string) $value ) ? $setting['default'] : (string) $value;
+}
+
+/**
  * Whether a listing design groups jobs under category headings.
  *
  * @param int $design Listing design number (1-5).

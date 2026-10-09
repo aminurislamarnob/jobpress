@@ -165,7 +165,7 @@ class JobPressUtils {
 	 * previous values after the test.
 	 *
 	 * @param {'general'|'appearance'|'shortcode'} screen
-	 * @param {Object<string,string>}              values Option name => value.
+	 * @param {Object<string,string>}              values Option name => value ('yes'/'no' for checkboxes).
 	 */
 	async updateSettings( screen, values ) {
 		const previous = await this.saveSettings( screen, values );
@@ -184,7 +184,13 @@ class JobPressUtils {
 		for ( const [ name, value ] of Object.entries( values ) ) {
 			const field = this.page.locator( `[name="${ name }"]` );
 			// Color fields are hidden behind the wpColorPicker UI, so set them directly.
+			// Checkboxes take 'yes' (checked) or 'no' (unchecked).
 			previous[ name ] = await field.evaluate( ( el, newValue ) => {
+				if ( el.type === 'checkbox' ) {
+					const wasChecked = el.checked;
+					el.checked = newValue === 'yes';
+					return wasChecked ? 'yes' : 'no';
+				}
 				const old = el.value;
 				el.value = newValue;
 				return old;

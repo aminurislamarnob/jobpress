@@ -22,17 +22,14 @@ class JobListShortcode
 	}
 
     /**
-     * Default attribute values.
+     * Default attribute values: the global listing settings, then built-in defaults.
      *
      * @return array
      */
     public static function get_default_atts() {
-        return array(
+        $defaults = array(
             'expand' => '',
             'design' => '', // 1-5; empty uses the design selected in the shortcode settings
-            'title' => esc_html__('Job openings', 'jobpress'),
-            'subtitle' => esc_html__('Find the right job for you no matter what it is that you do.', 'jobpress'),
-            'show_positions' => 'yes', // yes/no to show/hide open positions count
             'per_page' => '', // number of jobs (per category group in grouped designs); empty for all
             'category' => '', // comma-separated jobpress_category slugs
             'type' => '', // comma-separated jobpress_type slugs
@@ -43,10 +40,50 @@ class JobListShortcode
             'show_view_all' => 'no', // yes/no to show a "View all jobs" link to the Jobs Page
             'view_all_text' => esc_html__('View all jobs', 'jobpress'),
         ) + array_fill_keys( array_keys( PublicEnqueue::get_colors() ), '' ); // hex colors; empty uses the appearance settings
+
+        // title, subtitle, show_title, show_subtitle, show_positions (yes/no), ...
+        foreach ( array_keys( jobpress_get_listing_settings() ) as $key ) {
+            $defaults[ $key ] = jobpress_get_listing_setting( $key );
+        }
+
+        /**
+         * Filters the default [jobpress] attributes: the global listing settings
+         * merged over the built-in defaults, before a listing's own attributes apply.
+         *
+         * @param array $defaults Attribute defaults.
+         */
+        return apply_filters( 'jobpress_listing_defaults', $defaults );
+    }
+
+    /**
+     * Resolve a listing's attributes: an attribute that is missing or empty
+     * inherits its default, see get_default_atts().
+     *
+     * @param array|string $atts Shortcode attributes.
+     * @return array
+     */
+    public static function resolve_atts( $atts ) {
+        $defaults = self::get_default_atts();
+        $atts     = shortcode_atts( $defaults, $atts, 'jobpress' );
+
+        foreach ( $atts as $key => $value ) {
+            if ( '' === trim( (string) $value ) ) {
+                $atts[ $key ] = $defaults[ $key ];
+            }
+        }
+
+        // Yes/no options are passed to templates as 'yes' or 'no'.
+        foreach ( $atts as $key => $value ) {
+            if ( 0 === strpos( $key, 'show_' ) ) {
+                $atts[ $key ] = jobpress_string_to_bool( $value ) ? 'yes' : 'no';
+            }
+        }
+
+        return $atts;
     }
 
     function jobpress_jobs_shortcode($atts) {
-        $atts = shortcode_atts( self::get_default_atts(), $atts, 'jobpress' );
+        $atts = self::resolve_atts( $atts );
 
         $design = jobpress_sanitize_design( $atts['design'] );
         if ( ! $design ) {
@@ -59,9 +96,10 @@ class JobListShortcode
         self::$instance_count++;
         $listing_id = 'jp-listing-' . self::$instance_count;
 
+        // A hidden title or subtitle is passed empty: templates (including theme copies) skip empty ones.
         $template_args = array(
-            'title'          => $atts['title'],
-            'subtitle'       => $atts['subtitle'],
+            'title'          => 'yes' === $atts['show_title'] ? $atts['title'] : '',
+            'subtitle'       => 'yes' === $atts['show_subtitle'] ? $atts['subtitle'] : '',
             'show_positions' => $atts['show_positions'],
             'listing_id'     => $listing_id,
             'atts'           => $atts,

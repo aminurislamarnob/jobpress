@@ -108,7 +108,8 @@ class ElementorWidgets extends Widget_Base {
         // Pass the settings to the shortcode handler directly rather than building a
         // shortcode string, where a "]" in the title or subtitle would end the shortcode.
         $shortcode_atts = array(
-            'show_positions' => $settings['show_positions'],
+            // A switched-off switcher is empty, which the shortcode would read as "inherit".
+            'show_positions' => 'yes' === $settings['show_positions'] ? 'yes' : 'no',
         );
 
         if (!empty($settings['title'])) {
