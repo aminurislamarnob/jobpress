@@ -29,8 +29,7 @@ $jobcategory = (string) get_query_var( 'jobcategory' );
 $jobtype = (string) get_query_var( 'jobtype' );
 
 // Query for jobs with proper pagination support
-$jobs_per_page = absint( get_option( 'jobpress_jobs_per_page', 10 ) );
-$jobs_per_page = $jobs_per_page ? $jobs_per_page : 10;
+$jobs_per_page = jobpress_get_jobs_per_page();
 $paged = max( 1, absint( get_query_var( 'paged' ) ) );
 
 // Build query arguments
@@ -39,6 +38,11 @@ $query_args = array(
     'post_status'    => 'publish',
     'posts_per_page' => $jobs_per_page,
     'paged'          => $paged,
+    // ID breaks ties between jobs published at the same time, so pages don't repeat or skip jobs.
+    'orderby'        => array(
+        'date' => 'DESC',
+        'ID'   => 'DESC',
+    ),
 );
 
 // Add keyword search

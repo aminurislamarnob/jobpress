@@ -14,6 +14,15 @@ $current_keyword = get_query_var( 'job_search' );
 $current_jobcategory = get_query_var( 'jobcategory' );
 $current_jobtype = get_query_var( 'jobtype' );
 
+// On a category/type archive, preselect the archive's term so the form keeps it
+// when it submits to the jobs page.
+if ( '' === $current_jobcategory && is_tax( 'jobpress_category' ) ) {
+	$current_jobcategory = get_queried_object()->slug;
+}
+if ( '' === $current_jobtype && is_tax( 'jobpress_type' ) ) {
+	$current_jobtype = get_queried_object()->slug;
+}
+
 // Get jobs page URL (falls back to the jobpress post type archive)
 $form_action = jobpress_get_jobs_archive_page_permalink();
 ?>

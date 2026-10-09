@@ -160,6 +160,16 @@ function jobpress_get_jobs_page_id() {
 }
 
 /**
+ * Get the number of jobs shown per page on the jobs page and category/type archives.
+ *
+ * @return int
+ */
+function jobpress_get_jobs_per_page() {
+    $per_page = absint( get_option( 'jobpress_jobs_per_page', 10 ) );
+    return $per_page ? $per_page : 10;
+}
+
+/**
  * Check if the current page is the jobs page.
  *
  * @return bool

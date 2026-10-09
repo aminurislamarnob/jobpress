@@ -31,6 +31,30 @@ test.describe( 'Taxonomy archives', () => {
 		await expectNoPhpErrors( page );
 	} );
 
+	test( 'category archive preselects its category in the filter', async ( { page } ) => {
+		await page.goto( category.link );
+
+		await expect( page.locator( '#jobpress-category' ) ).toHaveValue( category.slug );
+		await expect( page.locator( '#jobpress-type' ) ).toHaveValue( '' );
+	} );
+
+	test( 'category archive paginates by the jobs per page setting', async ( { page, jobPress } ) => {
+		// One job per page is below the Reading setting, which used to make /page/2/ 404.
+		await jobPress.updateSettings( 'general', { jobpress_jobs_per_page: '1' } );
+		const secondJob = await jobPress.createJob( {
+			title: `Second Writer ${ uid() }`,
+			categories: [ category.id ],
+		} );
+
+		await page.goto( category.link );
+		await expect( page.getByRole( 'link', { name: secondJob.title.rendered } ) ).toBeVisible();
+
+		await page.locator( '.jobpress-pagination a.page-numbers', { hasText: /^2$/ } ).click();
+		await expect( page.getByRole( 'link', { name: categorizedJob.title.rendered } ) ).toBeVisible();
+		await expect( page.getByRole( 'link', { name: secondJob.title.rendered } ) ).toHaveCount( 0 );
+		await expectNoPhpErrors( page );
+	} );
+
 	test( 'type archive lists only jobs of that type', async ( { page } ) => {
 		await page.goto( type.link );
 
