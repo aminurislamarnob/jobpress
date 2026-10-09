@@ -11,6 +11,7 @@
 	},
 	"themes": [
 		"https://downloads.wordpress.org/theme/twentytwentyone.zip",
-		"https://downloads.wordpress.org/theme/twentytwentyfive.zip"
+		"https://downloads.wordpress.org/theme/twentytwentyfive.zip",
+		"./tests/e2e/themes/jobpress-e2e-outdated"
 	]
 }
