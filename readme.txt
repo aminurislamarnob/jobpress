@@ -5,7 +5,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,13 +20,14 @@ This plugin enables you to build/create your company job board inside your WordP
 * Add/Edit/Delete jobs from WordPress admin panel
 * Job type support
 * Job category support
-* Job list page with 5 different layout styles
+* Job list page with 5 different layout styles, mixable on one page
+* Job listings anywhere with the `[jobpress]` shortcode: choose jobs by category, type or ID, limit and order them, add a search bar and a "View all jobs" link
 * Well organized job details page
 * ⚡ Contact form 7 support for job applications
 * 🎨 Change branding color easily
 * ⚙️ Cool plugin settings panel for admin
 * 🗺️ You can also add location google map iFrame embed code
-* ⚡ Elementor widget support for easy page building
+* ⚡ Full-featured Elementor widget: every listing option plus Elementor style controls (colors, typography, spacing, borders, hover states)
 
 = **Documentation** =
 
@@ -53,12 +54,14 @@ JobPress provides a dedicated **Settings** menu to configure plugin options:
 * Customize plugin colors to match your theme style.
 
 **👉 👉 Shortcodes Settings**
-* You can display job listings anywhere using shortcodes.  
-* The `design` attribute matches the **Select Design** field option.
+* You can display job listings anywhere using the `[jobpress]` shortcode.
+* **Select Design** sets the default listing design.
+* **Listing Defaults** set what every listing shows by default: the title and subtitle, the open positions count, job card details, the apply button text, a search bar and a "View all jobs" link. The job card options also apply to the Jobs Page.
+* Each shortcode or Elementor widget can override these defaults.
 
 **👉 Elementor Integration**
 Prefer a visual builder?  
-JobPress includes a **dedicated Elementor Addon** to display job lists without shortcodes. Simply drag and drop the JobPress widget onto your page.
+JobPress includes a **dedicated Elementor Addon** to display job lists without shortcodes. Simply drag and drop the JobPress widget onto your page, then pick its design, which jobs to show and what each card shows, and style every part of it from Elementor's Style tab. Settings you leave untouched follow the global JobPress settings.
 
 **👉 Quick Access**
 From the WordPress Admin Bar, you’ll get **quick access** to:
@@ -112,7 +115,7 @@ Yes, for now only support Contact Form 7. In-future we will add support for all 
 Just go to settings page from "JobPress" admin menu.
 
 = How to use JobPress with Elementor? =
-Simply drag and drop the "JobPress Jobs" widget from the Elementor editor. You can customize the title, subtitle, and toggle position count display. The design style follows your global JobPress settings.
+Drag and drop the "JobPress Jobs" widget from the Elementor editor. In the Content tab, choose the design, the header text, which details each job card shows, a search bar, a "View all jobs" link, and which jobs to list (categories, types, specific jobs, number and order). In the Style tab, override the JobPress colors for this widget and style the header, job cards, job titles, details, buttons, category headers and search bar. Every setting left on "Default" (or empty) follows the global JobPress settings, so changing those settings still updates the widget.
 
 = How to use the JobPress shortcode? =
 You can use the JobPress shortcode in two ways:
@@ -122,6 +125,7 @@ You can use the JobPress shortcode in two ways:
 [jobpress] // Basic usage with default settings
 [jobpress title="We're Hiring!" subtitle="Join Our Team"] // With custom title/subtitle
 [jobpress show_positions="no"] // Hide position counts
+[jobpress design="5" category="engineering" per_page="6" show_view_all="yes"] // A grid of the 6 newest engineering jobs
 ```
 
 2. In PHP Files (e.g., theme templates):
@@ -135,17 +139,43 @@ echo do_shortcode('[jobpress title="Current Openings" subtitle="Find Your Dream 
 ?>
 ```
 
-Available Shortcode Attributes:
-* title - Custom title for the job listing page (default: empty)
-* subtitle - Custom subtitle for the job listing page (default: empty)
-* show_positions - Show/hide number of open positions (default: 'yes', set to 'no' to hide)
+Available Shortcode Attributes (a missing or empty attribute uses the Settings > Shortcodes and Appearance settings):
+* design - Listing design, 1 to 5
+* title, subtitle - Header text
+* show_title, show_subtitle, show_positions - Show/hide the header parts (yes/no)
+* show_category, show_type, show_location, show_experience, show_vacancy, show_deadline - Show/hide job card details (yes/no)
+* button_text - Apply button text
+* show_search - Show a search bar that opens the Jobs Page results (yes/no)
+* show_view_all, view_all_text - Show a link to the Jobs Page under the listing (yes/no), and its text
+* per_page - Number of jobs to show (per category in the grouped designs 2 and 4); all by default
+* category, type - Comma-separated category or job type slugs to show
+* include, exclude - Comma-separated job IDs to show only, or to leave out
+* orderby - date, title, menu_order or rand; order - ASC or DESC
+* brand_color, hover_color, heading_color, secondary_color, content_color, border_color - Hex colors for this listing
 
-Example with all attributes:
+Example:
 ```
-[jobpress title="Join Our Team" subtitle="Explore Amazing Opportunities" show_positions="yes"]
+[jobpress title="Join Our Team" type="remote" show_search="yes" brand_color="#7c3aed"]
 ```
 
 == Changelog ==
+
+= v2.3.0 (Oct 9, 2026)  =
+* **feat:** Full-featured Elementor widget: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list, and style everything from the Style tab (colors, typography, spacing, borders, shadows, hover states). Settings left on "Default" follow the global settings.
+* **feat:** New `[jobpress]` attributes: `design`, the six colors, `show_title`, `show_subtitle`, job card toggles (`show_category`, `show_type`, `show_location`, `show_experience`, `show_vacancy`, `show_deadline`), `button_text`, `show_search`, `show_view_all`, `view_all_text`, and query attributes `per_page`, `category`, `type`, `include`, `exclude`, `orderby`, `order`.
+* **feat:** New Listing Defaults settings (Settings > Shortcodes): default title and subtitle, header and job card visibility, button text, search bar and "View all jobs" link. The job card options also apply to the Jobs Page.
+* **feat:** Listings with different designs can share a page.
+* **feat:** The open positions count counts the jobs the listing shows (e.g. one category's), not all jobs.
+* **feat:** Admin notice when the theme overrides JobPress templates with outdated copies.
+* **feat:** Developer hooks `jobpress_listing_defaults`, `jobpress_listing_query_args` and `jobpress_elementor_widget_controls`; `shortcode_atts_jobpress` now fires.
+* **update:** Each page only loads the stylesheets of the designs it shows. Rules shared by all designs moved to `jobpress-common.css`, and design stylesheets are registered as `jobpress-design-v1` to `jobpress-design-v5` (previously one `jobpress-css` handle).
+* **fix:** Design v5 (grid) overflowed narrow columns and phones.
+* **fix:** Design v1 no longer starts a job's details with a dash when the job has no category.
+* **Upgrade notes:**
+* Design stylesheet rules are now scoped to `.jp-design-v1` to `.jp-design-v5` (on each listing's wrapper, and on the body of the jobs archive and single job pages). Custom CSS that overrides listing styles may need a more specific selector, e.g. `.jp-listing .jp-single-job-list`.
+* An empty `title` or `subtitle` attribute now uses the default text; hide them with `show_title="no"` or `show_subtitle="no"`.
+* Elementor widgets saved before 2.3.0 that kept the widget's default title "Job Openings" or subtitle "Find your dream job" may now show the global listing title and subtitle instead (set them in Settings > Shortcodes > Listing Defaults, or in the widget).
+* Theme copies of the listing templates keep working, and still show the jobs a listing selects, but don't get the new options or style hooks until updated from the plugin's `templates/listing` folder.
 
 = v2.2.0 (Oct 9, 2026)  =
 * **feat:** Search, category and job type filters on the jobs page.

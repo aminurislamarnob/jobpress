@@ -57,12 +57,13 @@ test.describe( 'Elementor widget', () => {
 		const shortcodePage = await jobPress.createPage( `Shortcode page ${ token }`, '[jobpress]' );
 
 		// Computed styles of the listing's elements: unset style controls add no CSS.
-		// (The wrapper itself is left out: the theme lays out post content differently.)
+		// (The wrapper itself and inherited text alignment are left out: themes lay out
+		// post content differently from Elementor content.)
 		const listingStyles = () =>
 			page.locator( '.jp-listing' ).evaluate( ( listing ) =>
 				[ ...listing.querySelectorAll( '*' ) ].map( ( el ) => {
 					const style = getComputedStyle( el );
-					return [ 'color', 'background-color', 'font-size', 'padding', 'margin', 'border', 'border-radius', 'text-align', 'gap', 'display' ]
+					return [ 'color', 'background-color', 'font-size', 'padding', 'margin', 'border', 'border-radius', 'gap', 'display' ]
 						.map( ( prop ) => style.getPropertyValue( prop ) )
 						.join( '|' );
 				} )
