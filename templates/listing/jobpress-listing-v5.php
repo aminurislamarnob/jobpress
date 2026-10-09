@@ -7,6 +7,8 @@
  * @var string   $title          Listing title.
  * @var string   $subtitle       Listing subtitle.
  * @var string   $show_positions 'yes' to show the open positions count.
+ * @var string   $show_category  'yes' to show each job's category.
+ * @var string   $show_type      'yes' to show each job's type.
  * @var WP_Query $jobs_query     Jobs to list.
  * @var int      $total_jobs     Number of jobs matching the listing.
  *
@@ -77,7 +79,7 @@ if($total_jobs < 10){
             <div class="jp-grid-col">
                 <a href="<?php the_permalink(); ?>" class="jp-single-job-grid jp-listing__card">
                     <div>
-                        <div class="jp-category jp-listing__meta jp-listing__category"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?></div>
+                        <div class="jp-category jp-listing__meta jp-listing__category"><?php echo esc_html( $show_category === 'yes' ? $job_category_str : '' ); ?></div>
                         <div class="jp-single-job-info">
                             <h4 class="jp-listing__job-title"><?php the_title(); ?></h4>
                             <?php if ( has_excerpt() ) {
@@ -85,7 +87,7 @@ if($total_jobs < 10){
                             } ?>
                         </div>
                     </div>
-                    <div class="jp-job-type jp-listing__meta jp-listing__type"><?php echo esc_html($job_type_str); ?></div>
+                    <div class="jp-job-type jp-listing__meta jp-listing__type"><?php echo esc_html( $show_type === 'yes' ? $job_type_str : '' ); ?></div>
                 </a>
             </div>
             <?php       

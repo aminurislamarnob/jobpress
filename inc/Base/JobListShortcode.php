@@ -104,6 +104,9 @@ class JobListShortcode
             'listing_id'     => $listing_id,
             'atts'           => $atts,
         );
+        foreach ( array( 'show_category', 'show_type', 'show_location', 'show_experience', 'show_vacancy', 'show_deadline', 'button_text' ) as $key ) {
+            $template_args[ $key ] = $atts[ $key ];
+        }
         $template_args = array_merge( $template_args, jobpress_get_listing_jobs( $design, $atts ) );
 
         //Load Template

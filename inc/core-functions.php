@@ -200,6 +200,72 @@ function jobpress_get_listing_settings() {
             'label'   => __( 'Show the open positions count', 'jobpress' ),
             'default' => 'yes',
         ),
+        'show_category'   => array(
+            'option'  => 'jobpress_listing_show_category',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the job category', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_type'       => array(
+            'option'  => 'jobpress_listing_show_type',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the job type', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_location'   => array(
+            'option'  => 'jobpress_listing_show_location',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the location', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_experience' => array(
+            'option'  => 'jobpress_listing_show_experience',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the experience', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_vacancy'    => array(
+            'option'  => 'jobpress_listing_show_vacancy',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the vacancies', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_deadline'   => array(
+            'option'  => 'jobpress_listing_show_deadline',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the application deadline', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'button_text'     => array(
+            'option'  => 'jobpress_listing_button_text',
+            'type'    => 'text',
+            'label'   => __( 'Apply button text', 'jobpress' ),
+            'default' => __( 'Apply', 'jobpress' ),
+            'archive' => true,
+        ),
+    );
+}
+
+/**
+ * Job card fields each listing design shows, for the show_* options.
+ *
+ * @return array[] Field (category, type, location, experience, vacancy,
+ *                 deadline, button) => design numbers.
+ */
+function jobpress_get_listing_design_fields() {
+    return array(
+        'category'   => array( 1, 5 ),
+        'type'       => array( 1, 2, 3, 4, 5 ),
+        'location'   => array( 1, 2 ),
+        'experience' => array( 2, 3, 4 ),
+        'vacancy'    => array( 3, 4 ),
+        'deadline'   => array( 3, 4 ),
+        // Designs with a text button; v2's arrow button uses the text as its label.
+        'button'     => array( 1, 3, 4 ),
     );
 }
 

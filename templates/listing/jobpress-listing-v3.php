@@ -6,7 +6,12 @@
  *
  * @var string   $title          Listing title.
  * @var string   $subtitle       Listing subtitle.
- * @var string   $show_positions 'yes' to show the open positions count.
+ * @var string   $show_positions  'yes' to show the open positions count.
+ * @var string   $show_type       'yes' to show each job's type.
+ * @var string   $show_vacancy    'yes' to show each job's vacancies.
+ * @var string   $show_deadline   'yes' to show each job's application deadline.
+ * @var string   $show_experience 'yes' to show each job's experience.
+ * @var string   $button_text     Apply button text.
  * @var WP_Query $jobs_query     Jobs to list.
  * @var int      $total_jobs     Number of jobs matching the listing.
  *
@@ -69,29 +74,37 @@ if($total_jobs < 10){
         <div class="jp-single-job-list jp-listing__card">
             <div class="jp-single-job-info">
                 <h4 class="jp-listing__job-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                <?php if ( $show_type === 'yes' || $show_vacancy === 'yes' || $show_deadline === 'yes' ) : ?>
                 <p class="jp-listing__meta">
-                    <span>
+                    <?php if ( $show_type === 'yes' ) : ?>
+                    <span class="jp-listing__type">
                         <?php
                         // translators: %s is the job type
                         printf( esc_html__( 'Job Type: %s', 'jobpress' ), esc_html( $job_type_str ) );
                         ?>
                     </span>
-                    <span>
+                    <?php endif; ?>
+                    <?php if ( $show_vacancy === 'yes' ) : ?>
+                    <span class="jp-listing__vacancy">
                         <?php
                         // translators: %s is the number of job vacancies
                         printf( esc_html__( 'Vacancies: %s', 'jobpress' ), esc_html( $job_vacancy ) );
                         ?>
                     </span>
-                    <span>
+                    <?php endif; ?>
+                    <?php if ( $show_deadline === 'yes' ) : ?>
+                    <span class="jp-listing__deadline">
                         <?php
                         // translators: %s is the job application deadline
                         printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( jobpress_format_date( $job_apply_deadline ) ) );
                         ?>
                     </span>
+                    <?php endif; ?>
                 </p>
+                <?php endif; ?>
             </div>
 
-            <?php if(!empty($jobpress_experience)){ ?>
+            <?php if( $show_experience === 'yes' && !empty($jobpress_experience)){ ?>
             <div class="jp-single-job-exp jp-listing__experience">
                 <div><?php esc_html_e( 'Experience', 'jobpress' ) ?></div>
                 <span><?php echo esc_html( $jobpress_experience ) ?></span>
@@ -99,7 +112,7 @@ if($total_jobs < 10){
             <?php } ?>
 
             <div class="jp-single-job-action">
-                <a class="jp-apply-btn-radius jp-listing__button" href="<?php the_permalink(); ?>"><?php esc_html_e('Apply', 'jobpress') ;?></a>
+                <a class="jp-apply-btn-radius jp-listing__button" href="<?php the_permalink(); ?>"><?php echo esc_html( $button_text ); ?></a>
             </div>
         </div>
         <?php       

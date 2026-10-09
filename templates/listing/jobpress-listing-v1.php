@@ -7,6 +7,10 @@
  * @var string   $title          Listing title.
  * @var string   $subtitle       Listing subtitle.
  * @var string   $show_positions 'yes' to show the open positions count.
+ * @var string   $show_category  'yes' to show each job's category.
+ * @var string   $show_type      'yes' to show each job's type.
+ * @var string   $show_location  'yes' to show each job's location.
+ * @var string   $button_text    Apply button text.
  * @var WP_Query $jobs_query     Jobs to list.
  * @var int      $total_jobs     Number of jobs matching the listing.
  *
@@ -70,18 +74,27 @@ if($total_jobs < 10){
 
         //job meta
         $job_location = get_post_meta(get_the_ID(), 'jobpress_location', true);
+
+        // "Category - Type - Location", leaving out hidden or empty parts.
+        $job_category_str = $show_category === 'yes' ? $job_category_str : '';
+        $job_details_str  = implode( ' - ', array_filter( array(
+            $show_type === 'yes' ? $job_type_str : '',
+            $show_location === 'yes' ? $job_location : '',
+        ) ) );
+        if ( $job_category_str !== '' && $job_details_str !== '' ) {
+            $job_details_str = ' - ' . $job_details_str;
+        }
         ?>
         <div class="jp-single-job-list jp-listing__card">
             <div class="jp-single-job-info">
                 <h4 class="jp-listing__job-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                <p class="jp-listing__meta"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?><span class="jp-job-location">
-                    <?php
-                        echo esc_html(!empty($job_type_str) ? ' - '.$job_type_str : '');
-                        echo esc_html(!empty($job_location) ? ' - '.$job_location : '');
-                    ?></span></p>
+                <?php if ( $job_category_str !== '' || $job_details_str !== '' ) : ?>
+                <p class="jp-listing__meta"><?php echo esc_html( $job_category_str ); ?><span class="jp-job-location">
+                    <?php echo esc_html( $job_details_str ); ?></span></p>
+                <?php endif; ?>
             </div>
             <div class="jp-single-job-action">
-                <a class="jp-apply-btn-radius jp-listing__button" href="<?php the_permalink(); ?>"><?php esc_html_e('Apply', 'jobpress') ;?></a>
+                <a class="jp-apply-btn-radius jp-listing__button" href="<?php the_permalink(); ?>"><?php echo esc_html( $button_text ); ?></a>
             </div>
         </div>
         <?php
