@@ -262,6 +262,41 @@ jobpress-common.css.
 .jp-design-v4 .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-not-valid {
     border-color: #FF2626;
 }
+/* The job list follows its own width (it often sits in a narrow column):
+   narrow lists stack each card, like phones do. */
+.jp-design-v4 .jobpress-job-lists {
+    container-type: inline-size;
+}
+/* Very narrow lists: smaller job titles, so long words don't break. */
+@container (max-width: 260px) {
+    .jp-design-v4 .jp-single-job-list h4 {
+        font-size: 16px;
+    }
+}
+.jp-design-v4 .jp-apply-btn-radius {
+    white-space: nowrap;
+}
+@container (max-width: 560px) {
+    .jp-design-v4 .jp-single-job-list {
+        padding: 15px;
+        display: block;
+    }
+    .jp-design-v4 .jp-single-job-info {
+        padding: 0;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .jp-design-v4 .jp-single-job-exp {
+        margin-bottom: 10px;
+    }
+    .jp-design-v4 .jp-apply-btn-radius {
+        padding: 10px 40px;
+    }
+    .jp-design-v4 .jp-single-job-list p span {
+        display: block!important;
+        margin-right: 0!important;
+    }
+}
 @media only screen and (max-width: 991px) {
     .jp-design-v4 .jp-single-job-info {
         width: 60%;

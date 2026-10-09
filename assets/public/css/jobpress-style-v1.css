@@ -205,6 +205,40 @@ jobpress-common.css.
 .jp-design-v1 .jp-job-apply-form form.wpcf7-form .wpcf7-form-control.wpcf7-not-valid {
     border-color: #FF2626;
 }
+/* The job list follows its own width (it often sits in a narrow column): the
+   job info takes the free space, and narrow lists put the button under it. */
+.jp-design-v1 .jobpress-job-lists {
+    container-type: inline-size;
+}
+/* Very narrow lists: smaller job titles, so long words don't break. */
+@container (max-width: 260px) {
+    .jp-design-v1 .jp-single-job-list h4 {
+        font-size: 16px;
+    }
+}
+.jp-design-v1 .jp-single-job-list .jp-single-job-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.jp-design-v1 .jp-single-job-list .jp-single-job-action {
+    flex: 0 0 auto;
+}
+.jp-design-v1 .jp-apply-btn-radius {
+    white-space: nowrap;
+}
+@container (max-width: 480px) {
+    .jp-design-v1 .jp-single-job-list {
+        display: block;
+        padding: 15px;
+    }
+    .jp-design-v1 .jp-single-job-list .jp-single-job-info {
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+    .jp-design-v1 .jp-apply-btn-radius {
+        padding: 10px 40px;
+    }
+}
 @media only screen and (max-width: 991px) {
     .jp-design-v1 .jp-row {
         display: block;

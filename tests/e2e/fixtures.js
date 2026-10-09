@@ -22,6 +22,24 @@ const SETTINGS_PAGES = {
 const uid = () =>
 	Array.from( { length: 6 }, () => String.fromCharCode( 97 + Math.floor( Math.random() * 26 ) ) ).join( '' );
 
+/**
+ * Markup of a JobPress Jobs block, serialized the way the block editor does.
+ *
+ * @param {Object} attributes Block attributes.
+ * @return {string}
+ */
+const jobsBlock = ( attributes = {} ) => {
+	const json = JSON.stringify( attributes )
+		.replace( /--/g, '\\u002d\\u002d' )
+		.replace( /</g, '\\u003c' )
+		.replace( />/g, '\\u003e' )
+		.replace( /&/g, '\\u0026' )
+		.replace( /\\"/g, '\\u0022' );
+	return Object.keys( attributes ).length
+		? `<!-- wp:jobpress/jobs ${ json } /-->`
+		: '<!-- wp:jobpress/jobs /-->';
+};
+
 class JobPressUtils {
 	constructor( { page, requestUtils } ) {
 		this.page = page;
@@ -162,6 +180,33 @@ class JobPressUtils {
 	}
 
 	/**
+	 * Create a published page holding JobPress Jobs blocks, over REST.
+	 *
+	 * @param {string}   title
+	 * @param {Object[]} blocks Attributes of each block on the page.
+	 * @return {Promise<Object>} REST page object.
+	 */
+	async createBlockPage( title, blocks = [ {} ] ) {
+		return this.createPage( title, blocks.map( jobsBlock ).join( '\n\n' ) );
+	}
+
+	/**
+	 * Delete a post (or page) after the test, e.g. one created in the editor.
+	 *
+	 * @param {number} id
+	 * @param {string} [restBase] REST base of its post type.
+	 */
+	deleteAfterTest( id, restBase = 'pages' ) {
+		this.cleanups.push( () =>
+			this.requestUtils.rest( {
+				method: 'DELETE',
+				path: `/wp/v2/${ restBase }/${ id }`,
+				params: { force: true },
+			} )
+		);
+	}
+
+	/**
 	 * Save JobPress settings through the plugin's settings screen, restoring the
 	 * previous values after the test.
 	 *
@@ -250,4 +295,4 @@ async function expectNoPhpErrors( page ) {
 	expect( html ).not.toMatch( /<b>(Fatal error|Warning|Notice|Deprecated)<\/b>:/ );
 }
 
-module.exports = { test, expect, uid, expectNoPhpErrors };
+module.exports = { test, expect, uid, expectNoPhpErrors, jobsBlock };

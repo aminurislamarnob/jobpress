@@ -7,7 +7,7 @@
             <h2><?php esc_html_e('Available Shortcode', 'jobpress'); ?></h2>
             <h4><?php esc_html_e('Job List Shortcode:', 'jobpress'); ?></h4>
             <code>[jobpress]</code>
-            <p><?php esc_html_e( 'Shows a job listing using the settings below. Each listing can override them with attributes, and the JobPress Elementor widget offers the same options. A missing or empty attribute uses the setting.', 'jobpress' ); ?></p>
+            <p><?php esc_html_e( 'Shows a job listing using the settings below. Each listing can override them with attributes, and the JobPress Jobs block and Elementor widget offer the same options. A missing or empty attribute uses the setting.', 'jobpress' ); ?></p>
             <code>[jobpress design="5" category="engineering" per_page="6" show_view_all="yes"]</code>
             <h4><?php esc_html_e('Available Attributes:', 'jobpress'); ?></h4>
             <ul>

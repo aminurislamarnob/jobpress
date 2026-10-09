@@ -783,6 +783,12 @@ Listing footer: "View all jobs" link
 }
 
 /*************
+JobPress Jobs block: padding (a block style setting) stays inside the block's
+width, like core blocks, so a padded block lines up with the content column.
+**************/
+.wp-block-jobpress-jobs { box-sizing: border-box; }
+
+/*************
 Elementor widget: fill the container. The search bar and the v5 grid are sized by
 their own width (container queries), so they don't size the widget, which would
 shrink to its header in a row-direction container. Like Elementor's own Maps and

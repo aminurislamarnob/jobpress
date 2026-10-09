@@ -3,7 +3,7 @@ namespace JobPressInc\Base;
 
 /**
  * Listing Defaults settings, on the Shortcodes settings screen: the global
- * defaults of every [jobpress] shortcode and JobPress Elementor widget.
+ * defaults of every [jobpress] shortcode, JobPress Jobs block and JobPress Elementor widget.
  */
 class SettingsFormListing
 {
@@ -94,7 +94,7 @@ class SettingsFormListing
     function jobpress_listing_section_text() {
         printf(
             '<p>%s</p>',
-            esc_html__( 'Defaults for every job listing shown with the [jobpress] shortcode or the JobPress Elementor widget. Each listing can override them with shortcode attributes or widget settings. Leave a text field empty to use the built-in text.', 'jobpress' )
+            esc_html__( 'Defaults for every job listing shown with the [jobpress] shortcode, the JobPress Jobs block or the JobPress Elementor widget. Each listing can override them with shortcode attributes or block and widget settings. Leave a text field empty to use the built-in text.', 'jobpress' )
         );
     }
 }

@@ -5,7 +5,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,7 @@ This plugin enables you to build/create your company job board inside your WordP
 * ⚙️ Cool plugin settings panel for admin
 * 🗺️ You can also add location google map iFrame embed code
 * ⚡ Full-featured Elementor widget: every listing option plus Elementor style controls (colors, typography, spacing, borders, hover states)
+* 🧱 JobPress Jobs block for the block editor: every listing option with a live preview, plus colors, card and button styles (WordPress 6.3+)
 
 = **Documentation** =
 
@@ -117,6 +118,12 @@ Just go to settings page from "JobPress" admin menu.
 = How to use JobPress with Elementor? =
 Drag and drop the "JobPress Jobs" widget from the Elementor editor. In the Content tab, choose the design, the header text, which details each job card shows, a search bar, a "View all jobs" link, and which jobs to list (categories, types, specific jobs, number and order). In the Style tab, override the JobPress colors for this widget and style the header, job cards, job titles, details, buttons, category headers and search bar. Every setting left on "Default" (or empty) follows the global JobPress settings, so changing those settings still updates the widget.
 
+= How to use the JobPress block? =
+In the block editor (WordPress 6.3 or later), add the "JobPress Jobs" block (search for "jobs"). The block shows a live preview of the listing. In the block settings, choose the design, the header text, which details each job card shows, a search bar, a "View all jobs" link and which jobs to list (number, categories, types, specific jobs and order). In the Styles tab, override the JobPress colors for this block and style the job cards and apply button; the usual block spacing, background and width options apply too. Every setting left on "Default" (or empty) follows the global JobPress settings. You can also convert a Shortcode block holding `[jobpress]`, or paste a `[jobpress]` shortcode, into the block, and convert the block back.
+
+= Should I use the block, the shortcode or the Elementor widget? =
+They show the same listing with the same options and defaults, so use whichever fits how you build pages: the block in the block editor, the Elementor widget in Elementor, and the `[jobpress]` shortcode anywhere else (classic editor, widgets, page builders). The block needs WordPress 6.3 or later; on older versions, use the shortcode.
+
 = How to use the JobPress shortcode? =
 You can use the JobPress shortcode in two ways:
 
@@ -159,6 +166,13 @@ Example:
 ```
 
 == Changelog ==
+
+= v2.4.0 (Oct 9, 2026)  =
+* **feat:** JobPress Jobs block for the block editor (WordPress 6.3+), with a live preview: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list. Settings left on "Default" follow the global settings, and each Default option shows the value it uses.
+* **feat:** Block styles: listing colors, space between job cards, card padding, radius and background, apply button colors, and the most grid columns, plus the standard block spacing, background and width options.
+* **feat:** Convert a `[jobpress]` Shortcode block, or a pasted `[jobpress]` shortcode, into the block, and the block back into a shortcode.
+* **update:** Pages with the block load only the stylesheets of the designs they show, in the page head.
+* **fix:** Designs v1, v3 and v4 fit narrow columns (e.g. a listing in a column block): cards stack instead of squeezing the apply button onto one letter per line, and very narrow lists use smaller job titles.
 
 = v2.3.0 (Oct 9, 2026)  =
 * **feat:** Full-featured Elementor widget: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list, and style everything from the Style tab (colors, typography, spacing, borders, shadows, hover states). Settings left on "Default" follow the global settings.

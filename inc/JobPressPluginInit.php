@@ -30,6 +30,7 @@ final class JobPressPluginInit
 			Base\TemplateOverrideNotice::class, //admin notice for outdated theme template copies
 			Base\Flush::class, //Flush rewrite rules
 			Base\ElementorInit::class, //elementor integration (its hooks only fire when Elementor is active)
+			Base\Blocks::class, //JobPress Jobs block (WordPress 6.3+)
 		];
 
 		return $services;
