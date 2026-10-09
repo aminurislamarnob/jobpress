@@ -37,7 +37,8 @@ test.describe( 'Elementor widget', () => {
 		await expectNoPhpErrors( page );
 	} );
 
-	test( 'can hide the positions count', async ( { page, jobPress } ) => {
+	test( 'keeps the positions count hidden in widgets saved before 2.3.0', async ( { page, jobPress } ) => {
+		// The old show_positions switcher saved '' when switched off.
 		const widgetPage = await jobPress.createElementorPage( `Widget page ${ token }`, [
 			{ show_positions: '' },
 		] );
@@ -45,5 +46,72 @@ test.describe( 'Elementor widget', () => {
 
 		await expect( page.locator( '.jp-listing' ) ).toHaveCount( 1 );
 		await expect( page.getByText( /open positions/ ) ).toHaveCount( 0 );
+	} );
+
+	// The listing markup, with the per-instance IDs normalized.
+	const listingHtml = ( locator ) =>
+		locator.evaluate( ( el ) => el.outerHTML.replace( /jp-listing-\d+/g, 'jp-listing-N' ) );
+
+	test( 'renders like the shortcode when nothing is set', async ( { page, jobPress } ) => {
+		const widgetPage = await jobPress.createElementorPage( `Widget page ${ token }`, [ {} ] );
+		const shortcodePage = await jobPress.createPage( `Shortcode page ${ token }`, '[jobpress]' );
+
+		await page.goto( shortcodePage.link );
+		const expected = await listingHtml( page.locator( '.jp-listing' ) );
+		await page.goto( widgetPage.link );
+		expect( await listingHtml( page.locator( '.jp-listing' ) ) ).toBe( expected );
+	} );
+
+	test( 'renders like the shortcode with every content and query setting', async ( { page, jobPress } ) => {
+		const category = await jobPress.createTerm( 'jobpress_category', `Ops ${ token }` );
+		const type = await jobPress.createTerm( 'jobpress_type', `Hybrid ${ token }` );
+		const first = await jobPress.createJob( { title: `Ops Lead ${ token }`, categories: [ category.id ], types: [ type.id ] } );
+		const second = await jobPress.createJob( { title: `Ops Analyst ${ token }`, categories: [ category.id ], types: [ type.id ] } );
+		const third = await jobPress.createJob( { title: `Ops Intern ${ token }`, categories: [ category.id ], types: [ type.id ] } );
+
+		const settings = {
+			design: '3',
+			show_title: 'yes',
+			title: `Ops roles ${ token }`,
+			show_subtitle: 'no',
+			show_count: 'no',
+			show_type: 'yes',
+			show_vacancy: 'no',
+			show_deadline: 'yes',
+			show_experience: 'no',
+			button_text: 'Open role',
+			show_search: 'yes',
+			show_view_all: 'yes',
+			view_all_text: 'All ops jobs',
+			per_page: 2,
+			category: [ category.slug ],
+			type: [ type.slug ],
+			exclude: [ String( third.id ) ],
+			orderby: 'title',
+			order: 'ASC',
+		};
+		const widgetPage = await jobPress.createElementorPage( `Widget page ${ token }`, [ settings ] );
+		const shortcodePage = await jobPress.createPage(
+			`Shortcode page ${ token }`,
+			`[jobpress design="3" show_title="yes" title="Ops roles ${ token }" show_subtitle="no" show_positions="no" ` +
+				'show_type="yes" show_vacancy="no" show_deadline="yes" show_experience="no" button_text="Open role" ' +
+				`show_search="yes" show_view_all="yes" view_all_text="All ops jobs" per_page="2" category="${ category.slug }" ` +
+				`type="${ type.slug }" exclude="${ third.id }" orderby="title" order="ASC"]`
+		);
+
+		await page.goto( shortcodePage.link );
+		const expected = await listingHtml( page.locator( '.jp-listing' ) );
+		await page.goto( widgetPage.link );
+		const widget = page.locator( '.jp-listing' );
+		expect( await listingHtml( widget ) ).toBe( expected );
+
+		// And the settings took effect.
+		await expect( widget ).toHaveClass( /jp-design-v3/ );
+		await expect( page.locator( 'head link#jobpress-design-v3-css' ) ).toHaveCount( 1 );
+		await expect( widget.locator( '.jp-listing__title' ) ).toHaveText( `Ops roles ${ token }` );
+		await expect( widget.locator( '.jp-listing__job-title' ) ).toHaveText( [ second.title.rendered, first.title.rendered ] );
+		await expect( widget.locator( '.jp-listing__button' ).first() ).toHaveText( 'Open role' );
+		await expect( widget.locator( '.jp-listing__view-all' ) ).toHaveText( 'All ops jobs' );
+		await expectNoPhpErrors( page );
 	} );
 } );
