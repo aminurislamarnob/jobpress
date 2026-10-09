@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-09T10:59:02+00:00\n"
+"POT-Creation-Date: 2026-10-09T11:52:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobpress\n"
@@ -285,56 +285,60 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:280
-#: inc/Base/ElementorWidgets.php:569
+#: inc/Base/ElementorWidgets.php:263
+msgid "Most cards per row. Fewer are shown where cards would get too narrow."
+msgstr ""
+
+#: inc/Base/ElementorWidgets.php:283
+#: inc/Base/ElementorWidgets.php:572
 msgid "Header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:285
-#: inc/Base/ElementorWidgets.php:456
-#: inc/Base/ElementorWidgets.php:599
+#: inc/Base/ElementorWidgets.php:288
+#: inc/Base/ElementorWidgets.php:459
+#: inc/Base/ElementorWidgets.php:602
 #: inc/core-functions.php:176
 msgid "Title"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:286
+#: inc/Base/ElementorWidgets.php:289
 msgid "Title text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:290
-#: inc/Base/ElementorWidgets.php:602
+#: inc/Base/ElementorWidgets.php:293
+#: inc/Base/ElementorWidgets.php:605
 #: inc/core-functions.php:188
 msgid "Subtitle"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:291
+#: inc/Base/ElementorWidgets.php:294
 msgid "Subtitle text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:295
-#: inc/Base/ElementorWidgets.php:606
+#: inc/Base/ElementorWidgets.php:298
+#: inc/Base/ElementorWidgets.php:609
 msgid "Open positions count"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:324
-#: inc/Base/ElementorWidgets.php:619
+#: inc/Base/ElementorWidgets.php:327
+#: inc/Base/ElementorWidgets.php:622
 msgid "Job Card"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:331
+#: inc/Base/ElementorWidgets.php:334
 msgid "Category"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:332
+#: inc/Base/ElementorWidgets.php:335
 msgid "Job type"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:333
+#: inc/Base/ElementorWidgets.php:336
 #: templates/single-jobpress.php:108
 msgid "Location"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:334
+#: inc/Base/ElementorWidgets.php:337
 #: inc/Base/JobsMetaBox.php:35
 #: templates/content-job.php:67
 #: templates/listing/jobpress-listing-v2.php:95
@@ -344,264 +348,264 @@ msgstr ""
 msgid "Experience"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:335
+#: inc/Base/ElementorWidgets.php:338
 msgid "Vacancies"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:336
+#: inc/Base/ElementorWidgets.php:339
 msgid "Deadline"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:344
+#: inc/Base/ElementorWidgets.php:347
 msgid "Button text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:358
+#: inc/Base/ElementorWidgets.php:361
 msgid "Search & Links"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:363
+#: inc/Base/ElementorWidgets.php:366
 msgid "Search bar"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:364
+#: inc/Base/ElementorWidgets.php:367
 msgid "Searches open the Jobs Page results."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:367
+#: inc/Base/ElementorWidgets.php:370
 msgid "\"View all jobs\" link"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:370
+#: inc/Base/ElementorWidgets.php:373
 msgid "Link text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:384
+#: inc/Base/ElementorWidgets.php:387
 msgid "Query"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:392
+#: inc/Base/ElementorWidgets.php:395
 msgid "Number of jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:396
+#: inc/Base/ElementorWidgets.php:399
 msgid "Leave empty to show all jobs. Grouped designs show this many per category."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:403
+#: inc/Base/ElementorWidgets.php:406
 msgid "Categories"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:408
+#: inc/Base/ElementorWidgets.php:411
 msgid "Show jobs in any of these categories. Leave empty for all."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:415
+#: inc/Base/ElementorWidgets.php:418
 msgid "Job types"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:420
+#: inc/Base/ElementorWidgets.php:423
 msgid "Show jobs of any of these types. Leave empty for all."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:428
+#: inc/Base/ElementorWidgets.php:431
 msgid "Only these jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:440
+#: inc/Base/ElementorWidgets.php:443
 msgid "Exclude jobs"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:451
+#: inc/Base/ElementorWidgets.php:454
 msgid "Order by"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:455
+#: inc/Base/ElementorWidgets.php:458
 msgid "Date"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:457
+#: inc/Base/ElementorWidgets.php:460
 msgid "Menu order"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:458
+#: inc/Base/ElementorWidgets.php:461
 msgid "Random"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:467
+#: inc/Base/ElementorWidgets.php:470
 msgid "Order"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:471
+#: inc/Base/ElementorWidgets.php:474
 msgid "Descending"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:472
+#: inc/Base/ElementorWidgets.php:475
 msgid "Ascending"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:492
-#: inc/Base/ElementorWidgets.php:718
-#: inc/Base/ElementorWidgets.php:780
-#: inc/Base/ElementorWidgets.php:956
-#: inc/Base/ElementorWidgets.php:977
+#: inc/Base/ElementorWidgets.php:495
+#: inc/Base/ElementorWidgets.php:721
+#: inc/Base/ElementorWidgets.php:783
+#: inc/Base/ElementorWidgets.php:959
+#: inc/Base/ElementorWidgets.php:980
 msgid "Color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:509
-#: inc/Base/ElementorWidgets.php:747
+#: inc/Base/ElementorWidgets.php:512
+#: inc/Base/ElementorWidgets.php:750
 msgid "Spacing"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:525
+#: inc/Base/ElementorWidgets.php:528
 msgid "Colors"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:534
+#: inc/Base/ElementorWidgets.php:537
 msgid "Override the JobPress Appearance colors for this listing. The sections below style individual elements."
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:540
+#: inc/Base/ElementorWidgets.php:543
 msgid "Brand"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:541
-#: inc/Base/ElementorWidgets.php:676
-#: inc/Base/ElementorWidgets.php:833
+#: inc/Base/ElementorWidgets.php:544
+#: inc/Base/ElementorWidgets.php:679
+#: inc/Base/ElementorWidgets.php:836
 msgid "Hover"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:542
+#: inc/Base/ElementorWidgets.php:545
 msgid "Headings"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:543
+#: inc/Base/ElementorWidgets.php:546
 msgid "Secondary text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:544
+#: inc/Base/ElementorWidgets.php:547
 msgid "Content text"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:545
+#: inc/Base/ElementorWidgets.php:548
 msgid "Borders"
-msgstr ""
-
-#: inc/Base/ElementorWidgets.php:577
-#: inc/Base/ElementorWidgets.php:1076
-msgid "Alignment"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:580
 #: inc/Base/ElementorWidgets.php:1079
+msgid "Alignment"
+msgstr ""
+
+#: inc/Base/ElementorWidgets.php:583
+#: inc/Base/ElementorWidgets.php:1082
 msgid "Left"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:581
-#: inc/Base/ElementorWidgets.php:1080
+#: inc/Base/ElementorWidgets.php:584
+#: inc/Base/ElementorWidgets.php:1083
 msgid "Center"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:582
-#: inc/Base/ElementorWidgets.php:1081
+#: inc/Base/ElementorWidgets.php:585
+#: inc/Base/ElementorWidgets.php:1084
 msgid "Right"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:591
-#: inc/Base/ElementorWidgets.php:944
+#: inc/Base/ElementorWidgets.php:594
+#: inc/Base/ElementorWidgets.php:947
 msgid "Space below header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:629
-#: inc/Base/ElementorWidgets.php:813
-#: inc/Base/ElementorWidgets.php:924
+#: inc/Base/ElementorWidgets.php:632
+#: inc/Base/ElementorWidgets.php:816
+#: inc/Base/ElementorWidgets.php:927
 msgid "Padding"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:639
+#: inc/Base/ElementorWidgets.php:642
 msgid "Space between cards"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:654
-#: inc/Base/ElementorWidgets.php:823
-#: inc/Base/ElementorWidgets.php:934
-#: inc/Base/ElementorWidgets.php:1024
+#: inc/Base/ElementorWidgets.php:657
+#: inc/Base/ElementorWidgets.php:826
+#: inc/Base/ElementorWidgets.php:937
+#: inc/Base/ElementorWidgets.php:1027
 msgid "Border radius"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:663
-#: inc/Base/ElementorWidgets.php:833
+#: inc/Base/ElementorWidgets.php:666
+#: inc/Base/ElementorWidgets.php:836
 msgid "Normal"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:667
-#: inc/Base/ElementorWidgets.php:680
-#: inc/Base/ElementorWidgets.php:855
-#: inc/Base/ElementorWidgets.php:915
-#: inc/Base/ElementorWidgets.php:985
-#: inc/Base/ElementorWidgets.php:1013
+#: inc/Base/ElementorWidgets.php:670
+#: inc/Base/ElementorWidgets.php:683
+#: inc/Base/ElementorWidgets.php:858
+#: inc/Base/ElementorWidgets.php:918
+#: inc/Base/ElementorWidgets.php:988
+#: inc/Base/ElementorWidgets.php:1016
 msgid "Background"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:688
-#: inc/Base/ElementorWidgets.php:864
+#: inc/Base/ElementorWidgets.php:691
+#: inc/Base/ElementorWidgets.php:867
 msgid "Border color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:708
+#: inc/Base/ElementorWidgets.php:711
 msgid "Job Title"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:727
+#: inc/Base/ElementorWidgets.php:730
 msgid "Hover color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:765
+#: inc/Base/ElementorWidgets.php:768
 msgid "Job Details"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:847
-#: inc/Base/ElementorWidgets.php:1036
+#: inc/Base/ElementorWidgets.php:850
+#: inc/Base/ElementorWidgets.php:1039
 msgid "Text color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:883
+#: inc/Base/ElementorWidgets.php:886
 msgid "Apply Button"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:904
+#: inc/Base/ElementorWidgets.php:907
 msgid "Category Group Header"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:952
+#: inc/Base/ElementorWidgets.php:955
 msgid "Category name"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:966
+#: inc/Base/ElementorWidgets.php:969
 msgid "Description color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:973
+#: inc/Base/ElementorWidgets.php:976
 msgid "Openings badge"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1002
+#: inc/Base/ElementorWidgets.php:1005
 msgid "Search Bar"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1048
+#: inc/Base/ElementorWidgets.php:1051
 msgid "Divider color"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1054
+#: inc/Base/ElementorWidgets.php:1057
 msgid "Button"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1067
+#: inc/Base/ElementorWidgets.php:1070
 msgid "View All Jobs Link"
 msgstr ""
 
-#: inc/Base/ElementorWidgets.php:1090
+#: inc/Base/ElementorWidgets.php:1093
 msgid "Space above"
 msgstr ""
 

@@ -114,16 +114,17 @@ class JobPressUtils {
 	 * file (including widget style controls) the first time the page is viewed.
 	 *
 	 * @param {string}   title
-	 * @param {Object[]} widgets Settings of each JobPress widget on the page.
+	 * @param {Object[]} widgets           Settings of each JobPress widget on the page.
+	 * @param {Object}   containerSettings Settings of each container, e.g. { flex_direction: 'row' }.
 	 * @return {Promise<Object>} REST page object.
 	 */
-	async createElementorPage( title, widgets = [ {} ] ) {
+	async createElementorPage( title, widgets = [ {} ], containerSettings = {} ) {
 		// Elementor element IDs are 7-character hex strings.
 		const elementId = () => Math.random().toString( 16 ).slice( 2, 9 ).padEnd( 7, '0' );
 		const data = widgets.map( ( settings ) => ( {
 			id: elementId(),
 			elType: 'container',
-			settings: {},
+			settings: containerSettings,
 			elements: [
 				{
 					id: elementId(),

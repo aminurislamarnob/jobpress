@@ -260,8 +260,11 @@ class ElementorWidgets extends Widget_Base {
                 'min' => 1,
                 'max' => 6,
                 'default' => '',
+                'description' => esc_html__( 'Most cards per row. Fewer are shown where cards would get too narrow.', 'jobpress' ),
                 'selectors' => [
-                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'display: grid; grid-template-columns: repeat({{VALUE}}, minmax(0, 1fr));',
+                    // A maximum: the grid drops columns where cards would be narrower than 180px,
+                    // since the desktop value also applies to tablets and phones unless they set their own.
+                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, max(180px, calc(100% / {{VALUE}} - var(--jp-grid-gap, 24px)))), 1fr));',
                 ],
                 'condition' => [ 'design' => $this->get_design_condition( array( 5 ) ) ],
             ]
@@ -642,7 +645,7 @@ class ElementorWidgets extends Widget_Base {
                 'range' => [ 'px' => [ 'min' => 0, 'max' => 100 ] ],
                 'selectors' => [
                     self::SCOPE . ' .jobpress-job-lists.jp-listing__jobs' => 'display: flex; flex-direction: column; gap: {{SIZE}}{{UNIT}};',
-                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'gap: {{SIZE}}{{UNIT}};',
+                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'gap: {{SIZE}}{{UNIT}}; --jp-grid-gap: {{SIZE}}{{UNIT}};',
                     $card => 'margin-bottom: 0;',
                 ],
             ]

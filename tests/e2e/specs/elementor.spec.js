@@ -301,5 +301,39 @@ test.describe( 'Elementor widget', () => {
 			await page.setViewportSize( { width: 390, height: 800 } );
 			await expect.poll( columnCount ).toBe( 1 );
 		} );
+
+		test( 'fill a row-direction container', async ( { page, jobPress } ) => {
+			// The search bar and the v5 grid don't size the widget, which would shrink to its header.
+			const widgetPage = await jobPress.createElementorPage(
+				`Widget row container ${ token }`,
+				[ { design: '5', show_search: 'yes' } ],
+				{ flex_direction: 'row' }
+			);
+			await page.goto( widgetPage.link );
+
+			const widget = page.locator( '.elementor-widget-jobpress_jobs' );
+			const [ widgetWidth, containerWidth ] = await widget.evaluate( ( el ) => {
+				const container = el.parentElement;
+				const style = getComputedStyle( container );
+				return [ el.offsetWidth, container.clientWidth - parseFloat( style.paddingLeft ) - parseFloat( style.paddingRight ) ];
+			} );
+			expect( widgetWidth ).toBeGreaterThanOrEqual( containerWidth - 1 );
+		} );
+
+		test( 'drop grid columns where cards would get too narrow', async ( { page, jobPress } ) => {
+			// Without a mobile value, the desktop columns also apply to phones.
+			const widgetPage = await jobPress.createElementorPage( `Widget narrow grid ${ token }`, [
+				{ design: '5', columns: '3' },
+			] );
+			await page.setViewportSize( { width: 390, height: 800 } );
+			await page.goto( widgetPage.link );
+
+			const card = page.locator( '.jp-listing .jp-listing__card' ).first();
+			const cardWidth = await card.evaluate( ( el ) => el.offsetWidth );
+			expect( cardWidth ).toBeGreaterThanOrEqual( 180 );
+			// Narrow cards scale their title down instead of breaking words.
+			const title = card.locator( '.jp-listing__job-title' );
+			expect( await title.evaluate( ( el ) => el.scrollWidth <= el.clientWidth ) ).toBe( true );
+		} );
 	} );
 } );

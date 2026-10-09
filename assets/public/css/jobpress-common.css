@@ -776,6 +776,16 @@ Listing footer: "View all jobs" link
 }
 
 /*************
+Elementor widget: fill the container. The search bar and the v5 grid are sized by
+their own width (container queries), so they don't size the widget, which would
+shrink to its header in a row-direction container. Like Elementor's own Maps and
+Video widgets; a custom width set in the widget's Advanced tab still applies.
+**************/
+.e-con .elementor-widget-jobpress_jobs {
+    width: 100%;
+}
+
+/*************
 Listing search bar: sized by the listing's width, which is often narrower than the archive's
 **************/
 .jp-listing__search {

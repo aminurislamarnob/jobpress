@@ -154,6 +154,26 @@ jobpress-common.css.
         grid-template-columns: minmax(0, 1fr);
     }
 }
+/* Cards fill their grid row; narrow cards (e.g. a listing in a narrow column) scale their text down. */
+.jp-design-v5 .jp-grid-col {
+    container-type: inline-size;
+    display: flex;
+}
+.jp-design-v5 .jp-grid-col > .jp-single-job-grid {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+@container (max-width: 300px) {
+    .jp-design-v5 .jp-grid-col > .jp-single-job-grid {
+        padding: 20px;
+    }
+    .jp-design-v5 .jp-grid-col .jp-single-job-grid h4 {
+        font-size: clamp(17px, 9cqi, 24px);
+    }
+    .jp-design-v5 .jp-grid-col .jp-single-job-info p {
+        font-size: 15px;
+    }
+}
 .jp-design-v5 .jp-single-job-grid {
     padding: 30px;
 }
