@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
                 <span class="jp-label jp-listing__group-count">
                     <?php
                     // translators: %d is the number of job openings in the category
-                    printf( esc_html__( '%d OPENINGS', 'jobpress' ), absint( $jobs_query->found_posts ) );
+                    printf( esc_html( _n( '%d OPENING', '%d OPENINGS', $jobs_query->found_posts, 'jobpress' ) ), absint( $jobs_query->found_posts ) );
                     ?>
                 </span>
             </div>

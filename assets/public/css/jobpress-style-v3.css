@@ -63,6 +63,10 @@ jobpress-common.css.
     margin-right: 35px;
     display: inline-block;
 }
+/* Each detail ("Deadline: …") wraps as a whole. */
+.jp-design-v3 .jp-single-job-list p span:last-child {
+    display: inline-block;
+}
 .jp-design-v3 .jp-summary-icon svg {
     fill: var(--jp-secondary-color);
 }

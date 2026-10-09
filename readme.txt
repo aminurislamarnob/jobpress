@@ -171,6 +171,9 @@ Example:
 * **update:** Each page only loads the stylesheets of the designs it shows. Rules shared by all designs moved to `jobpress-common.css`, and design stylesheets are registered as `jobpress-design-v1` to `jobpress-design-v5` (previously one `jobpress-css` handle).
 * **fix:** Design v5 (grid) overflowed narrow columns and phones. Narrow cards now scale their text down instead of breaking words, and the cards in a row share one height.
 * **fix:** The Elementor widget fills its container when the container is set to a row direction, instead of shrinking to the width of its header.
+* **fix:** Design v2 gives the job title the free space in narrow listings, and its experience text no longer inherits the theme's body size.
+* **fix:** Designs v3 and v4 keep each job detail (e.g. the deadline) on one line when they wrap.
+* **fix:** Category groups show "1 OPENING" instead of "1 OPENINGS".
 * **fix:** Design v1 no longer starts a job's details with a dash when the job has no category.
 * **Upgrade notes:**
 * Design stylesheet rules are now scoped to `.jp-design-v1` to `.jp-design-v5` (on each listing's wrapper, and on the body of the jobs archive and single job pages). Custom CSS that overrides listing styles may need a more specific selector, e.g. `.jp-listing .jp-single-job-list`.

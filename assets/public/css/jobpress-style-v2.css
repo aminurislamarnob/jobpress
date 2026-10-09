@@ -232,9 +232,38 @@ jobpress-common.css.
 }
 .jp-design-v2 .jp-single-job-exp {
     color: var(--jp-secondary-color);
+    font-size: 16px;
 }
 .jp-design-v2 .jp-single-job-exp span {
     color: var(--jp-primary-color);
+    font-size: 14px;
+}
+/* Cards follow the listing's width (it often sits in a narrow column). */
+.jp-design-v2 .jobpress-job-lists {
+    container-type: inline-size;
+}
+@container (max-width: 760px) {
+    .jp-design-v2 .jp-single-job-list .jp-single-job-info.jp-col-4 {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: 0;
+        padding-right: 0;
+    }
+    .jp-design-v2 .jp-single-job-list .jp-single-job-exp.jp-col-4,
+    .jp-design-v2 .jp-single-job-list .jp-single-job-action.jp-col-4 {
+        flex: 0 0 auto;
+        width: auto;
+    }
+}
+@container (max-width: 480px) {
+    .jp-design-v2 .jp-single-job-list {
+        display: block;
+        padding: 15px;
+    }
+    .jp-design-v2 .jp-single-job-list .jp-single-job-exp.jp-col-4 {
+        text-align: left;
+        margin: 10px 0;
+    }
 }
 .jp-design-v2 .jp-form-group label,
 .jp-design-v2 .jp-form-group p,

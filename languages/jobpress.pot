@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-09T11:52:59+00:00\n"
+"POT-Creation-Date: 2026-10-09T13:16:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobpress\n"
@@ -1018,8 +1018,10 @@ msgstr ""
 #: templates/listing/jobpress-listing-v2.php:48
 #: templates/listing/jobpress-listing-v4.php:49
 #, php-format
-msgid "%d OPENINGS"
-msgstr ""
+msgid "%d OPENING"
+msgid_plural "%d OPENINGS"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %s is the number of job vacancies
 #: templates/listing/jobpress-listing-v4.php:88
