@@ -46,12 +46,12 @@ class Blocks
 		// The editor styles (block.json editorStyle) are the public stylesheets.
 		PublicEnqueue::register_styles();
 
-		add_filter( 'block_type_metadata', array( $this, 'add_listing_attributes' ) );
+		add_filter( 'block_type_metadata', array( $this, 'filter_metadata' ) );
 		register_block_type(
 			JOBPRESS_PLUGIN_PATH . 'assets/blocks/jobs',
 			array( 'render_callback' => array( $this, 'render' ) )
 		);
-		remove_filter( 'block_type_metadata', array( $this, 'add_listing_attributes' ) );
+		remove_filter( 'block_type_metadata', array( $this, 'filter_metadata' ) );
 	}
 
 	/**
@@ -66,15 +66,18 @@ class Blocks
 	}
 
 	/**
-	 * Add an attribute for every global listing setting (Listing Defaults), so a
-	 * new setting becomes a block attribute too. The editor reads the attributes
-	 * from the server, so they are only declared here.
+	 * Complete the block's metadata. Every global listing setting (Listing Defaults)
+	 * gets an attribute, so a new setting becomes a block attribute too; the editor
+	 * reads the attributes from the server, so they are only declared here. And the
+	 * block's stylesheets are versioned with the plugin (WordPress would use its own
+	 * version), so browsers fetch them again after an update.
 	 *
 	 * @param array $metadata Block metadata from block.json.
 	 * @return array
 	 */
-	public function add_listing_attributes( $metadata ) {
+	public function filter_metadata( $metadata ) {
 		if ( isset( $metadata['name'] ) && self::NAME === $metadata['name'] ) {
+			$metadata['version'] = JOBPRESS_VERSION;
 			foreach ( array_keys( jobpress_get_listing_settings() ) as $key ) {
 				if ( ! isset( $metadata['attributes'][ $key ] ) ) {
 					$metadata['attributes'][ $key ] = array(
