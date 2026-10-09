@@ -1,0 +1,57 @@
+name: E2E tests
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+# Cancel an in-progress run when new commits land on the same branch / PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # Starts WordPress in Docker with JobPress active. The tests site runs on
+      # http://localhost:8889 with admin/password, the e2e suite's defaults.
+      - name: Start WordPress
+        run: npm run env:start
+
+      - name: Run e2e tests
+        run: npm run test:e2e
+
+      - name: Upload test report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: tests/e2e/artifacts/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Stop WordPress
+        if: ${{ always() }}
+        run: npm run env:stop
