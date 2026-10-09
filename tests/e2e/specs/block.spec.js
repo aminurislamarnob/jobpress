@@ -119,6 +119,60 @@ test.describe( 'JobPress Jobs block', () => {
 		await expectNoPhpErrors( page );
 	} );
 
+	test( 'lists the jobs its query settings select', async ( { page, jobPress } ) => {
+		const category = await jobPress.createTerm( 'jobpress_category', `Ops ${ token }` );
+		const type = await jobPress.createTerm( 'jobpress_type', `Hybrid ${ token }` );
+		const otherType = await jobPress.createTerm( 'jobpress_type', `Onsite ${ token }` );
+		const create = ( title, types = [ type.id ] ) =>
+			jobPress.createJob( { title: `${ title } ${ token }`, categories: [ category.id ], types } );
+		const lead = await create( 'Ops Lead' );
+		const analyst = await create( 'Ops Analyst' );
+		const intern = await create( 'Ops Intern' );
+		await create( 'Ops Onsite', [ otherType.id ] );
+		const zeta = await create( 'Ops Zeta' );
+
+		const blockPage = await jobPress.createBlockPage( `Block page ${ token }`, [
+			// In the category and type, without one job, by title: the first two.
+			{ design: '1', category: category.slug, type: type.slug, exclude: String( intern.id ), orderby: 'title', order: 'ASC', per_page: '2' },
+			// Only the chosen jobs, newest first.
+			{ design: '1', include: `${ lead.id },${ zeta.id }` },
+		] );
+		await page.goto( blockPage.link );
+
+		const titles = ( n ) => page.locator( '.jp-listing' ).nth( n ).locator( '.jp-listing__job-title' );
+		await expect( titles( 0 ) ).toHaveText( [ analyst.title.rendered, lead.title.rendered ] );
+		await expect( titles( 1 ) ).toHaveText( [ zeta.title.rendered, lead.title.rendered ] );
+		await expectNoPhpErrors( page );
+	} );
+
+	test( 'picks query terms and jobs by name in the editor', async ( { admin, editor, page, jobPress } ) => {
+		const category = await jobPress.createTerm( 'jobpress_category', `Picked ${ token }` );
+		const picked = await jobPress.createJob( { title: `Picked Job ${ token }`, categories: [ category.id ] } );
+		await jobPress.createJob( { title: `Other Job ${ token }` } );
+
+		await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+		await editor.insertBlock( { name: 'jobpress/jobs', attributes: { design: '1' } } );
+		await editor.openDocumentSettingsSidebar();
+		const sidebar = page.getByRole( 'region', { name: 'Editor settings' } );
+		await sidebar.getByRole( 'button', { name: 'Query' } ).click();
+
+		await sidebar.getByLabel( 'Categories' ).fill( `Picked ${ token }` );
+		await page.getByRole( 'option', { name: `Picked ${ token }` } ).click();
+		await sidebar.getByLabel( 'Order by' ).selectOption( 'title' );
+
+		const blockAttributes = () =>
+			page.evaluate( () => window.wp.data.select( 'core/block-editor' ).getSelectedBlock().attributes );
+		await expect.poll( blockAttributes ).toMatchObject( { category: category.slug, orderby: 'title' } );
+
+		const preview = editor.canvas.locator( '.wp-block-jobpress-jobs .jp-listing' );
+		await expect( preview.locator( '.jp-listing__job-title' ) ).toHaveText( [ picked.title.rendered ] );
+
+		await sidebar.getByLabel( 'Leave out these jobs' ).fill( `Picked Job ${ token }` );
+		await page.getByRole( 'option', { name: `Picked Job ${ token } (#${ picked.id })` } ).click();
+		await expect.poll( blockAttributes ).toMatchObject( { exclude: String( picked.id ) } );
+		await expect( preview.locator( '.jp-listing__job-title' ) ).toHaveCount( 0 );
+	} );
+
 	test( 'shows the settings each design uses, with the global values they inherit', async ( { admin, editor, page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', {
 			jobpress_design_type: '1',

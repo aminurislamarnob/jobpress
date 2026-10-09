@@ -18,6 +18,34 @@
     "design": {
       "type": "string",
       "default": ""
+    },
+    "per_page": {
+      "type": "string",
+      "default": ""
+    },
+    "category": {
+      "type": "string",
+      "default": ""
+    },
+    "type": {
+      "type": "string",
+      "default": ""
+    },
+    "include": {
+      "type": "string",
+      "default": ""
+    },
+    "exclude": {
+      "type": "string",
+      "default": ""
+    },
+    "orderby": {
+      "type": "string",
+      "default": ""
+    },
+    "order": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
@@ -25,6 +53,7 @@
   },
   "editorScript": "file:./index.js",
   "editorStyle": [
+    "file:./index.css",
     "jobpress-common",
     "jobpress-design-v1",
     "jobpress-design-v2",

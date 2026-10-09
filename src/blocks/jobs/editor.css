@@ -1,0 +1,4 @@
+/* Space between the controls of the block's inspector panels. */
+.jobpress-block-panel > .components-panel__body-title ~ * ~ * {
+	margin-top: 16px;
+}

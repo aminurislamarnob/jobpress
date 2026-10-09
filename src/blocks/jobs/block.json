@@ -6,14 +6,59 @@
 	"category": "widgets",
 	"icon": "clipboard",
 	"description": "A list of your job openings, in any JobPress design.",
-	"keywords": [ "jobs", "job", "careers", "listing", "jobpress" ],
+	"keywords": [
+		"jobs",
+		"job",
+		"careers",
+		"listing",
+		"jobpress"
+	],
 	"textdomain": "jobpress",
 	"attributes": {
-		"design": { "type": "string", "default": "" }
+		"design": {
+			"type": "string",
+			"default": ""
+		},
+		"per_page": {
+			"type": "string",
+			"default": ""
+		},
+		"category": {
+			"type": "string",
+			"default": ""
+		},
+		"type": {
+			"type": "string",
+			"default": ""
+		},
+		"include": {
+			"type": "string",
+			"default": ""
+		},
+		"exclude": {
+			"type": "string",
+			"default": ""
+		},
+		"orderby": {
+			"type": "string",
+			"default": ""
+		},
+		"order": {
+			"type": "string",
+			"default": ""
+		}
 	},
 	"supports": {
 		"html": false
 	},
 	"editorScript": "file:./index.js",
-	"editorStyle": [ "jobpress-common", "jobpress-design-v1", "jobpress-design-v2", "jobpress-design-v3", "jobpress-design-v4", "jobpress-design-v5" ]
+	"editorStyle": [
+		"file:./index.css",
+		"jobpress-common",
+		"jobpress-design-v1",
+		"jobpress-design-v2",
+		"jobpress-design-v3",
+		"jobpress-design-v4",
+		"jobpress-design-v5"
+	]
 }

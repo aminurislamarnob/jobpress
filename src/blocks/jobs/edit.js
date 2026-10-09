@@ -8,6 +8,7 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { Disabled, ExternalLink, PanelBody, SelectControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
+import QueryPanel from './query';
 import { data, hasDesign, isShown, InheritedTextControl, VisibilityControl } from './controls';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -35,7 +36,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Layout', 'jobpress' ) }>
+				<PanelBody className="jobpress-block-panel" title={ __( 'Layout', 'jobpress' ) }>
 					<p>
 						{ __( 'Settings left on Default use the global Listing Defaults.', 'jobpress' ) }{ ' ' }
 						<ExternalLink href={ data.settingsUrl }>{ __( 'Listing Defaults', 'jobpress' ) }</ExternalLink>
@@ -50,7 +51,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={ __( 'Header', 'jobpress' ) } initialOpen={ false }>
+				<PanelBody className="jobpress-block-panel" title={ __( 'Header', 'jobpress' ) } initialOpen={ false }>
 					<VisibilityControl { ...props } attribute="show_title" label={ __( 'Title', 'jobpress' ) } />
 					{ isShown( attributes, 'show_title' ) && (
 						<InheritedTextControl { ...props } attribute="title" label={ __( 'Title text', 'jobpress' ) } />
@@ -64,7 +65,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 				</PanelBody>
 
-				<PanelBody title={ __( 'Job Card', 'jobpress' ) } initialOpen={ false }>
+				<PanelBody className="jobpress-block-panel" title={ __( 'Job Card', 'jobpress' ) } initialOpen={ false }>
 					{ Object.entries( cardFields ).map(
 						( [ field, label ] ) =>
 							hasDesign( attributes, data.designFields[ field ] ) && (
@@ -76,7 +77,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 				</PanelBody>
 
-				<PanelBody title={ __( 'Search & Links', 'jobpress' ) } initialOpen={ false }>
+				<PanelBody className="jobpress-block-panel" title={ __( 'Search & Links', 'jobpress' ) } initialOpen={ false }>
 					<VisibilityControl
 						{ ...props }
 						attribute="show_search"
@@ -88,6 +89,8 @@ export default function Edit( { attributes, setAttributes } ) {
 						<InheritedTextControl { ...props } attribute="view_all_text" label={ __( 'Link text', 'jobpress' ) } />
 					) }
 				</PanelBody>
+
+				<QueryPanel { ...props } />
 			</InspectorControls>
 			<Disabled>
 				<ServerSideRender block="jobpress/jobs" attributes={ attributes } />
