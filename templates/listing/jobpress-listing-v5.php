@@ -1,31 +1,37 @@
-<div class="jp-job-listing-area">
-    <?php
-        $jobs_per_page = -1;
-        $jobs_query = array(
-            'posts_per_page' => $jobs_per_page,
-            'post_type' => 'jobpress',
-            'post_status' => 'publish',
-            'orderby' => 'date',
-            'order' => 'DESC',
-        );
-        $jobs_query = new WP_Query( $jobs_query );
+<?php
+/**
+ * Job listing, design v5: a grid of job cards.
+ *
+ * This template can be overridden by copying it to yourtheme/jobpress/listing/jobpress-listing-v5.php.
+ *
+ * @var string   $title          Listing title.
+ * @var string   $subtitle       Listing subtitle.
+ * @var string   $show_positions 'yes' to show the open positions count.
+ * @var WP_Query $jobs_query     Jobs to list.
+ * @var int      $total_jobs     Number of jobs matching the listing.
+ *
+ * @version 2.3.0
+ */
 
-        //get total jobs
-        if($jobs_query->found_posts < 10){
-            $total_job_opens = '0'.$jobs_query->found_posts;
-        }else{
-            $total_job_opens = $jobs_query->found_posts;
-        }
-    ?>
-    <div class="jp-section-title jp-text-center">
+defined( 'ABSPATH' ) || exit;
+
+//get total jobs
+if($total_jobs < 10){
+    $total_job_opens = '0'.$total_jobs;
+}else{
+    $total_job_opens = $total_jobs;
+}
+?>
+<div class="jp-job-listing-area">
+    <div class="jp-section-title jp-text-center jp-listing__header">
         <?php if( !empty( $title ) ): ?>
-            <h2><?php echo esc_html( $title ); ?></h2>
+            <h2 class="jp-listing__title"><?php echo esc_html( $title ); ?></h2>
         <?php endif; ?>
         <?php if( !empty( $subtitle ) ): ?>
-            <p><?php echo esc_html( $subtitle ); ?></p>
+            <p class="jp-listing__subtitle"><?php echo esc_html( $subtitle ); ?></p>
         <?php endif; ?>
         <?php if( $show_positions === 'yes' ): ?>
-        <p>
+        <p class="jp-listing__count">
             <?php 
             // translators: %d is the number of open job positions
             $jobpress_open_positions_text = sprintf(
@@ -44,7 +50,7 @@
         </p>
         <?php endif; ?>
     </div>
-    <div class="jobpress-job-grids">
+    <div class="jobpress-job-grids jp-listing__jobs">
         <div class="jp-row">
             <?php
             while($jobs_query->have_posts()) : $jobs_query->the_post();
@@ -69,17 +75,17 @@
             $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true );
             ?>
             <div class="jp-grid-col">
-                <a href="<?php the_permalink(); ?>" class="jp-single-job-grid">
+                <a href="<?php the_permalink(); ?>" class="jp-single-job-grid jp-listing__card">
                     <div>
-                        <div class="jp-category"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?></div>
+                        <div class="jp-category jp-listing__meta jp-listing__category"><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?></div>
                         <div class="jp-single-job-info">
-                            <h4><?php the_title(); ?></h4>
+                            <h4 class="jp-listing__job-title"><?php the_title(); ?></h4>
                             <?php if ( has_excerpt() ) {
                                 the_excerpt();
                             } ?>
                         </div>
                     </div>
-                    <div class="jp-job-type"><?php echo esc_html($job_type_str); ?></div>
+                    <div class="jp-job-type jp-listing__meta jp-listing__type"><?php echo esc_html($job_type_str); ?></div>
                 </a>
             </div>
             <?php       

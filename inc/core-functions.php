@@ -139,6 +139,72 @@ function jobpress_get_listing_category_groups() {
 }
 
 /**
+ * Whether a listing design groups jobs under category headings.
+ *
+ * @param int $design Listing design number (1-5).
+ * @return bool
+ */
+function jobpress_is_grouped_design( $design ) {
+    return in_array( (int) $design, array( 2, 4 ), true );
+}
+
+/**
+ * Build the WP_Query arguments for a listing.
+ *
+ * @param array $extra_args Arguments merged over the defaults, e.g. a group's tax_query.
+ * @return array
+ */
+function jobpress_get_listing_query_args( $extra_args = array() ) {
+    return array_merge(
+        array(
+            'posts_per_page' => -1,
+            'post_type'      => 'jobpress',
+            'post_status'    => 'publish',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+        ),
+        $extra_args
+    );
+}
+
+/**
+ * Run the jobs queries for a listing.
+ *
+ * Grouped designs get one query per category group; the others get a single query.
+ *
+ * @param int $design Listing design number (1-5).
+ * @return array {
+ *     Template variables.
+ *
+ *     @type WP_Query|null $jobs_query Jobs of a flat design.
+ *     @type array[]       $job_groups Groups of a grouped design: the group keys plus a 'query' WP_Query.
+ *     @type int           $total_jobs Number of jobs matching the listing.
+ * }
+ */
+function jobpress_get_listing_jobs( $design ) {
+    $result = array(
+        'jobs_query' => null,
+        'job_groups' => array(),
+        'total_jobs' => 0,
+    );
+
+    if ( jobpress_is_grouped_design( $design ) ) {
+        foreach ( jobpress_get_listing_category_groups() as $group ) {
+            $group['query'] = new WP_Query( jobpress_get_listing_query_args( array( 'tax_query' => $group['tax_query'] ) ) );
+            if ( $group['query']->have_posts() ) {
+                $result['job_groups'][] = $group;
+                $result['total_jobs']  += $group['query']->found_posts;
+            }
+        }
+    } else {
+        $result['jobs_query'] = new WP_Query( jobpress_get_listing_query_args() );
+        $result['total_jobs'] = $result['jobs_query']->found_posts;
+    }
+
+    return $result;
+}
+
+/**
  * Format a stored job date (e.g. the Y-m-d application deadline) using the site's date format.
  *
  * @param string $date Raw date value.

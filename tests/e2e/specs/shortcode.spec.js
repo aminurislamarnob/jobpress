@@ -46,9 +46,41 @@ test.describe( '[jobpress] shortcode', () => {
 				await expect( page.getByRole( 'heading', { name: 'Other openings' } ) ).toBeVisible();
 			}
 
+			// The listing is wrapped in an element scoped to its design, and exposes
+			// the jp-listing__* hook classes that styling (e.g. Elementor) targets.
+			const listing = page.locator( `.jp-listing.jp-design-v${ design }` );
+			await expect( listing ).toHaveCount( 1 );
+			await expect( listing ).toHaveAttribute( 'id', /^jp-listing-\d+$/ );
+			await expect( listing.locator( '.jp-listing__title' ) ).toHaveText( `Join us ${ token }` );
+			await expect( listing.locator( '.jp-listing__subtitle' ) ).toHaveText( 'We are hiring' );
+			for ( const job of [ categorizedJob, uncategorizedJob ] ) {
+				await expect(
+					listing.locator( '.jp-listing__card' ).filter( { hasText: job.title.rendered } )
+				).toHaveCount( 1 );
+			}
+			await expect( listing.locator( '.jp-listing__job-title' ).first() ).toBeVisible();
+			if ( design !== 5 ) {
+				await expect( listing.locator( '.jp-listing__button' ).first() ).toBeVisible();
+			}
+			if ( GROUPED_DESIGNS.includes( design ) ) {
+				await expect( listing.locator( '.jp-listing__group-title', { hasText: category.name } ) ).toBeVisible();
+			}
+
 			await expectNoPhpErrors( page );
 		} );
 	}
+
+	test( 'gives each listing on a page its own ID', async ( { page, jobPress } ) => {
+		const twoListings = await jobPress.createPage(
+			`Two listings ${ token }`,
+			'[jobpress title="First"][jobpress title="Second"]'
+		);
+		await page.goto( twoListings.link );
+
+		const ids = await page.locator( '.jp-listing' ).evaluateAll( ( els ) => els.map( ( el ) => el.id ) );
+		expect( ids ).toHaveLength( 2 );
+		expect( new Set( ids ).size ).toBe( 2 );
+	} );
 
 	test( 'links job titles in design v1', async ( { page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
