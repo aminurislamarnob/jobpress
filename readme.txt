@@ -3,7 +3,7 @@ Contributors: aminurislam01
 Donate link: https://www.buymeacoffee.com/aiarnob
 Tags: jobpress, job board, careers, job listing, job manager, job portal, job openings, jobs
 Requires at least: 5.6
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 2.1.6
 License: GPLv2 or later
