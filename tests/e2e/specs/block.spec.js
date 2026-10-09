@@ -173,6 +173,35 @@ test.describe( 'JobPress Jobs block', () => {
 		await expect( preview.locator( '.jp-listing__job-title' ) ).toHaveCount( 0 );
 	} );
 
+	test( 'loads the stylesheets of the designs on the page in the head', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
+		// A v5 block, and a v2 block nested in a group and columns.
+		const blockPage = await jobPress.createPage(
+			`Block page ${ token }`,
+			'<!-- wp:jobpress/jobs {"design":"5"} /-->\n\n' +
+				'<!-- wp:group --><div class="wp-block-group"><!-- wp:columns --><div class="wp-block-columns">' +
+				'<!-- wp:column --><div class="wp-block-column"><!-- wp:jobpress/jobs {"design":"2"} /--></div><!-- /wp:column -->' +
+				'</div><!-- /wp:columns --></div><!-- /wp:group -->'
+		);
+		await page.goto( blockPage.link );
+
+		const designStylesheets = await page
+			.locator( 'link[id^="jobpress-design-v"]' )
+			.evaluateAll( ( links ) => links.map( ( link ) => [ link.id, link.parentElement.tagName ] ) );
+		expect( designStylesheets.sort() ).toEqual( [
+			[ 'jobpress-design-v2-css', 'HEAD' ],
+			[ 'jobpress-design-v5-css', 'HEAD' ],
+		] );
+		await expect( page.locator( 'head link#jobpress-common-css' ) ).toHaveCount( 1 );
+
+		// Each listing is styled by its own design.
+		const [ grid, grouped ] = [ page.locator( '.jp-design-v5' ), page.locator( '.jp-design-v2' ) ];
+		await expect( grid.locator( '.jobpress-job-grids .jp-row' ) ).toHaveCSS( 'display', 'grid' );
+		await expect( grouped.locator( '.jp-listing__job-title' ).first() ).toBeVisible();
+		await expect( grouped.locator( '.jobpress-job-grids' ) ).toHaveCount( 0 );
+		await expectNoPhpErrors( page );
+	} );
+
 	test( 'shows the settings each design uses, with the global values they inherit', async ( { admin, editor, page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', {
 			jobpress_design_type: '1',

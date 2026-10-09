@@ -123,7 +123,8 @@ class PublicEnqueue
 
 	/**
 	 * Designs of the job lists the current singular post shows: [jobpress]
-	 * shortcodes in its content, and JobPress widgets in its Elementor layout.
+	 * shortcodes and JobPress Jobs blocks in its content, and JobPress widgets in
+	 * its Elementor layout.
 	 *
 	 * Detecting them here loads the styles in the head; otherwise the shortcode
 	 * enqueues them late and they print in the footer, after the list renders.
@@ -145,6 +146,10 @@ class PublicEnqueue
 			}
 		}
 
+		if ( has_block( Blocks::NAME, $post ) ) {
+			$designs = array_merge( $designs, self::get_block_designs( parse_blocks( $post->post_content ) ) );
+		}
+
 		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
 		if ( is_string( $elementor_data ) && false !== strpos( $elementor_data, '"widgetType":"jobpress_jobs"' ) ) {
 			$elements = json_decode( $elementor_data, true );
@@ -162,6 +167,25 @@ class PublicEnqueue
 		);
 
 		return array_values( array_unique( $designs ) );
+	}
+
+	/**
+	 * Collect the design attribute of every JobPress Jobs block, including nested ones.
+	 *
+	 * @param array[] $blocks Parsed blocks.
+	 * @return string[] Raw design attributes ('' means the global design).
+	 */
+	private static function get_block_designs( $blocks ) {
+		$designs = array();
+		foreach ( $blocks as $block ) {
+			if ( Blocks::NAME === $block['blockName'] ) {
+				$designs[] = isset( $block['attrs']['design'] ) ? $block['attrs']['design'] : '';
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$designs = array_merge( $designs, self::get_block_designs( $block['innerBlocks'] ) );
+			}
+		}
+		return $designs;
 	}
 
 	/**
