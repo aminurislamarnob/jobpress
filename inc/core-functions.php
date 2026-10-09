@@ -92,6 +92,21 @@ function jobpress_get_short_design_type() {
 }
 
 /**
+ * Names of the listing designs, keyed by design number.
+ *
+ * @return string[]
+ */
+function jobpress_get_design_names() {
+    return array(
+        '1' => __( 'Design V1: list', 'jobpress' ),
+        '2' => __( 'Design V2: grouped by category', 'jobpress' ),
+        '3' => __( 'Design V3: cards', 'jobpress' ),
+        '4' => __( 'Design V4: cards grouped by category', 'jobpress' ),
+        '5' => __( 'Design V5: grid', 'jobpress' ),
+    );
+}
+
+/**
  * Get the job groups used by the category-grouped listing designs (v2, v4).
  *
  * Each non-empty category becomes a group, followed by an "Other openings"

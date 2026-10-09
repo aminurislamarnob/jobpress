@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-JobPress is a WordPress job-board plugin published on WordPress.org (text domain `jobpress`, PHP ≥ 7.4, WP ≥ 5.6). There is no build step or JS bundler — CSS/JS in `assets/` are hand-written and served as-is. There is no PHP unit test suite; behaviour is covered by Playwright end-to-end tests in `tests/e2e/`.
+JobPress is a WordPress job-board plugin published on WordPress.org (text domain `jobpress`, PHP ≥ 7.4, WP ≥ 5.6). CSS/JS in `assets/` are hand-written and served as-is, except the JobPress Jobs block: its editor script is built with `@wordpress/scripts` from `src/blocks/` into `assets/blocks/`, and the build output is committed (WordPress.org deploys the repo without a build step). Rebuild and commit `assets/blocks/` whenever you change `src/blocks/`; CI fails when they differ. There is no PHP unit test suite; behaviour is covered by Playwright end-to-end tests in `tests/e2e/`.
 
 ## Commands
 
@@ -16,14 +16,18 @@ wp plugin deactivate jobpress && wp plugin activate jobpress   # re-run activati
 wp rewrite flush                                # after changing CPT/taxonomy slugs
 wp i18n make-pot . languages/jobpress.pot       # regenerate translations template
 
-npm install && npx playwright install chromium  # one-time e2e setup
+npm install                                     # dev tooling (block build, e2e)
+npm run build:blocks                            # build the block (src/blocks → assets/blocks); commit the result
+npm run start:blocks                            # rebuild the block on change
+
+npx playwright install chromium                 # one-time e2e setup
 npm run test:e2e                                # run all e2e tests
 npm run test:e2e -- specs/jobs-page.spec.js     # run one spec file
 npm run test:e2e -- -g "filters jobs by type"   # run one test by name
 npm run test:e2e:report                         # open the last HTML report
 ```
 
-E2E tests run against a live WordPress site with JobPress active. `tests/e2e/.env` (gitignored; copy `.env.example`) sets `WP_BASE_URL`, `WP_USERNAME`, `WP_PASSWORD` — locally this is `http://jobpress.test` with the `e2e-admin` user. Without it they target wp-env defaults (`npm run env:start`, needs Docker; config in `.wp-env.json`). Tests run serially because they change shared plugin options; the `jobPress` fixture in `tests/e2e/fixtures.js` creates jobs/terms/pages over REST, changes settings through the real settings screens, and reverts everything after each test, so the suite is safe to run against a site with real content. URLs come from REST `link` fields, so tests work with plain or pretty permalinks. Elementor widget specs seed pages with `_elementor_data` over REST (`jobPress.createElementorPage()`) and assert the frontend, never the editor UI; they skip when Elementor isn't active (wp-env installs it). Set `E2E_THEME=<slug>` to run against a specific installed theme; CI runs the suite on a classic theme (`twentytwentyone`) and a block theme (`twentytwentyfive`).
+E2E tests run against a live WordPress site with JobPress active. `tests/e2e/.env` (gitignored; copy `.env.example`) sets `WP_BASE_URL`, `WP_USERNAME`, `WP_PASSWORD` — locally this is `http://jobpress.test` with the `e2e-admin` user. Without it they target wp-env defaults (`npm run env:start`, needs Docker; config in `.wp-env.json`). Tests run serially because they change shared plugin options; the `jobPress` fixture in `tests/e2e/fixtures.js` creates jobs/terms/pages over REST, changes settings through the real settings screens, and reverts everything after each test, so the suite is safe to run against a site with real content. URLs come from REST `link` fields, so tests work with plain or pretty permalinks. Elementor widget specs seed pages with `_elementor_data` over REST (`jobPress.createElementorPage()`) and assert the frontend, never the editor UI; they skip when Elementor isn't active (wp-env installs it). Block specs likewise create pages with block markup over REST (`jobPress.createBlockPage()`) and assert the frontend; only the editor tests in `block.spec.js` drive the block editor. They skip when the block isn't registered (WordPress before 6.3). Set `E2E_THEME=<slug>` to run against a specific installed theme; CI runs the suite on a classic theme (`twentytwentyone`) and a block theme (`twentytwentyfive`).
 
 ## Architecture
 

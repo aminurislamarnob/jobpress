@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jobpress/jobs",
+	"title": "JobPress Jobs",
+	"category": "widgets",
+	"icon": "clipboard",
+	"description": "A list of your job openings, in any JobPress design.",
+	"keywords": [ "jobs", "job", "careers", "listing", "jobpress" ],
+	"textdomain": "jobpress",
+	"attributes": {
+		"design": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": [ "jobpress-common", "jobpress-design-v1", "jobpress-design-v2", "jobpress-design-v3", "jobpress-design-v4", "jobpress-design-v5" ]
+}

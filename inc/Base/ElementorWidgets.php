@@ -140,13 +140,7 @@ class ElementorWidgets extends Widget_Base {
      * @return string[]
      */
     private function get_design_names() {
-        return array(
-            '1' => esc_html__( 'Design V1: list', 'jobpress' ),
-            '2' => esc_html__( 'Design V2: grouped by category', 'jobpress' ),
-            '3' => esc_html__( 'Design V3: cards', 'jobpress' ),
-            '4' => esc_html__( 'Design V4: cards grouped by category', 'jobpress' ),
-            '5' => esc_html__( 'Design V5: grid', 'jobpress' ),
-        );
+        return array_map( 'esc_html', jobpress_get_design_names() );
     }
 
     /**
