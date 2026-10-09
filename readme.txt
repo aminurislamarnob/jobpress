@@ -5,7 +5,7 @@ Tags: jobpress, job board, careers, job listing, job manager, job portal, job op
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.6
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,26 @@ Example with all attributes:
 ```
 
 == Changelog ==
+
+= v2.2.0 (Oct 9, 2026)  =
+* **feat:** Search, category and job type filters on the jobs page.
+* **feat:** Block theme support: job pages now show the theme's header and footer on block themes such as Twenty Twenty-Five.
+* **feat:** The single job page shows the job title (can be hidden with the `jobpress_show_single_job_title` filter).
+* **feat:** "No jobs found" message when a search or filter has no results.
+* **feat:** Designs v2 and v4 list jobs without a category under "Other openings".
+* **update:** Job pages and listings sit in a centered, padded container on themes without their own wrapper.
+* **update:** Application deadlines use the site's date format.
+* **update:** Email addresses in the application text are clickable links.
+* **update:** Styles only load on pages that show jobs, and load in the Elementor editor preview.
+* **fix:** Job details are only saved from the job editor, with a valid security check.
+* **fix:** Job, category and type URLs could return "Page not found" after activating the plugin.
+* **fix:** Category and type archives use the JobPress jobs layout and show only that category's or type's jobs.
+* **fix:** The jobs page styles loaded on every page when no Jobs Page was set.
+* **fix:** An Elementor widget title or subtitle containing "]" lost all widget settings.
+* **fix:** Translations were not loaded.
+* **fix:** Settings are sanitized on save, and output is escaped throughout the templates.
+* **fix:** Replaced the deprecated `get_page_by_title()` function.
+* Tested up to WordPress 7.1.
 
 = v2.1.5 & v2.1.6 (Dec 24, 2025)  =
 * Compatibility check with latest WordPress Version v6.9
