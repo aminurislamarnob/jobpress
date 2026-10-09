@@ -120,6 +120,10 @@ class ElementorWidgets extends Widget_Base {
         $this->register_card_style_controls();
         $this->register_job_title_style_controls();
         $this->register_meta_style_controls();
+        $this->register_button_style_controls();
+        $this->register_group_style_controls();
+        $this->register_search_style_controls();
+        $this->register_view_all_style_controls();
 
         /**
          * Fires after the JobPress Elementor widget registered its controls, so
@@ -227,16 +231,24 @@ class ElementorWidgets extends Widget_Base {
         );
 
         $design_names = $this->get_design_names();
+        /* translators: %s: name of the design selected in the JobPress settings */
+        $default_design = sprintf( esc_html__( 'Default (%s)', 'jobpress' ), $design_names[ (string) jobpress_get_short_design_type() ] );
         $this->add_control(
             'design',
             [
                 'label' => esc_html__( 'Design', 'jobpress' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => '',
-                'options' => array(
-                    /* translators: %s: name of the design selected in the JobPress settings */
-                    '' => sprintf( esc_html__( 'Default (%s)', 'jobpress' ), $design_names[ (string) jobpress_get_short_design_type() ] ),
-                ) + $design_names,
+                'options' => array( '' => $default_design ) + $design_names,
+                // Options with numeric keys are listed before the others, so group the
+                // designs to keep "Default" first.
+                'groups' => array(
+                    '' => $default_design,
+                    'designs' => array(
+                        'label' => esc_html__( 'Designs', 'jobpress' ),
+                        'options' => $design_names,
+                    ),
+                ),
             ]
         );
 
@@ -244,15 +256,10 @@ class ElementorWidgets extends Widget_Base {
             'columns',
             [
                 'label' => esc_html__( 'Columns', 'jobpress' ),
-                'type' => Controls_Manager::SELECT,
+                'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'max' => 6,
                 'default' => '',
-                'options' => [
-                    '' => esc_html__( 'Default', 'jobpress' ),
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                ],
                 'selectors' => [
                     self::SCOPE . ' .jobpress-job-grids .jp-row' => 'display: grid; grid-template-columns: repeat({{VALUE}}, minmax(0, 1fr));',
                 ],
@@ -783,6 +790,312 @@ class ElementorWidgets extends Widget_Base {
                 'selector' => implode( ', ', $meta ),
             ]
         );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Add typography, padding, radius, border and Normal/Hover color controls for a button.
+     *
+     * @param string $prefix   Control name prefix.
+     * @param string $selector Button selector, relative to SCOPE.
+     * @param array  $extra    Extra selectors (relative to SCOPE) per state for the
+     *                         text color: 'normal' and 'hover', e.g. an icon's fill.
+     */
+    protected function add_button_style_controls( $prefix, $selector, $extra = array() ) {
+        $button = self::SCOPE . ' ' . $selector;
+
+        $this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => $prefix . '_typography', 'selector' => $button ] );
+
+        $this->add_responsive_control(
+            $prefix . '_padding',
+            [
+                'label' => esc_html__( 'Padding', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'selectors' => [ $button => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_control(
+            $prefix . '_radius',
+            [
+                'label' => esc_html__( 'Border radius', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [ $button => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_group_control( Group_Control_Border::get_type(), [ 'name' => $prefix . '_border', 'selector' => $button ] );
+
+        $this->start_controls_tabs( $prefix . '_tabs' );
+        foreach ( array( 'normal' => esc_html__( 'Normal', 'jobpress' ), 'hover' => esc_html__( 'Hover', 'jobpress' ) ) as $state => $label ) {
+            $suffix = 'hover' === $state ? '_hover' : '';
+            $target = 'hover' === $state ? "$button:hover, $button:focus" : $button;
+
+            $this->start_controls_tab( $prefix . '_tab_' . $state, [ 'label' => $label ] );
+
+            // The designs set the button text color with !important.
+            $color_selectors = [ $target => 'color: {{VALUE}} !important;' ];
+            if ( ! empty( $extra[ $state ] ) ) {
+                $color_selectors[ self::SCOPE . ' ' . $extra[ $state ] ] = 'fill: {{VALUE}};';
+            }
+            $this->add_control(
+                $prefix . '_color' . $suffix,
+                [
+                    'label' => esc_html__( 'Text color', 'jobpress' ),
+                    'type' => Controls_Manager::COLOR,
+                    'selectors' => $color_selectors,
+                ]
+            );
+            $this->add_control(
+                $prefix . '_background' . $suffix,
+                [
+                    'label' => esc_html__( 'Background', 'jobpress' ),
+                    'type' => Controls_Manager::COLOR,
+                    'selectors' => [ $target => 'background-color: {{VALUE}};' ],
+                ]
+            );
+            if ( 'hover' === $state ) {
+                $this->add_control(
+                    $prefix . '_border_color_hover',
+                    [
+                        'label' => esc_html__( 'Border color', 'jobpress' ),
+                        'type' => Controls_Manager::COLOR,
+                        'selectors' => [ $target => 'border-color: {{VALUE}};' ],
+                    ]
+                );
+            }
+
+            $this->end_controls_tab();
+        }
+        $this->end_controls_tabs();
+    }
+
+    /**
+     * Style tab: the apply button (the arrow link in design v2).
+     */
+    protected function register_button_style_controls() {
+        $this->start_controls_section(
+            'button_style_section',
+            [
+                'label' => esc_html__( 'Apply Button', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [ 'design' => $this->get_design_condition( array( 1, 2, 3, 4 ) ) ],
+            ]
+        );
+
+        $this->add_button_style_controls( 'button', '.jp-listing__button', [
+            'normal' => '.jp-listing__button svg',
+            'hover'  => '.jp-listing__button:hover svg',
+        ] );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: category group headers of the grouped designs.
+     */
+    protected function register_group_style_controls() {
+        $this->start_controls_section(
+            'group_style_section',
+            [
+                'label' => esc_html__( 'Category Group Header', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [ 'design' => $this->get_design_condition( array( 2, 4 ) ) ],
+            ]
+        );
+
+        $header = self::SCOPE . ' .jp-listing__group-header';
+
+        $this->add_control(
+            'group_background',
+            [
+                'label' => esc_html__( 'Background', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $header => 'background-color: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'group_padding',
+            [
+                'label' => esc_html__( 'Padding', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'selectors' => [ $header => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_control(
+            'group_radius',
+            [
+                'label' => esc_html__( 'Border radius', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [ $header => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'group_spacing',
+            [
+                'label' => esc_html__( 'Space below header', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 100 ] ],
+                'selectors' => [ $header => 'margin-bottom: {{SIZE}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_control( 'group_title_heading', [ 'label' => esc_html__( 'Category name', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ] );
+        $this->add_control(
+            'group_title_color',
+            [
+                'label' => esc_html__( 'Color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ self::SCOPE . ' .jp-listing__group-title' => 'color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => 'group_title_typography', 'selector' => self::SCOPE . ' .jp-listing__group-title' ] );
+
+        $this->add_control(
+            'group_description_color',
+            [
+                'label' => esc_html__( 'Description color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ self::SCOPE . ' .jp-listing__group-description' => 'color: {{VALUE}};' ],
+            ]
+        );
+
+        $badge = self::SCOPE . ' .jp-listing__group-count';
+        $this->add_control( 'group_count_heading', [ 'label' => esc_html__( 'Openings badge', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ] );
+        $this->add_control(
+            'group_count_color',
+            [
+                'label' => esc_html__( 'Color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $badge => 'color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_control(
+            'group_count_background',
+            [
+                'label' => esc_html__( 'Background', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $badge => 'background-color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => 'group_count_typography', 'selector' => $badge ] );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: search bar.
+     */
+    protected function register_search_style_controls() {
+        $this->start_controls_section(
+            'search_style_section',
+            [
+                'label' => esc_html__( 'Search Bar', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [ 'show_search' => $this->get_inherited_condition( 'show_search' ) ],
+            ]
+        );
+
+        $bar = self::SCOPE . ' .jobpress-search-form-wrapper';
+
+        $this->add_control(
+            'search_background',
+            [
+                'label' => esc_html__( 'Background', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $bar => 'background-color: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_group_control( Group_Control_Border::get_type(), [ 'name' => 'search_border', 'selector' => $bar ] );
+
+        $this->add_control(
+            'search_radius',
+            [
+                'label' => esc_html__( 'Border radius', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [ $bar => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_group_control( Group_Control_Box_Shadow::get_type(), [ 'name' => 'search_shadow', 'selector' => $bar ] );
+
+        $this->add_control(
+            'search_text_color',
+            [
+                'label' => esc_html__( 'Text color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    "$bar input, $bar select" => 'color: {{VALUE}};',
+                    "$bar input::placeholder" => 'color: {{VALUE}}; opacity: .7;',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'search_divider_color',
+            [
+                'label' => esc_html__( 'Divider color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ "$bar .search-field" => 'border-color: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_control( 'search_button_heading', [ 'label' => esc_html__( 'Button', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ] );
+        $this->add_button_style_controls( 'search_button', '.jobpress-search-form-wrapper .search-submit' );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: "View all jobs" link.
+     */
+    protected function register_view_all_style_controls() {
+        $this->start_controls_section(
+            'view_all_style_section',
+            [
+                'label' => esc_html__( 'View All Jobs Link', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [ 'show_view_all' => $this->get_inherited_condition( 'show_view_all' ) ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'view_all_align',
+            [
+                'label' => esc_html__( 'Alignment', 'jobpress' ),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [ 'title' => esc_html__( 'Left', 'jobpress' ), 'icon' => 'eicon-text-align-left' ],
+                    'center' => [ 'title' => esc_html__( 'Center', 'jobpress' ), 'icon' => 'eicon-text-align-center' ],
+                    'right' => [ 'title' => esc_html__( 'Right', 'jobpress' ), 'icon' => 'eicon-text-align-right' ],
+                ],
+                'selectors' => [ self::SCOPE . ' .jp-listing__footer' => 'text-align: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'view_all_spacing',
+            [
+                'label' => esc_html__( 'Space above', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 100 ] ],
+                'selectors' => [ self::SCOPE . ' .jp-listing__footer' => 'margin-top: {{SIZE}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_button_style_controls( 'view_all', '.jp-listing__view-all' );
 
         $this->end_controls_section();
     }

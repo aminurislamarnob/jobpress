@@ -200,6 +200,94 @@ test.describe( 'Elementor widget', () => {
 			} );
 		}
 
+		const buttonStyle = ( prefix ) => ( {
+			[ `${ prefix }_typography_typography` ]: 'custom',
+			[ `${ prefix }_typography_font_size` ]: px( 17 ),
+			[ `${ prefix }_padding` ]: box( 6 ),
+			[ `${ prefix }_radius` ]: box( 11 ),
+			[ `${ prefix }_color` ]: '#010203',
+			[ `${ prefix }_background` ]: '#ffee00',
+		} );
+		const expectButtonStyle = async ( button ) => {
+			await expect( button ).toHaveCSS( 'font-size', '17px' );
+			await expect( button ).toHaveCSS( 'padding-left', '6px' );
+			await expect( button ).toHaveCSS( 'border-top-left-radius', '11px' );
+			await expect( button ).toHaveCSS( 'color', 'rgb(1, 2, 3)' );
+			await expect( button ).toHaveCSS( 'background-color', 'rgb(255, 238, 0)' );
+		};
+
+		for ( const design of [ 1, 3, 4 ] ) {
+			test( `style the apply button in design v${ design }`, async ( { page, jobPress } ) => {
+				const widgetPage = await jobPress.createElementorPage( `Widget button ${ token }`, [
+					{ design: String( design ), ...buttonStyle( 'button' ) },
+				] );
+				await page.goto( widgetPage.link );
+				await expectButtonStyle( page.locator( '.jp-listing .jp-listing__button' ).first() );
+			} );
+		}
+
+		test( 'color the arrow link in design v2', async ( { page, jobPress } ) => {
+			const widgetPage = await jobPress.createElementorPage( `Widget arrow ${ token }`, [
+				{ design: '2', button_color: '#010203' },
+			] );
+			await page.goto( widgetPage.link );
+			await expect( page.locator( '.jp-listing .jp-listing__button svg' ).first() ).toHaveCSS( 'fill', 'rgb(1, 2, 3)' );
+		} );
+
+		for ( const design of [ 2, 4 ] ) {
+			test( `style the category group headers in design v${ design }`, async ( { page, jobPress } ) => {
+				const category = await jobPress.createTerm( 'jobpress_category', `Group ${ token }` );
+				await jobPress.createJob( { title: `Grouped ${ token }`, categories: [ category.id ] } );
+				const widgetPage = await jobPress.createElementorPage( `Widget groups ${ token }`, [
+					{
+						design: String( design ),
+						category: [ category.slug ],
+						group_background: '#f0f0ff',
+						group_padding: box( 8 ),
+						group_title_color: '#123123',
+						group_title_typography_typography: 'custom',
+						group_title_typography_font_size: px( 27 ),
+						group_count_color: '#321321',
+						group_count_background: '#eeffee',
+					},
+				] );
+				await page.goto( widgetPage.link );
+
+				const header = page.locator( '.jp-listing .jp-listing__group-header' );
+				await expect( header ).toHaveCSS( 'background-color', 'rgb(240, 240, 255)' );
+				await expect( header ).toHaveCSS( 'padding-top', '8px' );
+				await expect( header.locator( '.jp-listing__group-title' ) ).toHaveCSS( 'color', 'rgb(18, 49, 35)' );
+				await expect( header.locator( '.jp-listing__group-title' ) ).toHaveCSS( 'font-size', '27px' );
+				await expect( header.locator( '.jp-listing__group-count' ) ).toHaveCSS( 'color', 'rgb(50, 19, 33)' );
+				await expect( header.locator( '.jp-listing__group-count' ) ).toHaveCSS( 'background-color', 'rgb(238, 255, 238)' );
+			} );
+		}
+
+		test( 'style the search bar and the "View all jobs" link', async ( { page, jobPress } ) => {
+			const widgetPage = await jobPress.createElementorPage( `Widget search ${ token }`, [
+				{
+					show_search: 'yes',
+					show_view_all: 'yes',
+					search_background: '#fdf6e3',
+					search_radius: box( 2 ),
+					search_text_color: '#0a0b0c',
+					...buttonStyle( 'search_button' ),
+					...buttonStyle( 'view_all' ),
+					view_all_align: 'right',
+				},
+			] );
+			await page.goto( widgetPage.link );
+
+			const bar = page.locator( '.jp-listing .jobpress-search-form-wrapper' );
+			await expect( bar ).toHaveCSS( 'background-color', 'rgb(253, 246, 227)' );
+			await expect( bar ).toHaveCSS( 'border-top-left-radius', '2px' );
+			await expect( bar.locator( 'input[name="job_search"]' ) ).toHaveCSS( 'color', 'rgb(10, 11, 12)' );
+			await expectButtonStyle( bar.locator( '.search-submit' ) );
+
+			await expectButtonStyle( page.locator( '.jp-listing .jp-listing__view-all' ) );
+			await expect( page.locator( '.jp-listing .jp-listing__footer' ) ).toHaveCSS( 'text-align', 'right' );
+		} );
+
 		test( 'set the grid columns per device', async ( { page, jobPress } ) => {
 			const widgetPage = await jobPress.createElementorPage( `Widget grid ${ token }`, [
 				{ design: '5', columns: '2', columns_mobile: '1' },
