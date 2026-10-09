@@ -3,6 +3,9 @@ namespace JobPressInc\Base;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Box_Shadow;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
@@ -16,6 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * JobPress settings. Style controls write Elementor CSS for the widget.
  */
 class ElementorWidgets extends Widget_Base {
+
+    /**
+     * Prefix of the style control selectors. The doubled class outranks the
+     * listing designs' own rules (scoped to .jp-design-v{N}).
+     */
+    const SCOPE = '{{WRAPPER}} .jp-listing.jp-listing';
 
     /**
      * Visibility settings: widget control => shortcode attribute.
@@ -106,6 +115,11 @@ class ElementorWidgets extends Widget_Base {
         $this->register_card_controls();
         $this->register_search_controls();
         $this->register_query_controls();
+        $this->register_color_style_controls();
+        $this->register_header_style_controls();
+        $this->register_card_style_controls();
+        $this->register_job_title_style_controls();
+        $this->register_meta_style_controls();
 
         /**
          * Fires after the JobPress Elementor widget registered its controls, so
@@ -223,6 +237,26 @@ class ElementorWidgets extends Widget_Base {
                     /* translators: %s: name of the design selected in the JobPress settings */
                     '' => sprintf( esc_html__( 'Default (%s)', 'jobpress' ), $design_names[ (string) jobpress_get_short_design_type() ] ),
                 ) + $design_names,
+            ]
+        );
+
+        $this->add_responsive_control(
+            'columns',
+            [
+                'label' => esc_html__( 'Columns', 'jobpress' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => esc_html__( 'Default', 'jobpress' ),
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                ],
+                'selectors' => [
+                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'display: grid; grid-template-columns: repeat({{VALUE}}, minmax(0, 1fr));',
+                ],
+                'condition' => [ 'design' => $this->get_design_condition( array( 5 ) ) ],
             ]
         );
 
@@ -431,6 +465,322 @@ class ElementorWidgets extends Widget_Base {
                     'ASC' => esc_html__( 'Ascending', 'jobpress' ),
                 ],
                 'condition' => [ 'orderby!' => 'rand' ],
+            ]
+        );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Add color, typography and bottom spacing controls for a text element.
+     *
+     * @param string $prefix   Control name prefix.
+     * @param string $selector Element selector, relative to SCOPE.
+     * @param array  $args     Extra arguments for every control, e.g. a condition.
+     */
+    protected function add_text_style_controls( $prefix, $selector, $args = array() ) {
+        $this->add_control(
+            $prefix . '_color',
+            array_merge( [
+                'label' => esc_html__( 'Color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ self::SCOPE . ' ' . $selector => 'color: {{VALUE}};' ],
+            ], $args )
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            array_merge( [
+                'name' => $prefix . '_typography',
+                'selector' => self::SCOPE . ' ' . $selector,
+            ], $args )
+        );
+
+        $this->add_responsive_control(
+            $prefix . '_spacing',
+            array_merge( [
+                'label' => esc_html__( 'Spacing', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 100 ] ],
+                'selectors' => [ self::SCOPE . ' ' . $selector => 'margin-bottom: {{SIZE}}{{UNIT}};' ],
+            ], $args )
+        );
+    }
+
+    /**
+     * Style tab: the six JobPress colors, which every design is built from.
+     */
+    protected function register_color_style_controls() {
+        $this->start_controls_section(
+            'colors_style_section',
+            [
+                'label' => esc_html__( 'Colors', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'colors_description',
+            [
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => esc_html__( 'Override the JobPress Appearance colors for this listing. The sections below style individual elements.', 'jobpress' ),
+                'content_classes' => 'elementor-descriptor',
+            ]
+        );
+
+        $labels = array(
+            'brand_color'     => esc_html__( 'Brand', 'jobpress' ),
+            'hover_color'     => esc_html__( 'Hover', 'jobpress' ),
+            'heading_color'   => esc_html__( 'Headings', 'jobpress' ),
+            'secondary_color' => esc_html__( 'Secondary text', 'jobpress' ),
+            'content_color'   => esc_html__( 'Content text', 'jobpress' ),
+            'border_color'    => esc_html__( 'Borders', 'jobpress' ),
+        );
+        $colors = PublicEnqueue::get_colors();
+        foreach ( $labels as $name => $label ) {
+            $this->add_control(
+                $name,
+                [
+                    'label' => $label,
+                    'type' => Controls_Manager::COLOR,
+                    'selectors' => [ '{{WRAPPER}} .jp-listing' => $colors[ $name ][0] . ': {{VALUE}};' ],
+                ]
+            );
+        }
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: header.
+     */
+    protected function register_header_style_controls() {
+        $this->start_controls_section(
+            'header_style_section',
+            [
+                'label' => esc_html__( 'Header', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_responsive_control(
+            'header_align',
+            [
+                'label' => esc_html__( 'Alignment', 'jobpress' ),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [ 'title' => esc_html__( 'Left', 'jobpress' ), 'icon' => 'eicon-text-align-left' ],
+                    'center' => [ 'title' => esc_html__( 'Center', 'jobpress' ), 'icon' => 'eicon-text-align-center' ],
+                    'right' => [ 'title' => esc_html__( 'Right', 'jobpress' ), 'icon' => 'eicon-text-align-right' ],
+                ],
+                'selectors' => [ self::SCOPE . ' .jp-listing__header' => 'text-align: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'header_spacing',
+            [
+                'label' => esc_html__( 'Space below header', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 150 ] ],
+                'selectors' => [ self::SCOPE . ' .jp-listing__header' => 'margin-bottom: {{SIZE}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_control( 'title_style_heading', [ 'label' => esc_html__( 'Title', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ] );
+        $this->add_text_style_controls( 'title', '.jp-listing__title' );
+
+        $this->add_control( 'subtitle_style_heading', [ 'label' => esc_html__( 'Subtitle', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ] );
+        $this->add_text_style_controls( 'subtitle', '.jp-listing__subtitle' );
+
+        $count_condition = [ 'condition' => [ 'design' => $this->get_design_condition( array( 1, 3, 5 ) ) ] ];
+        $this->add_control( 'count_style_heading', array_merge( [ 'label' => esc_html__( 'Open positions count', 'jobpress' ), 'type' => Controls_Manager::HEADING, 'separator' => 'before' ], $count_condition ) );
+        $this->add_text_style_controls( 'count', '.jp-listing__count', $count_condition );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: job cards.
+     */
+    protected function register_card_style_controls() {
+        $this->start_controls_section(
+            'card_style_section',
+            [
+                'label' => esc_html__( 'Job Card', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $card = self::SCOPE . ' .jp-listing__jobs .jp-listing__card';
+
+        $this->add_responsive_control(
+            'card_padding',
+            [
+                'label' => esc_html__( 'Padding', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', 'rem', '%' ],
+                'selectors' => [ $card => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'card_gap',
+            [
+                'label' => esc_html__( 'Space between cards', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 100 ] ],
+                'selectors' => [
+                    self::SCOPE . ' .jobpress-job-lists.jp-listing__jobs' => 'display: flex; flex-direction: column; gap: {{SIZE}}{{UNIT}};',
+                    self::SCOPE . ' .jobpress-job-grids .jp-row' => 'gap: {{SIZE}}{{UNIT}};',
+                    $card => 'margin-bottom: 0;',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'card_radius',
+            [
+                'label' => esc_html__( 'Border radius', 'jobpress' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [ $card => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->start_controls_tabs( 'card_style_tabs' );
+
+        $this->start_controls_tab( 'card_style_normal', [ 'label' => esc_html__( 'Normal', 'jobpress' ) ] );
+        $this->add_control(
+            'card_background',
+            [
+                'label' => esc_html__( 'Background', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $card => 'background-color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_group_control( Group_Control_Border::get_type(), [ 'name' => 'card_border', 'selector' => $card ] );
+        $this->add_group_control( Group_Control_Box_Shadow::get_type(), [ 'name' => 'card_shadow', 'selector' => $card ] );
+        $this->end_controls_tab();
+
+        $this->start_controls_tab( 'card_style_hover', [ 'label' => esc_html__( 'Hover', 'jobpress' ) ] );
+        $this->add_control(
+            'card_background_hover',
+            [
+                'label' => esc_html__( 'Background', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $card . ':hover' => 'background-color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_control(
+            'card_border_color_hover',
+            [
+                'label' => esc_html__( 'Border color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ $card . ':hover' => 'border-color: {{VALUE}};' ],
+            ]
+        );
+        $this->add_group_control( Group_Control_Box_Shadow::get_type(), [ 'name' => 'card_shadow_hover', 'selector' => $card . ':hover' ] );
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: job titles.
+     */
+    protected function register_job_title_style_controls() {
+        $this->start_controls_section(
+            'job_title_style_section',
+            [
+                'label' => esc_html__( 'Job Title', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $title = self::SCOPE . ' .jp-listing__job-title';
+
+        $this->add_control(
+            'job_title_color',
+            [
+                'label' => esc_html__( 'Color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ "$title, $title a" => 'color: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_control(
+            'job_title_hover_color',
+            [
+                'label' => esc_html__( 'Hover color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    // In the grid design the whole card is the link.
+                    "$title a:hover, " . self::SCOPE . ' .jp-listing__card:hover .jp-listing__job-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'job_title_typography',
+                'selector' => $title,
+            ]
+        );
+
+        $this->add_responsive_control(
+            'job_title_spacing',
+            [
+                'label' => esc_html__( 'Spacing', 'jobpress' ),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem' ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 60 ] ],
+                'selectors' => [ $title => 'margin-bottom: {{SIZE}}{{UNIT}};' ],
+            ]
+        );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Style tab: job details (category, type, location, vacancies, deadline, experience).
+     */
+    protected function register_meta_style_controls() {
+        $this->start_controls_section(
+            'meta_style_section',
+            [
+                'label' => esc_html__( 'Job Details', 'jobpress' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $meta = array(
+            self::SCOPE . ' .jp-listing__meta',
+            self::SCOPE . ' .jp-listing__meta span',
+            self::SCOPE . ' .jp-listing__experience',
+            self::SCOPE . ' .jp-listing__experience span',
+        );
+
+        $this->add_control(
+            'meta_color',
+            [
+                'label' => esc_html__( 'Color', 'jobpress' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [ implode( ', ', $meta ) => 'color: {{VALUE}};' ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'meta_typography',
+                'selector' => implode( ', ', $meta ),
             ]
         );
 

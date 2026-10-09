@@ -56,10 +56,24 @@ test.describe( 'Elementor widget', () => {
 		const widgetPage = await jobPress.createElementorPage( `Widget page ${ token }`, [ {} ] );
 		const shortcodePage = await jobPress.createPage( `Shortcode page ${ token }`, '[jobpress]' );
 
+		// Computed styles of the listing's elements: unset style controls add no CSS.
+		// (The wrapper itself is left out: the theme lays out post content differently.)
+		const listingStyles = () =>
+			page.locator( '.jp-listing' ).evaluate( ( listing ) =>
+				[ ...listing.querySelectorAll( '*' ) ].map( ( el ) => {
+					const style = getComputedStyle( el );
+					return [ 'color', 'background-color', 'font-size', 'padding', 'margin', 'border', 'border-radius', 'text-align', 'gap', 'display' ]
+						.map( ( prop ) => style.getPropertyValue( prop ) )
+						.join( '|' );
+				} )
+			);
+
 		await page.goto( shortcodePage.link );
 		const expected = await listingHtml( page.locator( '.jp-listing' ) );
+		const expectedStyles = await listingStyles();
 		await page.goto( widgetPage.link );
 		expect( await listingHtml( page.locator( '.jp-listing' ) ) ).toBe( expected );
+		expect( await listingStyles() ).toEqual( expectedStyles );
 	} );
 
 	test( 'renders like the shortcode with every content and query setting', async ( { page, jobPress } ) => {
@@ -113,5 +127,90 @@ test.describe( 'Elementor widget', () => {
 		await expect( widget.locator( '.jp-listing__button' ).first() ).toHaveText( 'Open role' );
 		await expect( widget.locator( '.jp-listing__view-all' ) ).toHaveText( 'All ops jobs' );
 		await expectNoPhpErrors( page );
+	} );
+
+	test.describe( 'style controls', () => {
+		const px = ( size ) => ( { unit: 'px', size, sizes: [] } );
+		const box = ( value ) => ( { unit: 'px', top: String( value ), right: String( value ), bottom: String( value ), left: String( value ), isLinked: true } );
+
+		test( 'override the colors of one widget', async ( { page, jobPress } ) => {
+			const widgetPage = await jobPress.createElementorPage( `Widget colors ${ token }`, [
+				{ design: '1', brand_color: '#ff0000', heading_color: '#00aa00' },
+				{ design: '1' },
+			] );
+			await page.goto( widgetPage.link );
+
+			const [ styled, plain ] = [ page.locator( '.jp-listing' ).nth( 0 ), page.locator( '.jp-listing' ).nth( 1 ) ];
+			await expect( styled.locator( '.jp-listing__button' ).first() ).toHaveCSS( 'background-color', 'rgb(255, 0, 0)' );
+			await expect( styled.locator( '.jp-listing__title' ) ).toHaveCSS( 'color', 'rgb(0, 170, 0)' );
+			await expect( plain.locator( '.jp-listing__button' ).first() ).not.toHaveCSS( 'background-color', 'rgb(255, 0, 0)' );
+		} );
+
+		for ( const design of [ 1, 2, 3, 4, 5 ] ) {
+			test( `style the header, cards, job titles and details in design v${ design }`, async ( { page, jobPress } ) => {
+				const widgetPage = await jobPress.createElementorPage( `Widget style ${ token }`, [
+					{
+						design: String( design ),
+						header_align: 'left',
+						header_spacing: px( 12 ),
+						title_color: '#112233',
+						title_typography_typography: 'custom',
+						title_typography_font_size: px( 41 ),
+						subtitle_color: '#223344',
+						card_padding: box( 7 ),
+						card_gap: px( 13 ),
+						card_background: '#fafaf0',
+						card_border_border: 'solid',
+						card_border_width: box( 3 ),
+						card_border_color: '#00ff00',
+						card_radius: box( 9 ),
+						job_title_color: '#334455',
+						job_title_typography_typography: 'custom',
+						job_title_typography_font_size: px( 23 ),
+						meta_color: '#445566',
+					},
+				] );
+				await page.goto( widgetPage.link );
+
+				const listing = page.locator( '.jp-listing' );
+				const header = listing.locator( '.jp-listing__header' );
+				await expect( header ).toHaveCSS( 'text-align', 'left' );
+				await expect( header ).toHaveCSS( 'margin-bottom', '12px' );
+				await expect( listing.locator( '.jp-listing__title' ) ).toHaveCSS( 'color', 'rgb(17, 34, 51)' );
+				await expect( listing.locator( '.jp-listing__title' ) ).toHaveCSS( 'font-size', '41px' );
+				await expect( listing.locator( '.jp-listing__subtitle' ) ).toHaveCSS( 'color', 'rgb(34, 51, 68)' );
+
+				const cards = listing.locator( '.jp-listing__card' );
+				const card = cards.first();
+				await expect( card ).toHaveCSS( 'padding-top', '7px' );
+				await expect( card ).toHaveCSS( 'background-color', 'rgb(250, 250, 240)' );
+				await expect( card ).toHaveCSS( 'border-bottom-width', '3px' );
+				await expect( card ).toHaveCSS( 'border-bottom-color', 'rgb(0, 255, 0)' );
+				await expect( card ).toHaveCSS( 'border-top-left-radius', '9px' );
+				await expect( card ).toHaveCSS( 'margin-bottom', '0px' );
+
+				await expect( listing.locator( '.jp-listing__job-title' ).first() ).toHaveCSS( 'font-size', '23px' );
+				const titleLink = listing.locator( '.jp-listing__job-title a' ).first();
+				await expect( ( await titleLink.count() ) ? titleLink : listing.locator( '.jp-listing__job-title' ).first() ).toHaveCSS( 'color', 'rgb(51, 68, 85)' );
+				await expect( listing.locator( '.jp-listing__meta' ).first() ).toHaveCSS( 'color', 'rgb(68, 85, 102)' );
+
+				// Space between the first two cards in one list (the grid uses a gap in both directions).
+				const container = design === 5 ? listing.locator( '.jp-row' ) : listing.locator( '.jp-listing__jobs' ).first();
+				await expect( container ).toHaveCSS( design === 5 ? 'column-gap' : 'row-gap', '13px' );
+			} );
+		}
+
+		test( 'set the grid columns per device', async ( { page, jobPress } ) => {
+			const widgetPage = await jobPress.createElementorPage( `Widget grid ${ token }`, [
+				{ design: '5', columns: '2', columns_mobile: '1' },
+			] );
+			await page.goto( widgetPage.link );
+
+			const columnCount = () =>
+				page.locator( '.jp-listing .jp-row' ).evaluate( ( el ) => getComputedStyle( el ).gridTemplateColumns.split( ' ' ).length );
+			expect( await columnCount() ).toBe( 2 );
+			await page.setViewportSize( { width: 390, height: 800 } );
+			await expect.poll( columnCount ).toBe( 1 );
+		} );
 	} );
 } );
