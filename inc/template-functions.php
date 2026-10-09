@@ -168,6 +168,30 @@ if ( ! function_exists( 'jobpress_no_jobs_found' ) ) {
 	}
 }
 
+if ( ! function_exists( 'jobpress_get_block_template_part' ) ) {
+
+	/**
+	 * Render a block theme template part ("header" or "footer") as a landmark element.
+	 *
+	 * Parts are rendered once and cached, and jobpress_get_header() renders both
+	 * before wp_head(), like WordPress's own template canvas does: rendering blocks
+	 * is what enqueues their layout styles, so doing it later would leave the theme
+	 * header and footer without their layout CSS.
+	 *
+	 * @param string $slug Template part slug: 'header' or 'footer'.
+	 * @return string
+	 */
+	function jobpress_get_block_template_part( $slug ) {
+		static $parts = array();
+
+		if ( ! isset( $parts[ $slug ] ) ) {
+			$parts[ $slug ] = do_blocks( '<!-- wp:template-part {"slug":"' . $slug . '","tagName":"' . $slug . '"} /-->' );
+		}
+
+		return $parts[ $slug ];
+	}
+}
+
 if ( ! function_exists( 'jobpress_get_header' ) ) {
 
 	/**
@@ -182,6 +206,10 @@ if ( ! function_exists( 'jobpress_get_header' ) ) {
 			get_header( 'jobpress' );
 			return;
 		}
+
+		// Render before wp_head() so the parts' styles are enqueued in time.
+		$header = jobpress_get_block_template_part( 'header' );
+		jobpress_get_block_template_part( 'footer' );
 		?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -194,8 +222,7 @@ if ( ! function_exists( 'jobpress_get_header' ) ) {
 <?php wp_body_open(); ?>
 <div class="wp-site-blocks">
 		<?php
-		// Same markup a block theme's own templates produce, including the <header> landmark.
-		echo do_blocks( '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
+		echo $header; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
 	}
 }
 
@@ -210,7 +237,7 @@ if ( ! function_exists( 'jobpress_get_footer' ) ) {
 			return;
 		}
 
-		echo do_blocks( '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
+		echo jobpress_get_block_template_part( 'footer' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
 		?>
 </div>
 		<?php

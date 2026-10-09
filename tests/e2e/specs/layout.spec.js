@@ -53,6 +53,33 @@ test.describe( 'Page layout', () => {
 		} );
 	}
 
+	test( 'block theme header and footer are laid out like on a normal page', async ( { page, jobPress } ) => {
+		const plainPage = await jobPress.createPage( `Layout reference ${ uid() }`, '<p>Reference</p>' );
+
+		// Position of the last link in the header/footer, e.g. a right-aligned menu. Block
+		// layout styles are only printed when the blocks are rendered before wp_head().
+		const lastLinkX = ( container ) =>
+			page
+				.locator( container )
+				.first()
+				.locator( 'a' )
+				.last()
+				.evaluate( ( el ) => Math.round( el.getBoundingClientRect().x ) );
+
+		await page.goto( plainPage.link );
+		// Block themes only: classic themes print their header and footer from PHP, so
+		// there are no block layout styles to go missing.
+		test.skip( ( await page.locator( '.wp-site-blocks' ).count() ) === 0, 'Block themes only' );
+
+		const expected = { header: await lastLinkX( 'header' ), footer: await lastLinkX( 'footer' ) };
+
+		for ( const url of [ jobsPageUrl, job.link ] ) {
+			await page.goto( url );
+			expect( await lastLinkX( 'header' ) ).toBe( expected.header );
+			expect( await lastLinkX( 'footer' ) ).toBe( expected.footer );
+		}
+	} );
+
 	test( 'single job page shows the job title as the main heading', async ( { page } ) => {
 		await page.goto( job.link );
 
