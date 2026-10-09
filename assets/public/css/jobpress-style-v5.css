@@ -134,11 +134,25 @@ jobpress-common.css.
     font-size: 14px;
     color: var(--jp-secondary-color);
 }
+/* The grid's column count follows its own width (it often sits in a narrow column). */
+.jp-design-v5 .jobpress-job-grids {
+    container-type: inline-size;
+}
 .jp-design-v5 .jobpress-job-grids .jp-row {
     margin: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
+}
+@container (max-width: 760px) {
+    .jp-design-v5 .jobpress-job-grids .jp-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@container (max-width: 480px) {
+    .jp-design-v5 .jobpress-job-grids .jp-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 .jp-design-v5 .jp-single-job-grid {
     padding: 30px;
@@ -149,6 +163,7 @@ jobpress-common.css.
     margin-bottom: 20px;
     font-size: 32px;
     line-height: 1.2;
+    overflow-wrap: break-word;
 }
 .jp-design-v5 .jp-single-job-grid h4 a {
     color: var(--jp-primary-color);

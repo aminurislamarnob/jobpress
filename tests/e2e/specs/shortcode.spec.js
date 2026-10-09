@@ -129,6 +129,25 @@ test.describe( '[jobpress] shortcode', () => {
 		await expect( page.locator( '.jp-design-v5 .jp-listing__jobs .jp-row' ) ).toHaveCSS( 'display', 'grid' );
 	} );
 
+	test( 'fits the grid design to narrow columns and phones', async ( { page, jobPress } ) => {
+		const gridPage = await jobPress.createPage( `Careers grid fit ${ token }`, '[jobpress design="5"]' );
+		const fits = () =>
+			page.locator( '.jp-listing' ).evaluate( ( listing ) => {
+				const grid = listing.querySelector( '.jp-row' );
+				const right = listing.getBoundingClientRect().right;
+				return {
+					columns: getComputedStyle( grid ).gridTemplateColumns.split( ' ' ).length,
+					overflows: [ ...grid.children ].some( ( card ) => card.getBoundingClientRect().right > right + 1 ),
+				};
+			} );
+
+		await page.goto( gridPage.link );
+		expect( ( await fits() ).overflows ).toBe( false );
+
+		await page.setViewportSize( { width: 390, height: 800 } );
+		await expect.poll( fits ).toEqual( { columns: 1, overflows: false } );
+	} );
+
 	test( 'overrides the appearance colors per listing', async ( { page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		const colorPage = await jobPress.createPage(
