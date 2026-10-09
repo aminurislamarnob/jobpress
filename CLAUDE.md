@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-JobPress is a WordPress job-board plugin published on WordPress.org (text domain `jobpress`, PHP ≥ 7.4, WP ≥ 5.6). There is no build step, JS bundler, linter config, or test suite in the repo — CSS/JS in `assets/` are hand-written and served as-is.
+JobPress is a WordPress job-board plugin published on WordPress.org (text domain `jobpress`, PHP ≥ 7.4, WP ≥ 5.6). There is no build step or JS bundler — CSS/JS in `assets/` are hand-written and served as-is. There is no PHP unit test suite; behaviour is covered by Playwright end-to-end tests in `tests/e2e/`.
 
 ## Commands
 
@@ -15,7 +15,15 @@ composer dump-autoload                          # after adding/renaming classes 
 wp plugin deactivate jobpress && wp plugin activate jobpress   # re-run activation hook (jobs page, DB table, rewrite flush)
 wp rewrite flush                                # after changing CPT/taxonomy slugs
 wp i18n make-pot . languages/jobpress.pot       # regenerate translations template
+
+npm install && npx playwright install chromium  # one-time e2e setup
+npm run test:e2e                                # run all e2e tests
+npm run test:e2e -- specs/jobs-page.spec.js     # run one spec file
+npm run test:e2e -- -g "filters jobs by type"   # run one test by name
+npm run test:e2e:report                         # open the last HTML report
 ```
+
+E2E tests run against a live WordPress site with JobPress active. `tests/e2e/.env` (gitignored; copy `.env.example`) sets `WP_BASE_URL`, `WP_USERNAME`, `WP_PASSWORD` — locally this is `http://jobpress.test` with the `e2e-admin` user. Without it they target wp-env defaults (`npm run env:start`, needs Docker; config in `.wp-env.json`). Tests run serially because they change shared plugin options; the `jobPress` fixture in `tests/e2e/fixtures.js` creates jobs/terms/pages over REST, changes settings through the real settings screens, and reverts everything after each test, so the suite is safe to run against a site with real content. URLs come from REST `link` fields, so tests work with plain or pretty permalinks.
 
 ## Architecture
 
