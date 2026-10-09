@@ -108,6 +108,59 @@ class JobPressUtils {
 	}
 
 	/**
+	 * Create a published Elementor page holding JobPress widgets, over REST.
+	 *
+	 * Each widget is placed in its own container. Elementor builds the page's CSS
+	 * file (including widget style controls) the first time the page is viewed.
+	 *
+	 * @param {string}   title
+	 * @param {Object[]} widgets Settings of each JobPress widget on the page.
+	 * @return {Promise<Object>} REST page object.
+	 */
+	async createElementorPage( title, widgets = [ {} ] ) {
+		// Elementor element IDs are 7-character hex strings.
+		const elementId = () => Math.random().toString( 16 ).slice( 2, 9 ).padEnd( 7, '0' );
+		const data = widgets.map( ( settings ) => ( {
+			id: elementId(),
+			elType: 'container',
+			settings: {},
+			elements: [
+				{
+					id: elementId(),
+					elType: 'widget',
+					widgetType: 'jobpress_jobs',
+					settings,
+					elements: [],
+				},
+			],
+			isInner: false,
+		} ) );
+
+		const page = await this.requestUtils.rest( {
+			method: 'POST',
+			path: '/wp/v2/pages',
+			data: {
+				title,
+				status: 'publish',
+				meta: {
+					_elementor_edit_mode: 'builder',
+					_elementor_template_type: 'wp-page',
+					_elementor_data: JSON.stringify( data ),
+				},
+			},
+		} );
+		page.widgetIds = data.map( ( container ) => container.elements[ 0 ].id );
+		this.cleanups.push( () =>
+			this.requestUtils.rest( {
+				method: 'DELETE',
+				path: `/wp/v2/pages/${ page.id }`,
+				params: { force: true },
+			} )
+		);
+		return page;
+	}
+
+	/**
 	 * Save JobPress settings through the plugin's settings screen, restoring the
 	 * previous values after the test.
 	 *
