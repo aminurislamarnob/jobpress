@@ -111,20 +111,21 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Get form data
+        // Build the URL on top of the jobs page link, which may already have a
+        // query string (e.g. ?page_id=4 with plain permalinks).
+        const searchUrl = new URL(<?php echo wp_json_encode( $form_action ); ?>, window.location.href);
         const formData = new FormData(form);
-        const params = new URLSearchParams();
-        
+
         // Only add non-empty values
         for (let [key, value] of formData.entries()) {
+            searchUrl.searchParams.delete(key);
             if (value && value.trim() !== '') {
-                params.append(key, value.trim());
+                searchUrl.searchParams.set(key, value.trim());
             }
         }
-        
+
         // Redirect to the search results page
-        const searchUrl = '<?php echo esc_url( $form_action ); ?>' + (params.toString() ? '?' + params.toString() : '');
-        window.location.href = searchUrl;
+        window.location.href = searchUrl.toString();
     });
 
     /**
