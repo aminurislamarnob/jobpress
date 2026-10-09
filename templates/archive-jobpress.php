@@ -27,16 +27,51 @@ do_action( 'jobpress_before_main_content' );
          */
         do_action( 'jobpress_job_loop_header' );
 
+        // Get search and filter parameters
+        $keyword = trim( (string) get_query_var( 'q' ) );
+        $jobcategory = (string) get_query_var( 'jobcategory' );
+        $jobtype = (string) get_query_var( 'jobtype' );
+
         // Query for jobs with proper pagination support
         $jobs_per_page = get_option( 'jobpress_jobs_per_page', 10 );
         $paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-        
-        $jobs_query = new WP_Query( array(
+
+        // Build query arguments
+        $query_args = array(
             'post_type'      => 'jobpress',
             'post_status'    => 'publish',
             'posts_per_page' => $jobs_per_page,
             'paged'          => $paged,
-        ) );
+        );
+
+        // Add keyword search
+        if ( $keyword !== '' ) {
+            $query_args['s'] = sanitize_text_field( $keyword );
+        }
+
+        // Add taxonomy queries
+        $tax_query = array();
+        if ( $jobcategory !== '' ) {
+            $tax_query[] = array(
+                'taxonomy' => 'jobpress_category',
+                'field'    => 'slug',
+                'terms'    => sanitize_title( $jobcategory ),
+            );
+        }
+
+        if ( $jobtype !== '' ) {
+            $tax_query[] = array(
+                'taxonomy' => 'jobpress_type',
+                'field'    => 'slug',
+                'terms'    => sanitize_title( $jobtype ),
+            );
+        }
+
+        if ( ! empty( $tax_query ) ) {
+            $query_args['tax_query'] = $tax_query;
+        }
+        
+        $jobs_query = new WP_Query( $query_args );
 
         if ( $jobs_query->have_posts() ) {
             

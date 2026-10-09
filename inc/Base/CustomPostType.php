@@ -9,6 +9,9 @@ class CustomPostType
         add_action( 'init', array( $this, 'jobpress_jobs_cpt' ) );
         add_action( 'init', array( $this, 'jobpress_jobs_category_taxonomies' ) );
         add_action( 'init', array( $this, 'jobpress_jobs_type_taxonomies' ) );
+
+        // Add search and filter functionality
+        add_filter( 'query_vars', array( $this, 'add_search_query_vars' ) );
 	}
 
     /**
@@ -122,5 +125,15 @@ class CustomPostType
             'show_in_rest'      => true
         );
         register_taxonomy( 'jobpress_type', array( 'jobpress' ), $args );
+    }
+
+    /**
+     * Add custom query variables for search and filtering
+     */
+    public function add_search_query_vars( $vars ) {
+        $vars[] = 'q';          // keyword search
+        $vars[] = 'jobcategory';     // job category
+        $vars[] = 'jobtype';    // job type
+        return $vars;
     }
 }

@@ -147,3 +147,23 @@ if ( ! function_exists( 'jobpress_output_content_wrapper_end' ) ) {
 		jobpress_get_template( 'global/wrapper-end.php' );
 	}
 }
+
+if ( ! function_exists( 'jobpress_archive_job_filter_and_search' ) ) {
+
+	/**
+	 * Output the filter and search form.
+	 */
+	function jobpress_archive_job_filter_and_search() {
+		jobpress_get_template( 'global/filter-and-search.php' );
+	}
+}
+
+if ( ! function_exists( 'jobpress_no_jobs_found' ) ) {
+
+	/**
+	 * Handles the loop when no jobs were found/no job exist.
+	 */
+	function jobpress_no_jobs_found() {
+		jobpress_get_template( 'loop/no-jobs-found.php' );
+	}
+}
