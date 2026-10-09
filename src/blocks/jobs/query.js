@@ -56,7 +56,7 @@ function ListTokenField( { label, help, value, options, onChange } ) {
 					)
 				}
 			/>
-			<p className="components-form-token-field__help">{ help }</p>
+			<p className="jobpress-block-token-field__help">{ help }</p>
 		</div>
 	);
 }

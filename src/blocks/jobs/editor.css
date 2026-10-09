@@ -17,3 +17,10 @@
 	left: 50%;
 	margin: -8px 0 0 -8px;
 }
+
+/* Help text under the query token fields, like other controls' help. */
+.jobpress-block-token-field__help {
+	margin: 8px 0 0;
+	font-size: 12px;
+	color: #757575;
+}
