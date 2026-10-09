@@ -730,6 +730,13 @@ Modern Pagination Styles
     .jobpress-search-form-wrapper .search-field {
         margin-bottom: 10px;
     }
+
+    /* Stacked fields need no dividers. */
+    .jobpress-search-form-wrapper .search-field:first-child,
+    .jobpress-search-form-wrapper .search-field:nth-child(2) {
+        border-right: 0;
+        margin-right: 0;
+    }
 }
 
 /* Page container used by the default content wrapper (templates/global/wrapper-start.php). */

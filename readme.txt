@@ -174,6 +174,7 @@ Example:
 * **fix:** Design v2 gives the job title the free space in narrow listings, and its experience text no longer inherits the theme's body size.
 * **fix:** Designs v3 and v4 keep each job detail (e.g. the deadline) on one line when they wrap.
 * **fix:** Category groups show "1 OPENING" instead of "1 OPENINGS".
+* **fix:** The Jobs Page search form no longer shows its field dividers when the fields stack on phones.
 * **fix:** Design v1 no longer starts a job's details with a dash when the job has no category.
 * **Upgrade notes:**
 * Design stylesheet rules are now scoped to `.jp-design-v1` to `.jp-design-v5` (on each listing's wrapper, and on the body of the jobs archive and single job pages). Custom CSS that overrides listing styles may need a more specific selector, e.g. `.jp-listing .jp-single-job-list`.
