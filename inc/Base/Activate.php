@@ -7,8 +7,9 @@ class Activate
         // Create/Update Jobs page
         self::create_jobs_page();
 
-        // Flush rewrite rules
-        flush_rewrite_rules();
+        // Rewrite rules are flushed on the next request's init (see Flush), once the
+        // post type and taxonomies are registered; flushing here would drop job URLs.
+        Flush::add_flush_rewrite_rules_flag();
     }
 
     /**
@@ -27,7 +28,7 @@ class Activate
             update_option( 'jobpress_version', $plugin_version );
             
             // Flush rewrite rules for new features
-            flush_rewrite_rules();
+            Flush::add_flush_rewrite_rules_flag();
         }
     }
 
