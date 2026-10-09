@@ -242,6 +242,12 @@ jobpress-common.css.
 .jp-design-v2 .jobpress-job-lists {
     container-type: inline-size;
 }
+/* Very narrow lists: smaller job titles, so long words don't break. */
+@container (max-width: 260px) {
+    .jp-design-v2 .jp-single-job-list h4 {
+        font-size: 16px;
+    }
+}
 @container (max-width: 760px) {
     .jp-design-v2 .jp-single-job-list .jp-single-job-info.jp-col-4 {
         flex: 1 1 auto;

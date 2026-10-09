@@ -275,6 +275,39 @@ test.describe( 'JobPress Jobs block', () => {
 			expect( cardWidth ).toBeGreaterThanOrEqual( 180 );
 		} );
 
+		test( 'fit every design into narrow columns', async ( { page, jobPress } ) => {
+			// Three columns per row: each listing gets about a third of the content width (~200px).
+			const column = ( design ) =>
+				'<!-- wp:column --><div class="wp-block-column">' +
+				`<!-- wp:jobpress/jobs {"design":"${ design }","show_title":"no","show_subtitle":"no"} /--></div><!-- /wp:column -->`;
+			const columns = ( designs ) =>
+				`<!-- wp:columns --><div class="wp-block-columns">${ designs.map( column ).join( '' ) }</div><!-- /wp:columns -->`;
+			const blockPage = await jobPress.createPage( `Block columns ${ token }`, columns( [ 1, 2, 3 ] ) + columns( [ 4, 5, 1 ] ) );
+			await page.goto( blockPage.link );
+
+			const listings = page.locator( '.jp-listing' );
+			await expect( listings ).toHaveCount( 6 );
+			for ( const listing of await listings.all() ) {
+				const problems = await listing.evaluate( ( el ) => {
+					const right = el.getBoundingClientRect().right;
+					return [
+						// Nothing sticks out of the listing.
+						...[ ...el.querySelectorAll( '*' ) ]
+							.filter( ( child ) => child.getBoundingClientRect().width > 0 && child.getBoundingClientRect().right > right + 1 )
+							.map( ( child ) => `overflows: ${ child.className }` ),
+						// Buttons stay on one line, and job titles don't break words.
+						...[ ...el.querySelectorAll( '.jp-listing__button' ) ]
+							.filter( ( button ) => button.getBoundingClientRect().height > 60 )
+							.map( () => 'wrapped button' ),
+						...[ ...el.querySelectorAll( '.jp-listing__job-title' ) ]
+							.filter( ( title ) => title.scrollWidth > title.clientWidth + 1 )
+							.map( ( title ) => `overflowing title: ${ title.textContent.trim() }` ),
+					];
+				} );
+				expect( problems, await listing.getAttribute( 'class' ) ).toEqual( [] );
+			}
+		} );
+
 		test( 'support the wrapper spacing and background of other blocks', async ( { page, jobPress } ) => {
 			const blockPage = await jobPress.createBlockPage( `Block wrapper ${ token }`, [
 				{ style: { spacing: { padding: { top: '21px', right: '21px', bottom: '21px', left: '21px' } }, color: { background: '#eeeeee' } } },

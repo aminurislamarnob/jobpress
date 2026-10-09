@@ -172,6 +172,7 @@ Example:
 * **feat:** Block styles: listing colors, space between job cards, card padding, radius and background, apply button colors, and the most grid columns, plus the standard block spacing, background and width options.
 * **feat:** Convert a `[jobpress]` Shortcode block, or a pasted `[jobpress]` shortcode, into the block, and the block back into a shortcode.
 * **update:** Pages with the block load only the stylesheets of the designs they show, in the page head.
+* **fix:** Designs v1, v3 and v4 fit narrow columns (e.g. a listing in a column block): cards stack instead of squeezing the apply button onto one letter per line, and very narrow lists use smaller job titles.
 
 = v2.3.0 (Oct 9, 2026)  =
 * **feat:** Full-featured Elementor widget: choose the design, header, job card details, search bar, "View all jobs" link and which jobs to list, and style everything from the Style tab (colors, typography, spacing, borders, shadows, hover states). Settings left on "Default" follow the global settings.
