@@ -207,11 +207,12 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
             <?php if(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 2) && !empty($jobpress_contact_form_7)){
                 echo do_shortcode( '[contact-form-7 id="' . absint( $jobpress_contact_form_7 ) . '"]' );
             }elseif(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 1) && !empty($jobpress_email)){
-                echo '<p>' . esc_html($jobpress_email) . '</p>';
+                // Escape first, then turn email addresses (and URLs) in the text into links.
+                echo '<p>' . make_clickable( esc_html( $jobpress_email ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped before make_clickable().
             }elseif(!empty($jobpress_resume_common_instruction) && ($jobpress_application_collect_medium == 3)){
-                echo '<p>' . esc_html($jobpress_resume_common_instruction) . '</p>';
+                echo '<p>' . make_clickable( esc_html( $jobpress_resume_common_instruction ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped before make_clickable().
             }elseif(!empty($jobpress_resume_common_instruction)){
-                echo '<p>' . esc_html($jobpress_resume_common_instruction) . '</p>';
+                echo '<p>' . make_clickable( esc_html( $jobpress_resume_common_instruction ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped before make_clickable().
             }else{
                 echo '<p>' . esc_html__('No application process added by the recruiter.', 'jobpress') . '</p>';
             }?>

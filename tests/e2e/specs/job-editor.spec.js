@@ -67,6 +67,10 @@ test.describe( 'Job editor', () => {
 		const applySection = page.locator( '#job-apply' );
 		await expect( applySection.getByRole( 'heading' ) ).toContainText( title );
 		await expect( applySection ).toContainText( 'Send your CV to jobs@example.test' );
+		await expect( applySection.getByRole( 'link', { name: 'jobs@example.test' } ) ).toHaveAttribute(
+			'href',
+			'mailto:jobs@example.test'
+		);
 
 		await expect( page.locator( '.jp-container' ) ).toHaveCount( 1 );
 		await expectNoPhpErrors( page );
