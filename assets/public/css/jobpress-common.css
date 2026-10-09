@@ -747,3 +747,30 @@ Modern Pagination Styles
     margin: 0 0 20px;
 }
 
+
+/*************
+Listing footer: "View all jobs" link
+**************/
+.jp-listing__footer {
+    margin-top: 30px;
+    text-align: center;
+}
+.jp-listing .jp-listing__view-all {
+    display: inline-block;
+    padding: 13px 39px;
+    border-radius: 5px;
+    background: var(--jp-brand-color);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+}
+.jp-listing .jp-listing__view-all:hover,
+.jp-listing .jp-listing__view-all:focus {
+    background: var(--jp-hover-color);
+    color: #fff;
+}

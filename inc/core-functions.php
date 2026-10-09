@@ -97,7 +97,7 @@ function jobpress_get_short_design_type() {
  * Each non-empty category becomes a group, followed by an "Other openings"
  * group for jobs without a category so they are not dropped from the listing.
  *
- * @return array[] List of groups with 'name', 'description' and 'tax_query' keys.
+ * @return array[] List of groups with 'name', 'description', 'slug' (category groups only) and 'tax_query' keys.
  */
 function jobpress_get_listing_category_groups() {
     $groups = array();
@@ -113,6 +113,7 @@ function jobpress_get_listing_category_groups() {
             $groups[] = array(
                 'name'        => $term->name,
                 'description' => $term->description,
+                'slug'        => $term->slug,
                 'tax_query'   => array(
                     array(
                         'taxonomy' => 'jobpress_category',
@@ -160,21 +161,136 @@ function jobpress_is_grouped_design( $design ) {
 }
 
 /**
+ * Split a comma-separated attribute value into a list.
+ *
+ * @param string|array $value Comma-separated values, or a list.
+ * @return string[] Trimmed, non-empty values.
+ */
+function jobpress_parse_list( $value ) {
+    if ( ! is_array( $value ) ) {
+        $value = explode( ',', (string) $value );
+    }
+    return array_values( array_filter( array_map( 'trim', array_map( 'strval', $value ) ), 'strlen' ) );
+}
+
+/**
+ * Normalize the query attributes of a listing.
+ *
+ * @param array $atts Shortcode attributes.
+ * @return array {
+ *     @type int      $per_page   Jobs to show (per group in grouped designs); -1 for all.
+ *     @type string[] $categories jobpress_category slugs; any of them matches.
+ *     @type string[] $types      jobpress_type slugs; any of them matches.
+ *     @type int[]    $include    Job IDs to limit the listing to.
+ *     @type int[]    $exclude    Job IDs to leave out.
+ *     @type string   $orderby    date, title, menu_order or rand.
+ *     @type string   $order      ASC or DESC.
+ * }
+ */
+function jobpress_get_listing_query_atts( $atts ) {
+    $per_page = isset( $atts['per_page'] ) && is_numeric( $atts['per_page'] ) ? (int) $atts['per_page'] : -1;
+    $orderby  = isset( $atts['orderby'] ) ? strtolower( trim( $atts['orderby'] ) ) : '';
+    $order    = isset( $atts['order'] ) ? strtoupper( trim( $atts['order'] ) ) : '';
+
+    return array(
+        'per_page'   => $per_page > 0 ? $per_page : -1,
+        'categories' => array_map( 'sanitize_title', jobpress_parse_list( isset( $atts['category'] ) ? $atts['category'] : '' ) ),
+        'types'      => array_map( 'sanitize_title', jobpress_parse_list( isset( $atts['type'] ) ? $atts['type'] : '' ) ),
+        'include'    => array_filter( array_map( 'absint', jobpress_parse_list( isset( $atts['include'] ) ? $atts['include'] : '' ) ) ),
+        'exclude'    => array_filter( array_map( 'absint', jobpress_parse_list( isset( $atts['exclude'] ) ? $atts['exclude'] : '' ) ) ),
+        'orderby'    => in_array( $orderby, array( 'date', 'title', 'menu_order', 'rand' ), true ) ? $orderby : 'date',
+        'order'      => in_array( $order, array( 'ASC', 'DESC' ), true ) ? $order : 'DESC',
+    );
+}
+
+/**
  * Build the WP_Query arguments for a listing.
  *
- * @param array $extra_args Arguments merged over the defaults, e.g. a group's tax_query.
+ * @param array $atts      Shortcode attributes.
+ * @param array $tax_query Extra tax_query clauses, e.g. a category group's.
  * @return array
  */
-function jobpress_get_listing_query_args( $extra_args = array() ) {
-    return array_merge(
-        array(
-            'posts_per_page' => -1,
-            'post_type'      => 'jobpress',
-            'post_status'    => 'publish',
-            'orderby'        => 'date',
-            'order'          => 'DESC',
+function jobpress_get_listing_query_args( $atts, $tax_query = array() ) {
+    $query = jobpress_get_listing_query_atts( $atts );
+    $args  = array(
+        'posts_per_page' => $query['per_page'],
+        'post_type'      => 'jobpress',
+        'post_status'    => 'publish',
+        // ID breaks ties, e.g. between jobs published in the same second.
+        'orderby'        => 'rand' === $query['orderby'] ? 'rand' : array(
+            $query['orderby'] => $query['order'],
+            'ID'              => $query['order'],
         ),
-        $extra_args
+    );
+
+    $taxonomies = array(
+        'jobpress_category' => $query['categories'],
+        'jobpress_type'     => $query['types'],
+    );
+    foreach ( $taxonomies as $taxonomy => $slugs ) {
+        if ( $slugs ) {
+            $tax_query[] = array(
+                'taxonomy' => $taxonomy,
+                'field'    => 'slug',
+                'terms'    => $slugs,
+            );
+        }
+    }
+    if ( $tax_query ) {
+        $args['tax_query'] = $tax_query;
+    }
+
+    // WP_Query ignores post__not_in when post__in is set, so subtract the excluded jobs here.
+    if ( $query['include'] ) {
+        $include          = array_values( array_diff( $query['include'], $query['exclude'] ) );
+        $args['post__in'] = $include ? $include : array( 0 );
+    } elseif ( $query['exclude'] ) {
+        $args['post__not_in'] = $query['exclude'];
+    }
+
+    /**
+     * Filters the WP_Query arguments of a job listing ([jobpress] shortcode or
+     * Elementor widget), including each category group's query in grouped designs.
+     *
+     * @param array $args WP_Query arguments.
+     * @param array $atts The listing's shortcode attributes.
+     */
+    return apply_filters( 'jobpress_listing_query_args', $args, $atts );
+}
+
+/**
+ * Get the category groups of a grouped listing, limited to the listing's categories.
+ *
+ * @param array $atts Shortcode attributes.
+ * @return array[] Groups, see jobpress_get_listing_category_groups().
+ */
+function jobpress_get_listing_groups( $atts ) {
+    return jobpress_filter_listing_groups( jobpress_get_listing_category_groups(), $atts );
+}
+
+/**
+ * Limit category groups to the listing's categories.
+ *
+ * Groups without a slug (e.g. "Other openings") are kept and left to the query,
+ * which finds no jobs for them when they don't match the categories.
+ *
+ * @param array[] $groups Groups, see jobpress_get_listing_category_groups().
+ * @param array   $atts   Shortcode attributes.
+ * @return array[]
+ */
+function jobpress_filter_listing_groups( $groups, $atts ) {
+    $categories = jobpress_get_listing_query_atts( $atts )['categories'];
+    if ( ! $categories ) {
+        return $groups;
+    }
+
+    return array_values(
+        array_filter(
+            $groups,
+            function ( $group ) use ( $categories ) {
+                return empty( $group['slug'] ) || in_array( $group['slug'], $categories, true );
+            }
+        )
     );
 }
 
@@ -183,16 +299,17 @@ function jobpress_get_listing_query_args( $extra_args = array() ) {
  *
  * Grouped designs get one query per category group; the others get a single query.
  *
- * @param int $design Listing design number (1-5).
+ * @param int   $design Listing design number (1-5).
+ * @param array $atts   Shortcode attributes.
  * @return array {
  *     Template variables.
  *
  *     @type WP_Query|null $jobs_query Jobs of a flat design.
  *     @type array[]       $job_groups Groups of a grouped design: the group keys plus a 'query' WP_Query.
- *     @type int           $total_jobs Number of jobs matching the listing.
+ *     @type int           $total_jobs Number of jobs matching the listing (not limited by per_page).
  * }
  */
-function jobpress_get_listing_jobs( $design ) {
+function jobpress_get_listing_jobs( $design, $atts = array() ) {
     $result = array(
         'jobs_query' => null,
         'job_groups' => array(),
@@ -200,19 +317,39 @@ function jobpress_get_listing_jobs( $design ) {
     );
 
     if ( jobpress_is_grouped_design( $design ) ) {
-        foreach ( jobpress_get_listing_category_groups() as $group ) {
-            $group['query'] = new WP_Query( jobpress_get_listing_query_args( array( 'tax_query' => $group['tax_query'] ) ) );
+        foreach ( jobpress_get_listing_groups( $atts ) as $group ) {
+            $group['query'] = new WP_Query( jobpress_get_listing_query_args( $atts, $group['tax_query'] ) );
             if ( $group['query']->have_posts() ) {
                 $result['job_groups'][] = $group;
                 $result['total_jobs']  += $group['query']->found_posts;
             }
         }
     } else {
-        $result['jobs_query'] = new WP_Query( jobpress_get_listing_query_args() );
+        $result['jobs_query'] = new WP_Query( jobpress_get_listing_query_args( $atts ) );
         $result['total_jobs'] = $result['jobs_query']->found_posts;
     }
 
     return $result;
+}
+
+/**
+ * Get the URL of the listing's "View all jobs" link: the Jobs Page, keeping the
+ * listing's category or type when it shows a single one (the Jobs Page filters
+ * by one of each).
+ *
+ * @param array $atts Shortcode attributes.
+ * @return string
+ */
+function jobpress_get_listing_view_all_url( $atts ) {
+    $query = jobpress_get_listing_query_atts( $atts );
+    $args  = array();
+    if ( 1 === count( $query['categories'] ) ) {
+        $args['jobcategory'] = $query['categories'][0];
+    }
+    if ( 1 === count( $query['types'] ) ) {
+        $args['jobtype'] = $query['types'][0];
+    }
+    return add_query_arg( $args, jobpress_get_jobs_archive_page_permalink() );
 }
 
 /**
