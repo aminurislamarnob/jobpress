@@ -386,6 +386,57 @@ test.describe( 'JobPress Jobs block', () => {
 		await expect( block.locator( '.jp-listing' ) ).toHaveCount( 0 );
 	} );
 
+	test.describe( 'shortcode conversion', () => {
+		const SHORTCODE = '[jobpress design="5" per_page="3" show_title="no" brand_color="#ff0000"]';
+		const blockAttributes = ( page ) =>
+			page.evaluate( () => window.wp.data.select( 'core/block-editor' ).getBlocks().map( ( block ) => [ block.name, block.attributes ] ) );
+
+		test( 'converts a Shortcode block into the block, rendering the same', async ( { admin, editor, page, jobPress } ) => {
+			const shortcodePage = await jobPress.createPage(
+				`Shortcode page ${ token }`,
+				`<!-- wp:shortcode -->\n${ SHORTCODE }\n<!-- /wp:shortcode -->`
+			);
+			await page.goto( shortcodePage.link );
+			const expected = await listingHtml( page.locator( '.jp-listing' ) );
+
+			await admin.editPost( shortcodePage.id );
+			await editor.selectBlocks( editor.canvas.locator( '[data-type="core/shortcode"]' ) );
+			await editor.transformBlockTo( 'jobpress/jobs' );
+			const [ [ name, attributes ] ] = await blockAttributes( page );
+			expect( name ).toBe( 'jobpress/jobs' );
+			expect( attributes ).toMatchObject( { design: '5', per_page: '3', show_title: 'no', brand_color: '#ff0000', title: '' } );
+
+			// The page is already published: save it.
+			await page.evaluate( () => window.wp.data.dispatch( 'core/editor' ).savePost() );
+			await page.goto( shortcodePage.link );
+			expect( await listingHtml( page.locator( '.wp-block-jobpress-jobs > .jp-listing' ) ) ).toBe( expected );
+		} );
+
+		test( 'converts the block back into a Shortcode block with the settings it has', async ( { admin, editor, page } ) => {
+			await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+			await editor.insertBlock( {
+				name: 'jobpress/jobs',
+				attributes: { design: '3', title: 'Say "hi" [now]', show_search: 'yes', cardPadding: 10 },
+			} );
+			await editor.transformBlockTo( 'core/shortcode' );
+			const [ [ name, attributes ] ] = await blockAttributes( page );
+			expect( name ).toBe( 'core/shortcode' );
+			expect( attributes.text ).toBe( `[jobpress design="3" title='Say "hi" &#91;now&#93;' show_search="yes"]` );
+		} );
+
+		test( 'turns a pasted shortcode into the block', async ( { admin, editor, page, pageUtils } ) => {
+			await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );
+			await editor.insertBlock( { name: 'core/paragraph' } );
+			pageUtils.setClipboardData( { plainText: SHORTCODE } );
+			await pageUtils.pressKeys( 'primary+v' );
+
+			await expect.poll( () => blockAttributes( page ) ).toEqual( [
+				[ 'jobpress/jobs', expect.objectContaining( { design: '5', per_page: '3', show_title: 'no', brand_color: '#ff0000' } ) ],
+			] );
+			await expect( editor.canvas.locator( '.wp-block-jobpress-jobs .jp-listing' ) ).toHaveClass( /jp-design-v5/ );
+		} );
+	} );
+
 	test( 'can be added and configured in the editor', async ( { admin, editor, page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		await admin.createNewPost( { postType: 'page', title: `Block editor ${ token }` } );

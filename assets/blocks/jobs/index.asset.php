@@ -8,7 +8,8 @@
 		'wp-element',
 		'wp-html-entities',
 		'wp-i18n',
-		'wp-server-side-render'
+		'wp-server-side-render',
+		'wp-shortcode'
 	),
-	'version' => '6a51e45cf2a731095d52'
+	'version' => '1237fc0e3f4f86379628'
 );

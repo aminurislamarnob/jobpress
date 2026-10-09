@@ -115,6 +115,8 @@ class Blocks
 			),
 			'settingsUrl'  => admin_url( 'edit.php?post_type=jobpress&page=jobpress_shortcode' ),
 			'addJobUrl'    => admin_url( 'post-new.php?post_type=jobpress' ),
+			// For converting [jobpress] shortcodes: the attributes the block shares with them.
+			'shortcodeAttributes' => array_keys( JobListShortcode::get_default_atts() ),
 		);
 	}
 
