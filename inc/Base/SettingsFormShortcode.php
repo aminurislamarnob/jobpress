@@ -33,7 +33,7 @@ class SettingsFormShortcode
         );
 
         // register a new setting for design type field
-        register_setting('jobpress_shortcode_settings_section', 'jobpress_design_type');
+        register_setting('jobpress_shortcode_settings_section', 'jobpress_design_type', array( 'sanitize_callback' => 'absint' ) );
     }
 
     //Design select dropdown
@@ -47,6 +47,8 @@ class SettingsFormShortcode
             <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4', 'jobpress'); ?></option>
             <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5', 'jobpress'); ?></option>
         </select>
+        <br>
+        <small><?php esc_html_e( 'Applies to the [jobpress] shortcode and the JobPress Elementor widget when placed on other pages. The Jobs Page set in General Settings always uses the built-in jobs archive layout with search and filters.', 'jobpress' ); ?></small>
     <?php
     }
 

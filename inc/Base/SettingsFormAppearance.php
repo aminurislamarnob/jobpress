@@ -28,7 +28,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_brand_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_brand_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
 
 
         // register a new setting for heading color field
@@ -38,7 +38,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_heading_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_heading_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
 
 
         // register a new setting for content color field
@@ -48,7 +48,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_content_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_content_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
 
         
         // register a new setting for secondary color field
@@ -58,7 +58,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_secondary_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_secondary_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
 
 
         // register a new setting for border color field
@@ -68,7 +68,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_border_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_border_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
 
 
         // register a new setting for hover color field
@@ -78,7 +78,7 @@ class SettingsFormAppearance
             'jobpress_appearance_section',  
             'jobpress_appearance_settings_section'
         );
-        register_setting('jobpress_appearance_settings_section', 'jobpress_hover_color');
+        register_setting('jobpress_appearance_settings_section', 'jobpress_hover_color', array( 'sanitize_callback' => 'sanitize_hex_color' ) );
     }
 
 

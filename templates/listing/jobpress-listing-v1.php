@@ -5,7 +5,7 @@
             'posts_per_page' => $jobs_per_page,
             'post_type' => 'jobpress',
             'post_status' => 'publish',
-            'orderby' => 'publish_date',
+            'orderby' => 'date',
             'order' => 'DESC',
         );
         $jobs_query = new WP_Query( $jobs_query );
@@ -39,7 +39,7 @@
              * @param string $jobpress_open_positions_text The full text (e.g., "10 open positions").
              * @param int    $total_job_opens              The number of open positions.
              */
-            echo apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens );
+            echo wp_kses_post( apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens ) );
             ?>
         </p>
         <?php endif; ?>
@@ -67,7 +67,7 @@
         ?>
         <div class="jp-single-job-list">
             <div class="jp-single-job-info">
-                <h4><?php the_title(); ?></h4>
+                <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                 <p><?php echo esc_html(!empty($job_category_str) ? $job_category_str : ''); ?><span class="jp-job-location">
                     <?php
                         echo esc_html(!empty($job_type_str) ? ' - '.$job_type_str : '');

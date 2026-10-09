@@ -27,12 +27,8 @@ final class JobPressPluginInit
 			Base\SettingsFormAppearance::class, //Appearance Settings form
 			Base\SettingsFormShortcode::class, //Shortcode Settings form
 			Base\Flush::class, //Flush rewrite rules
+			Base\ElementorInit::class, //elementor integration (its hooks only fire when Elementor is active)
 		];
-
-		// Add Elementor integration if Elementor is active
-		if ( did_action( 'elementor/loaded' ) ) {
-			$services[] = Base\ElementorInit::class; //elementor integration
-		}
 
 		return $services;
 	}

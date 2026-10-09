@@ -82,13 +82,71 @@ function jobpress_locate_template( $template_name, $template_path = '', $default
 }
 
 /**
- * Get the jobs page ID.
+ * Get the selected listing design number (1-5).
  *
  * @return int
  */
 function jobpress_get_short_design_type() {
-    $style_type = !empty( get_option( 'jobpress_design_type' ) ) ? get_option( 'jobpress_design_type' ) : '1';
-    return (int) $style_type;
+    $style_type = absint( get_option( 'jobpress_design_type', 1 ) );
+    return ( $style_type >= 1 && $style_type <= 5 ) ? $style_type : 1;
+}
+
+/**
+ * Get the job groups used by the category-grouped listing designs (v2, v4).
+ *
+ * Each non-empty category becomes a group, followed by an "Other openings"
+ * group for jobs without a category so they are not dropped from the listing.
+ *
+ * @return array[] List of groups with 'name', 'description' and 'tax_query' keys.
+ */
+function jobpress_get_listing_category_groups() {
+    $groups = array();
+    $terms  = get_terms( array(
+        'taxonomy'   => 'jobpress_category',
+        'orderby'    => 'name',
+        'order'      => 'ASC',
+        'hide_empty' => true,
+    ) );
+
+    if ( ! is_wp_error( $terms ) ) {
+        foreach ( $terms as $term ) {
+            $groups[] = array(
+                'name'        => $term->name,
+                'description' => $term->description,
+                'tax_query'   => array(
+                    array(
+                        'taxonomy' => 'jobpress_category',
+                        'field'    => 'term_id',
+                        'terms'    => $term->term_id,
+                    ),
+                ),
+            );
+        }
+    }
+
+    $groups[] = array(
+        'name'        => __( 'Other openings', 'jobpress' ),
+        'description' => '',
+        'tax_query'   => array(
+            array(
+                'taxonomy' => 'jobpress_category',
+                'operator' => 'NOT EXISTS',
+            ),
+        ),
+    );
+
+    return apply_filters( 'jobpress_listing_category_groups', $groups );
+}
+
+/**
+ * Format a stored job date (e.g. the Y-m-d application deadline) using the site's date format.
+ *
+ * @param string $date Raw date value.
+ * @return string Localized date, or the raw value if it cannot be parsed.
+ */
+function jobpress_format_date( $date ) {
+    $timestamp = $date ? strtotime( $date ) : false;
+    return $timestamp ? date_i18n( get_option( 'date_format' ), $timestamp ) : (string) $date;
 }
 
 /**
@@ -107,7 +165,9 @@ function jobpress_get_jobs_page_id() {
  * @return bool
  */
 function jobpress_is_jobs_page() {
-    return is_page( jobpress_get_jobs_page_id() );
+    $page_id = jobpress_get_jobs_page_id();
+    // is_page( 0 ) matches every page, so bail out when no jobs page is set.
+    return $page_id > 0 && is_page( $page_id );
 }
 
 /**

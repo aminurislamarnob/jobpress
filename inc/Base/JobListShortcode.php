@@ -18,6 +18,9 @@ class JobListShortcode
             'show_positions' => 'yes' // yes/no to show/hide open positions count
         ), $atts) );
     
+        // Make sure styles load wherever the shortcode renders (e.g. Elementor content).
+        PublicEnqueue::enqueue_styles();
+
         //Load Template
         ob_start();
         $template_name = 'listing/jobpress-listing-v'.jobpress_get_short_design_type().'.php';

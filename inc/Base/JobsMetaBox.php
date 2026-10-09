@@ -7,7 +7,7 @@ class JobsMetaBox
 	public function register() 
 	{
         add_action( 'add_meta_boxes', array( $this, 'jobs_custom_meta' ) );
-        add_action( 'save_post', array( $this, 'jobs_meta_save' ) );
+        add_action( 'save_post_jobpress', array( $this, 'jobs_meta_save' ) );
 	}
 
     
@@ -131,7 +131,7 @@ class JobsMetaBox
     function jobpress_is_secured($nonce_field, $post_id){
         $is_autosave = wp_is_post_autosave( $post_id );
         $is_revision = wp_is_post_revision( $post_id );
-        $is_valid_nonce = ( isset( $nonce_field ) && wp_verify_nonce( $nonce_field, basename( __FILE__ ) ) ) ? 'true' : 'false';
+        $is_valid_nonce = ! empty( $nonce_field ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce_field ) ), basename( __FILE__ ) );
 
         if(!$is_valid_nonce){
             return false;
@@ -158,7 +158,8 @@ class JobsMetaBox
      */
     function jobs_meta_save( $post_id ) {
     
-        if(isset($_POST[ 'jobpress_nonce' ]) && !$this->jobpress_is_secured($_POST[ 'jobpress_nonce' ], $post_id)){
+        $nonce = isset( $_POST[ 'jobpress_nonce' ] ) ? $_POST[ 'jobpress_nonce' ] : '';
+        if( ! $this->jobpress_is_secured( $nonce, $post_id ) ){
             return;
         }
     

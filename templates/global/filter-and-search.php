@@ -10,13 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get current search values
-$current_keyword = get_query_var( 'q' );
+$current_keyword = get_query_var( 'job_search' );
 $current_jobcategory = get_query_var( 'jobcategory' );
 $current_jobtype = get_query_var( 'jobtype' );
 
-// Get jobs page URL
-$jobs_page_id = get_option( 'jobpress_jobs_page_id' );
-$form_action = $jobs_page_id ? get_permalink( $jobs_page_id ) : home_url( '/jobs/' );
+// Get jobs page URL (falls back to the jobpress post type archive)
+$form_action = jobpress_get_jobs_archive_page_permalink();
 ?>
 
 <div class="jobpress-search-form-wrapper">
@@ -32,7 +31,7 @@ $form_action = $jobs_page_id ? get_permalink( $jobs_page_id ) : home_url( '/jobs
             <input 
                 type="search" 
                 id="jobpress-keyword"
-                name="q" 
+                name="job_search" 
                 value="<?php echo esc_attr( $current_keyword ); ?>" 
                 placeholder="<?php esc_attr_e( 'Search by job title or description', 'jobpress' ); ?>"
             >

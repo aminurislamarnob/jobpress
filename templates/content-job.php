@@ -40,7 +40,7 @@ $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true 
             <span>
                 <?php
                 // translators: %s is the job application deadline
-                printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( $job_apply_deadline ) );
+                printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( jobpress_format_date( $job_apply_deadline ) ) );
                 ?>
             </span>
         </p>

@@ -5,7 +5,7 @@
             'posts_per_page' => $jobs_per_page,
             'post_type' => 'jobpress',
             'post_status' => 'publish',
-            'orderby' => 'publish_date',
+            'orderby' => 'date',
             'order' => 'DESC',
         );
         $jobs_query = new WP_Query( $jobs_query );
@@ -39,7 +39,7 @@
              * @param string $jobpress_open_positions_text The full text (e.g., "10 open positions").
              * @param int    $total_job_opens              The number of open positions.
              */
-            echo apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens );
+            echo wp_kses_post( apply_filters( 'jobpress_open_positions_text', $jobpress_open_positions_text, $total_job_opens ) );
             ?>
         </p>
         <?php endif; ?>
@@ -79,7 +79,7 @@
                     <span>
                         <?php
                         // translators: %s is the job application deadline
-                        printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( $job_apply_deadline ) );
+                        printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( jobpress_format_date( $job_apply_deadline ) ) );
                         ?>
                     </span>
                 </p>

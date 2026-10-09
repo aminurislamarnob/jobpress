@@ -47,9 +47,17 @@ class Activate
             $page_exists = get_page_by_path( 'jobs-listing' );
         }
 
-        // Check by title if page exists
+        // Check by title if page exists (get_page_by_title() is deprecated since WP 6.2)
         if ( ! $page_exists ) {
-            $page_exists = get_page_by_title( __( 'Jobs Listing', 'jobpress' ) );
+            $pages_by_title = get_posts( array(
+                'post_type'              => 'page',
+                'post_status'            => 'any',
+                'title'                  => __( 'Jobs Listing', 'jobpress' ),
+                'numberposts'            => 1,
+                'update_post_term_cache' => false,
+                'update_post_meta_cache' => false,
+            ) );
+            $page_exists = $pages_by_title ? $pages_by_title[0] : null;
         }
 
         if ( $page_exists ) {

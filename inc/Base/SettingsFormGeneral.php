@@ -33,7 +33,7 @@ class SettingsFormGeneral
         );
 
         // register a new setting for category checkbox field
-        register_setting('jobpress_general_settings_section', 'jobpress_single_sidebar');
+        register_setting('jobpress_general_settings_section', 'jobpress_single_sidebar', array( 'sanitize_callback' => 'absint' ) );
 
 
         /**
@@ -48,7 +48,7 @@ class SettingsFormGeneral
         );
 
         // register a new setting for application instruction text
-        register_setting('jobpress_general_settings_section', 'jobpress_single_resume_instruction');
+        register_setting('jobpress_general_settings_section', 'jobpress_single_resume_instruction', array( 'sanitize_callback' => 'sanitize_textarea_field' ) );
 
         /**
          * Jobs Page Selection field
@@ -62,7 +62,7 @@ class SettingsFormGeneral
         );
 
         // register a new setting for jobs page selection
-        register_setting('jobpress_general_settings_section', 'jobpress_jobs_page_id');
+        register_setting('jobpress_general_settings_section', 'jobpress_jobs_page_id', array( 'sanitize_callback' => 'absint' ) );
 
         /**
          * Jobs Per Page field
@@ -76,7 +76,7 @@ class SettingsFormGeneral
         );
 
         // register a new setting for jobs per page
-        register_setting('jobpress_general_settings_section', 'jobpress_jobs_per_page');
+        register_setting('jobpress_general_settings_section', 'jobpress_jobs_per_page', array( 'sanitize_callback' => 'absint' ) );
 
     }
 

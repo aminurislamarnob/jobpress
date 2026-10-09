@@ -131,7 +131,7 @@ class CustomPostType
      * Add custom query variables for search and filtering
      */
     public function add_search_query_vars( $vars ) {
-        $vars[] = 'q';          // keyword search
+        $vars[] = 'job_search'; // keyword search
         $vars[] = 'jobcategory';     // job category
         $vars[] = 'jobtype';    // job type
         return $vars;

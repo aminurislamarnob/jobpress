@@ -60,7 +60,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
             <div class="jp-content <?php echo esc_attr( $jobpress_sidebar_order_1 ); ?>">
                 <?php if($jobpress_ft_image) : ?>
                 <div class="jp-featured-image">
-                    <img class="jp-w-100" src="<?php echo esc_url($jobpress_ft_image); ?>" alt="<?php the_title(); ?>">
+                    <img class="jp-w-100" src="<?php echo esc_url($jobpress_ft_image); ?>" alt="<?php the_title_attribute(); ?>">
                 </div>
                 <?php endif; ?>
                 <div class="jp-job-description">
@@ -122,7 +122,7 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                             </svg>
                         </div>
                         <div class="jp-summary-text">
-                            <span><?php esc_html_e( 'Application Deadline', 'jobpress' ); ?></span><br><?php echo esc_html( $jobpress_deadline ); ?>
+                            <span><?php esc_html_e( 'Application Deadline', 'jobpress' ); ?></span><br><?php echo esc_html( jobpress_format_date( $jobpress_deadline ) ); ?>
                         </div>
                     </div>
                     <?php } 
@@ -194,9 +194,9 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
             </div>
         </div>
         <div id="job-apply" class="jp-job-apply-form">
-            <h3 class="jp-form-title"><?php esc_html_e( 'Apply for The Position: ', 'jobpress' ) . the_title(); ?></h3>
+            <h3 class="jp-form-title"><?php esc_html_e( 'Apply for The Position: ', 'jobpress' ); the_title(); ?></h3>
             <?php if(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 2) && !empty($jobpress_contact_form_7)){
-                echo do_shortcode('[contact-form-7 id="'.esc_attr($jobpress_contact_form_7).'" title="'.get_the_title().'"]');
+                echo do_shortcode( '[contact-form-7 id="' . absint( $jobpress_contact_form_7 ) . '"]' );
             }elseif(!empty($jobpress_application_collect_medium) && ($jobpress_application_collect_medium == 1) && !empty($jobpress_email)){
                 echo '<p>' . esc_html($jobpress_email) . '</p>';
             }elseif(!empty($jobpress_resume_common_instruction) && ($jobpress_application_collect_medium == 3)){

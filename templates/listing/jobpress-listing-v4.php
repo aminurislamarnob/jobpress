@@ -1,13 +1,3 @@
-<?php
-    // Get list of all taxonomy terms
-    $jobpress_args = array(
-        'taxonomy' => 'jobpress_category',
-        'orderby' => 'name',
-        'order'   => 'ASC'
-    );
-    $jobpress_cats = get_categories($jobpress_args);
-    
-?>
 <div class="jp-job-listing-area">
     <div class="jp-section-title jp-text-center">
         <?php if( !empty( $title ) ): ?>
@@ -17,42 +7,39 @@
             <p><?php echo esc_html( $subtitle ); ?></p>
         <?php endif; ?>
     </div>
-    <?php foreach($jobpress_cats as $jobpress_cat) { ?>
+    <?php
+    foreach ( jobpress_get_listing_category_groups() as $jobpress_group ) {
+        $jobs_query = new WP_Query( array(
+            'posts_per_page' => -1,
+            'post_type'      => 'jobpress',
+            'post_status'    => 'publish',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'tax_query'      => $jobpress_group['tax_query'],
+        ) );
+
+        if ( ! $jobs_query->have_posts() ) {
+            continue;
+        }
+    ?>
     <div class="jp-category-list-group">
         <div class="jp-category-title jp-align-items-center jp-d-flex jp-justify-between">
             <div class="jp-category-name">
-                <h4><?php echo esc_html( $jobpress_cat->name ) ?></h4>
-                <?php if(!empty($jobpress_cat->description)){ ?>
-                <p><?php echo esc_html( $jobpress_cat->description ) ?></p>
+                <h4><?php echo esc_html( $jobpress_group['name'] ) ?></h4>
+                <?php if(!empty($jobpress_group['description'])){ ?>
+                <p><?php echo esc_html( $jobpress_group['description'] ) ?></p>
                 <?php } ?>
             </div>
             <div class="jp-category-count jp-text-right">
                 <span class="jp-label">
                     <?php
                     // translators: %d is the number of job openings in the category
-                    printf( esc_html__( '%d OPENINGS', 'jobpress' ), esc_html( $jobpress_cat->category_count ) );
+                    printf( esc_html__( '%d OPENINGS', 'jobpress' ), absint( $jobs_query->found_posts ) );
                     ?>
                 </span>
             </div>
         </div>
-        <?php
-            $jobs_per_page = -1;
-            $jobs_query = array(
-                'posts_per_page' => $jobs_per_page,
-                'post_type' => 'jobpress',
-                'post_status' => 'publish',
-                'orderby' => 'publish_date',
-                'order' => 'DESC',
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'jobpress_category',
-                        'field'    => 'term_id',   
-                        'terms'    => $jobpress_cat->term_id,
-                    ),
-                ),
-            );
-            $jobs_query = new WP_Query( $jobs_query );
-        ?>
+
         <div class="jobpress-job-lists">
             <?php
             while($jobs_query->have_posts()) : $jobs_query->the_post();
@@ -88,7 +75,7 @@
                         <span>
                             <?php
                             // translators: %s is the job application deadline
-                            printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( $job_apply_deadline ) );
+                            printf( esc_html__( 'Deadline: %s', 'jobpress' ), esc_html( jobpress_format_date( $job_apply_deadline ) ) );
                             ?>
                         </span>
                     </p>
