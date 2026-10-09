@@ -129,6 +129,48 @@ test.describe( '[jobpress] shortcode', () => {
 		await expect( page.locator( '.jp-design-v5 .jp-listing__jobs .jp-row' ) ).toHaveCSS( 'display', 'grid' );
 	} );
 
+	test( 'overrides the appearance colors per listing', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
+		const colorPage = await jobPress.createPage(
+			`Careers colors ${ token }`,
+			'[jobpress title="Custom" brand_color="#ff0000" heading_color="#00ff00" secondary_color="#0000ff" ' +
+				'content_color="#111111" border_color="#222222" hover_color="#333333"][jobpress title="Default"]'
+		);
+		await page.goto( colorPage.link );
+
+		const custom = page.locator( '.jp-listing' ).nth( 0 );
+		const standard = page.locator( '.jp-listing' ).nth( 1 );
+		const variable = ( listing, name ) =>
+			listing.evaluate( ( el, prop ) => getComputedStyle( el ).getPropertyValue( prop ).trim(), name );
+
+		expect( await variable( custom, '--jp-brand-color' ) ).toBe( '#ff0000' );
+		expect( await variable( custom, '--jp-primary-color' ) ).toBe( '#00ff00' );
+		expect( await variable( custom, '--jp-secondary-color' ) ).toBe( '#0000ff' );
+		expect( await variable( custom, '--jp-content-color' ) ).toBe( '#111111' );
+		expect( await variable( custom, '--jp-border-color' ) ).toBe( '#222222' );
+		expect( await variable( custom, '--jp-hover-color' ) ).toBe( '#333333' );
+		// The variables drive the design: the apply button uses the brand color.
+		await expect( custom.locator( '.jp-listing__button' ).first() ).toHaveCSS( 'background-color', 'rgb(255, 0, 0)' );
+		await expect( custom.locator( '.jp-listing__title' ) ).toHaveCSS( 'color', 'rgb(0, 255, 0)' );
+
+		// The other listing keeps the global colors.
+		expect( await variable( standard, '--jp-brand-color' ) ).toBe(
+			await page.evaluate( () => getComputedStyle( document.documentElement ).getPropertyValue( '--jp-brand-color' ).trim() )
+		);
+		expect( await standard.getAttribute( 'style' ) ).toBeNull();
+	} );
+
+	test( 'ignores color attributes that are not hex colors', async ( { page, jobPress } ) => {
+		const colorPage = await jobPress.createPage(
+			`Careers bad colors ${ token }`,
+			'[jobpress brand_color="red;}body{display:none" heading_color="javascript:alert(1)"]'
+		);
+		await page.goto( colorPage.link );
+
+		expect( await page.locator( '.jp-listing' ).getAttribute( 'style' ) ).toBeNull();
+		await expect( page.locator( 'body' ) ).toBeVisible();
+	} );
+
 	test( 'links job titles in design v1', async ( { page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		await page.goto( shortcodePage.link );

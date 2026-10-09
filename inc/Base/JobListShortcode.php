@@ -28,7 +28,7 @@ class JobListShortcode
             'title' => esc_html__('Job openings', 'jobpress'),
             'subtitle' => esc_html__('Find the right job for you no matter what it is that you do.', 'jobpress'),
             'show_positions' => 'yes' // yes/no to show/hide open positions count
-        ), $atts, 'jobpress' );
+        ) + array_fill_keys( array_keys( PublicEnqueue::get_colors() ), '' ), $atts, 'jobpress' ); // hex colors; empty uses the appearance settings
 
         $design = jobpress_sanitize_design( $atts['design'] );
         if ( ! $design ) {
@@ -51,10 +51,12 @@ class JobListShortcode
 
         //Load Template
         ob_start();
+        $color_overrides = PublicEnqueue::get_color_overrides( $atts );
         printf(
-            '<div id="%s" class="%s">',
+            '<div id="%s" class="%s"%s>',
             esc_attr( $listing_id ),
-            esc_attr( 'jp-listing jp-design-v' . $design )
+            esc_attr( 'jp-listing jp-design-v' . $design ),
+            $color_overrides ? ' style="' . esc_attr( $color_overrides ) . '"' : ''
         );
         jobpress_get_template( 'listing/jobpress-listing-v' . $design . '.php', $template_args );
         echo '</div>';

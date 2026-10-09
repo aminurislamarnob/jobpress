@@ -187,28 +187,53 @@ class PublicEnqueue
 	}
 
 	/**
+	 * The appearance colors: the shortcode attribute (and Elementor control) name
+	 * of each, with its CSS custom property, setting and default value.
+	 *
+	 * @return array[] Keyed by attribute name.
+	 */
+	public static function get_colors() {
+		return array(
+			'heading_color'   => array( '--jp-primary-color', 'jobpress_heading_color', '#283339' ),
+			'secondary_color' => array( '--jp-secondary-color', 'jobpress_secondary_color', '#5f7681' ),
+			'content_color'   => array( '--jp-content-color', 'jobpress_content_color', '#3a3a3a' ),
+			'border_color'    => array( '--jp-border-color', 'jobpress_border_color', '#e7ebee' ),
+			'brand_color'     => array( '--jp-brand-color', 'jobpress_brand_color', '#0086fe' ),
+			'hover_color'     => array( '--jp-hover-color', 'jobpress_hover_color', '#006dcc' ),
+		);
+	}
+
+	/**
 	 * Build the CSS custom properties from the appearance settings.
 	 *
 	 * @return string
 	 */
 	private static function get_appearance_styles() {
-		$colors = array(
-			'--jp-primary-color'   => array( 'jobpress_heading_color', '#283339' ),
-			'--jp-secondary-color' => array( 'jobpress_secondary_color', '#5f7681' ),
-			'--jp-content-color'   => array( 'jobpress_content_color', '#3a3a3a' ),
-			'--jp-border-color'    => array( 'jobpress_border_color', '#e7ebee' ),
-			'--jp-brand-color'     => array( 'jobpress_brand_color', '#0086fe' ),
-			'--jp-hover-color'     => array( 'jobpress_hover_color', '#006dcc' ),
-		);
-
 		$css = ':root {';
-		foreach ( $colors as $property => $option ) {
+		foreach ( self::get_colors() as $color ) {
 			// Re-validate on output too, since values saved before sanitizing was added may be unsafe.
-			$value = sanitize_hex_color( get_option( $option[0] ) );
-			$css  .= $property . ': ' . ( $value ? $value : $option[1] ) . ';';
+			$value = sanitize_hex_color( get_option( $color[1] ) );
+			$css  .= $color[0] . ': ' . ( $value ? $value : $color[2] ) . ';';
 		}
 		$css .= '}';
 
+		return $css;
+	}
+
+	/**
+	 * Build the CSS custom properties that override the appearance colors for one listing.
+	 *
+	 * @param array $atts Shortcode attributes; valid hex values of the color attributes are used.
+	 * @return string Declarations for a style attribute, or '' when no color is overridden.
+	 */
+	public static function get_color_overrides( $atts ) {
+		$css = '';
+		foreach ( self::get_colors() as $attribute => $color ) {
+			$value = isset( $atts[ $attribute ] ) ? sanitize_hex_color( $atts[ $attribute ] ) : '';
+			if ( $value ) {
+				$css .= $color[0] . ':' . $value . ';';
+			}
+		}
 		return $css;
 	}
 }
