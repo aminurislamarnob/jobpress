@@ -14,8 +14,13 @@ const SETTINGS_PAGES = {
 	shortcode: 'jobpress_shortcode',
 };
 
-/** A short random token, used to keep test data unique per run. */
-const uid = () => Math.random().toString( 36 ).slice( 2, 8 );
+/**
+ * A short random token, used to keep test data unique per run. Letters only:
+ * WordPress rewrites patterns like "4x2433" to "4×2433" in rendered titles,
+ * which made the title text differ from what the tests look for.
+ */
+const uid = () =>
+	Array.from( { length: 6 }, () => String.fromCharCode( 97 + Math.floor( Math.random() * 26 ) ) ).join( '' );
 
 class JobPressUtils {
 	constructor( { page, requestUtils } ) {
