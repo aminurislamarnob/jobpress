@@ -2,7 +2,8 @@
 	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
 	"core": null,
 	"plugins": [
-		"."
+		".",
+		"https://downloads.wordpress.org/plugin/elementor.latest-stable.zip"
 	],
 	"config": {
 		"WP_DEBUG": true,
@@ -10,6 +11,7 @@
 	},
 	"themes": [
 		"https://downloads.wordpress.org/theme/twentytwentyone.zip",
-		"https://downloads.wordpress.org/theme/twentytwentyfive.zip"
+		"https://downloads.wordpress.org/theme/twentytwentyfive.zip",
+		"./tests/e2e/themes/jobpress-e2e-outdated"
 	]
 }

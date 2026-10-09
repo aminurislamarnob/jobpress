@@ -1,0 +1,167 @@
+/** @jsxRuntime classic */
+/** @jsx createElement */
+// The classic JSX runtime keeps the block working before WordPress 6.6, which
+// added the react-jsx-runtime script the automatic runtime needs.
+import { createElement } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { Button, Disabled, ExternalLink, PanelBody, Placeholder, RangeControl, SelectControl, Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
+import ServerSideRender from '@wordpress/server-side-render';
+
+import QueryPanel from './query';
+import StylesPanels from './styles';
+import { data, hasDesign, isShown, InheritedTextControl, VisibilityControl } from './controls';
+
+// The preview leaves out the block wrapper: the editor's own has the wrapper styles.
+const PREVIEW_QUERY_ARGS = { jobpress_preview: 1 };
+
+/**
+ * While the preview re-renders, keep the previous one in view with a spinner.
+ *
+ * @param {Object}  props
+ * @param {Element} props.children The previous preview, if any.
+ */
+function LoadingPreview( { children } ) {
+	return (
+		<div className="jobpress-block-preview is-loading">
+			{ children }
+			<Spinner />
+		</div>
+	);
+}
+
+/**
+ * Shown instead of the preview while the site has no published jobs.
+ */
+function NoJobsPlaceholder() {
+	return (
+		<Placeholder
+			icon="clipboard"
+			label={ __( 'JobPress Jobs', 'jobpress' ) }
+			instructions={ __( 'No jobs yet. Your published jobs will be listed here.', 'jobpress' ) }
+		>
+			<Button variant="primary" href={ data.addJobUrl } target="_blank">
+				{ __( 'Add job', 'jobpress' ) }
+			</Button>
+		</Placeholder>
+	);
+}
+
+export default function Edit( { attributes, setAttributes } ) {
+	const blockProps = useBlockProps();
+	const props = { attributes, setAttributes };
+
+	// null while loading.
+	const hasJobs = useSelect( ( select ) => {
+		const jobs = select( coreStore ).getEntityRecords( 'postType', 'jobpress', { per_page: 1, status: 'publish', _fields: 'id' } );
+		return jobs ? jobs.length > 0 : null;
+	}, [] );
+
+	const designOptions = [
+		{
+			/* translators: %s: name of the design selected in the JobPress settings */
+			label: sprintf( __( 'Default (%s)', 'jobpress' ), data.designs[ data.globalDesign ] ),
+			value: '',
+		},
+		...Object.entries( data.designs ).map( ( [ value, label ] ) => ( { value, label } ) ),
+	];
+
+	const cardFields = {
+		category: __( 'Category', 'jobpress' ),
+		type: __( 'Job type', 'jobpress' ),
+		location: __( 'Location', 'jobpress' ),
+		experience: __( 'Experience', 'jobpress' ),
+		vacancy: __( 'Vacancies', 'jobpress' ),
+		deadline: __( 'Deadline', 'jobpress' ),
+	};
+
+	return (
+		<div { ...blockProps }>
+			<InspectorControls>
+				<PanelBody className="jobpress-block-panel" title={ __( 'Layout', 'jobpress' ) }>
+					<p>
+						{ __( 'Settings left on Default use the global Listing Defaults.', 'jobpress' ) }{ ' ' }
+						<ExternalLink href={ data.settingsUrl }>{ __( 'Listing Defaults', 'jobpress' ) }</ExternalLink>
+					</p>
+					<SelectControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={ __( 'Design', 'jobpress' ) }
+						value={ attributes.design }
+						options={ designOptions }
+						onChange={ ( design ) => setAttributes( { design } ) }
+					/>
+					{ hasDesign( attributes, data.designFields.columns ) && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							label={ __( 'Columns', 'jobpress' ) }
+							help={ __( 'Most cards per row. Fewer are shown where cards would get too narrow.', 'jobpress' ) }
+							value={ attributes.columns }
+							min={ 1 }
+							max={ 6 }
+							allowReset
+							onChange={ ( columns ) => setAttributes( { columns } ) }
+						/>
+					) }
+				</PanelBody>
+
+				<PanelBody className="jobpress-block-panel" title={ __( 'Header', 'jobpress' ) } initialOpen={ false }>
+					<VisibilityControl { ...props } attribute="show_title" label={ __( 'Title', 'jobpress' ) } />
+					{ isShown( attributes, 'show_title' ) && (
+						<InheritedTextControl { ...props } attribute="title" label={ __( 'Title text', 'jobpress' ) } />
+					) }
+					<VisibilityControl { ...props } attribute="show_subtitle" label={ __( 'Subtitle', 'jobpress' ) } />
+					{ isShown( attributes, 'show_subtitle' ) && (
+						<InheritedTextControl { ...props } attribute="subtitle" label={ __( 'Subtitle text', 'jobpress' ) } />
+					) }
+					{ hasDesign( attributes, data.designFields.positions ) && (
+						<VisibilityControl { ...props } attribute="show_positions" label={ __( 'Open positions count', 'jobpress' ) } />
+					) }
+				</PanelBody>
+
+				<PanelBody className="jobpress-block-panel" title={ __( 'Job Card', 'jobpress' ) } initialOpen={ false }>
+					{ Object.entries( cardFields ).map(
+						( [ field, label ] ) =>
+							hasDesign( attributes, data.designFields[ field ] ) && (
+								<VisibilityControl key={ field } { ...props } attribute={ `show_${ field }` } label={ label } />
+							)
+					) }
+					{ hasDesign( attributes, data.designFields.button ) && (
+						<InheritedTextControl { ...props } attribute="button_text" label={ __( 'Button text', 'jobpress' ) } />
+					) }
+				</PanelBody>
+
+				<PanelBody className="jobpress-block-panel" title={ __( 'Search & Links', 'jobpress' ) } initialOpen={ false }>
+					<VisibilityControl
+						{ ...props }
+						attribute="show_search"
+						label={ __( 'Search bar', 'jobpress' ) }
+						help={ __( 'Searches open the Jobs Page results.', 'jobpress' ) }
+					/>
+					<VisibilityControl { ...props } attribute="show_view_all" label={ __( '"View all jobs" link', 'jobpress' ) } />
+					{ isShown( attributes, 'show_view_all' ) && (
+						<InheritedTextControl { ...props } attribute="view_all_text" label={ __( 'Link text', 'jobpress' ) } />
+					) }
+				</PanelBody>
+
+				<QueryPanel { ...props } />
+			</InspectorControls>
+			<StylesPanels { ...props } />
+			{ false === hasJobs ? (
+				<NoJobsPlaceholder />
+			) : (
+				<Disabled>
+					<ServerSideRender
+						block="jobpress/jobs"
+						attributes={ attributes }
+						urlQueryArgs={ PREVIEW_QUERY_ARGS }
+						LoadingResponsePlaceholder={ LoadingPreview }
+					/>
+				</Disabled>
+			) }
+		</div>
+	);
+}

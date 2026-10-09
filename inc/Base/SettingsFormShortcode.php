@@ -48,7 +48,7 @@ class SettingsFormShortcode
             <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5', 'jobpress'); ?></option>
         </select>
         <br>
-        <small><?php esc_html_e( 'Applies to the [jobpress] shortcode and the JobPress Elementor widget when placed on other pages. The Jobs Page set in General Settings always uses the built-in jobs archive layout with search and filters.', 'jobpress' ); ?></small>
+        <small><?php esc_html_e( 'The default design of the [jobpress] shortcode and the JobPress Elementor widget, which can each choose their own. The Jobs Page set in General Settings always uses the built-in jobs archive layout with search and filters.', 'jobpress' ); ?></small>
     <?php
     }
 

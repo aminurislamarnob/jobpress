@@ -4,7 +4,7 @@
  */
 const { test, expect, uid } = require( '../fixtures' );
 
-const designStylesheet = ( page ) => page.locator( 'link#jobpress-css-css' );
+const designStylesheet = ( page ) => page.locator( 'link[id^="jobpress-design-v"]' );
 const commonStylesheet = ( page ) => page.locator( 'link#jobpress-common-css' );
 const brandColorVariable = ( page ) =>
 	page.evaluate( () =>
@@ -25,14 +25,19 @@ test.describe( 'Public assets', () => {
 
 		await expect( designStylesheet( page ) ).toHaveAttribute( 'href', /jobpress-style-v3\.css/ );
 		await expect( commonStylesheet( page ) ).toHaveCount( 1 );
+		// The archive layout is styled by design v3's scoped rules.
+		await expect( page.locator( 'body' ) ).toHaveClass( /\bjp-design-v3\b/ );
 	} );
 
 	test( 'load on a single job page', async ( { page, jobPress } ) => {
+		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '4' } );
 		const job = await jobPress.createJob( { title: `Styled Job ${ uid() }` } );
 		await page.goto( job.link );
 
-		await expect( designStylesheet( page ) ).toHaveCount( 1 );
+		// Single job pages follow the selected design.
+		await expect( designStylesheet( page ) ).toHaveAttribute( 'href', /jobpress-style-v4\.css/ );
 		await expect( commonStylesheet( page ) ).toHaveCount( 1 );
+		await expect( page.locator( 'body' ) ).toHaveClass( /\bjp-design-v4\b/ );
 	} );
 } );
 

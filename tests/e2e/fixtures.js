@@ -22,6 +22,24 @@ const SETTINGS_PAGES = {
 const uid = () =>
 	Array.from( { length: 6 }, () => String.fromCharCode( 97 + Math.floor( Math.random() * 26 ) ) ).join( '' );
 
+/**
+ * Markup of a JobPress Jobs block, serialized the way the block editor does.
+ *
+ * @param {Object} attributes Block attributes.
+ * @return {string}
+ */
+const jobsBlock = ( attributes = {} ) => {
+	const json = JSON.stringify( attributes )
+		.replace( /--/g, '\\u002d\\u002d' )
+		.replace( /</g, '\\u003c' )
+		.replace( />/g, '\\u003e' )
+		.replace( /&/g, '\\u0026' )
+		.replace( /\\"/g, '\\u0022' );
+	return Object.keys( attributes ).length
+		? `<!-- wp:jobpress/jobs ${ json } /-->`
+		: '<!-- wp:jobpress/jobs /-->';
+};
+
 class JobPressUtils {
 	constructor( { page, requestUtils } ) {
 		this.page = page;
@@ -108,11 +126,92 @@ class JobPressUtils {
 	}
 
 	/**
+	 * Create a published Elementor page holding JobPress widgets, over REST.
+	 *
+	 * Each widget is placed in its own container. Elementor builds the page's CSS
+	 * file (including widget style controls) the first time the page is viewed.
+	 *
+	 * @param {string}   title
+	 * @param {Object[]} widgets           Settings of each JobPress widget on the page.
+	 * @param {Object}   containerSettings Settings of each container, e.g. { flex_direction: 'row' }.
+	 * @return {Promise<Object>} REST page object.
+	 */
+	async createElementorPage( title, widgets = [ {} ], containerSettings = {} ) {
+		// Elementor element IDs are 7-character hex strings.
+		const elementId = () => Math.random().toString( 16 ).slice( 2, 9 ).padEnd( 7, '0' );
+		const data = widgets.map( ( settings ) => ( {
+			id: elementId(),
+			elType: 'container',
+			settings: containerSettings,
+			elements: [
+				{
+					id: elementId(),
+					elType: 'widget',
+					widgetType: 'jobpress_jobs',
+					settings,
+					elements: [],
+				},
+			],
+			isInner: false,
+		} ) );
+
+		const page = await this.requestUtils.rest( {
+			method: 'POST',
+			path: '/wp/v2/pages',
+			data: {
+				title,
+				status: 'publish',
+				meta: {
+					_elementor_edit_mode: 'builder',
+					_elementor_template_type: 'wp-page',
+					_elementor_data: JSON.stringify( data ),
+				},
+			},
+		} );
+		page.widgetIds = data.map( ( container ) => container.elements[ 0 ].id );
+		this.cleanups.push( () =>
+			this.requestUtils.rest( {
+				method: 'DELETE',
+				path: `/wp/v2/pages/${ page.id }`,
+				params: { force: true },
+			} )
+		);
+		return page;
+	}
+
+	/**
+	 * Create a published page holding JobPress Jobs blocks, over REST.
+	 *
+	 * @param {string}   title
+	 * @param {Object[]} blocks Attributes of each block on the page.
+	 * @return {Promise<Object>} REST page object.
+	 */
+	async createBlockPage( title, blocks = [ {} ] ) {
+		return this.createPage( title, blocks.map( jobsBlock ).join( '\n\n' ) );
+	}
+
+	/**
+	 * Delete a post (or page) after the test, e.g. one created in the editor.
+	 *
+	 * @param {number} id
+	 * @param {string} [restBase] REST base of its post type.
+	 */
+	deleteAfterTest( id, restBase = 'pages' ) {
+		this.cleanups.push( () =>
+			this.requestUtils.rest( {
+				method: 'DELETE',
+				path: `/wp/v2/${ restBase }/${ id }`,
+				params: { force: true },
+			} )
+		);
+	}
+
+	/**
 	 * Save JobPress settings through the plugin's settings screen, restoring the
 	 * previous values after the test.
 	 *
 	 * @param {'general'|'appearance'|'shortcode'} screen
-	 * @param {Object<string,string>}              values Option name => value.
+	 * @param {Object<string,string>}              values Option name => value ('yes'/'no' for checkboxes).
 	 */
 	async updateSettings( screen, values ) {
 		const previous = await this.saveSettings( screen, values );
@@ -131,7 +230,13 @@ class JobPressUtils {
 		for ( const [ name, value ] of Object.entries( values ) ) {
 			const field = this.page.locator( `[name="${ name }"]` );
 			// Color fields are hidden behind the wpColorPicker UI, so set them directly.
+			// Checkboxes take 'yes' (checked) or 'no' (unchecked).
 			previous[ name ] = await field.evaluate( ( el, newValue ) => {
+				if ( el.type === 'checkbox' ) {
+					const wasChecked = el.checked;
+					el.checked = newValue === 'yes';
+					return wasChecked ? 'yes' : 'no';
+				}
 				const old = el.value;
 				el.value = newValue;
 				return old;
@@ -190,4 +295,4 @@ async function expectNoPhpErrors( page ) {
 	expect( html ).not.toMatch( /<b>(Fatal error|Warning|Notice|Deprecated)<\/b>:/ );
 }
 
-module.exports = { test, expect, uid, expectNoPhpErrors };
+module.exports = { test, expect, uid, expectNoPhpErrors, jobsBlock };
