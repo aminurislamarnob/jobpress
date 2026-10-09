@@ -27,7 +27,7 @@ test.describe( 'Taxonomy archives', () => {
 		await expect( page.getByRole( 'heading', { level: 1, name: category.name } ) ).toBeVisible();
 		await expect( page.getByRole( 'link', { name: categorizedJob.title.rendered } ) ).toBeVisible();
 		await expect( page.getByRole( 'link', { name: otherJob.title.rendered } ) ).toHaveCount( 0 );
-		await expect( page.locator( '#primary' ) ).toHaveCount( 1 );
+		await expect( page.locator( '.jp-container' ) ).toHaveCount( 1 );
 		await expectNoPhpErrors( page );
 	} );
 

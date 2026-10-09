@@ -13,5 +13,13 @@ module.exports = async function globalSetup( config ) {
 	} );
 
 	await requestUtils.setupRest();
+
+	// E2E_THEME=<slug> runs the suite against a specific theme, e.g. a classic
+	// theme (twentytwentyone) or a block theme (twentytwentyfive). The theme must
+	// already be installed.
+	if ( process.env.E2E_THEME ) {
+		await requestUtils.activateTheme( process.env.E2E_THEME );
+	}
+
 	await requestContext.dispose();
 };

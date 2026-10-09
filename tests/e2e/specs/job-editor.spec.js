@@ -68,7 +68,7 @@ test.describe( 'Job editor', () => {
 		await expect( applySection.getByRole( 'heading' ) ).toContainText( title );
 		await expect( applySection ).toContainText( 'Send your CV to jobs@example.test' );
 
-		await expect( page.locator( '#primary' ) ).toHaveCount( 1 );
+		await expect( page.locator( '.jp-container' ) ).toHaveCount( 1 );
 		await expectNoPhpErrors( page );
 	} );
 } );

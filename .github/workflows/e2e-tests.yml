@@ -17,9 +17,16 @@ permissions:
 
 jobs:
   e2e:
-    name: Playwright
+    name: Playwright (${{ matrix.theme }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # twentytwentyone is a classic theme, twentytwentyfive a block theme.
+        theme: [twentytwentyone, twentytwentyfive]
+    env:
+      E2E_THEME: ${{ matrix.theme }}
 
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +54,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-report
+          name: e2e-report-${{ matrix.theme }}
           path: tests/e2e/artifacts/
           if-no-files-found: ignore
           retention-days: 14

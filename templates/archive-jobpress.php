@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-get_header( 'jobpress' );
+jobpress_get_header();
 
 /**
  * Hook: jobpress_before_main_content.
@@ -137,4 +137,4 @@ if ( $jobs_query->have_posts() ) {
  */
 do_action( 'jobpress_after_main_content' );
 
-get_footer( 'jobpress' );
+jobpress_get_footer();

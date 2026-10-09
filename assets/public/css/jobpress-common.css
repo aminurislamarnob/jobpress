@@ -383,3 +383,19 @@ Modern Pagination Styles
         margin-bottom: 10px;
     }
 }
+
+/* Page container used by the default content wrapper (templates/global/wrapper-start.php). */
+.jp-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--wp--style--global--wide-size, 1140px);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.jp-job-title {
+    margin: 0 0 20px;
+}
+

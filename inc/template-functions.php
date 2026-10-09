@@ -167,3 +167,57 @@ if ( ! function_exists( 'jobpress_no_jobs_found' ) ) {
 		jobpress_get_template( 'loop/no-jobs-found.php' );
 	}
 }
+
+if ( ! function_exists( 'jobpress_get_header' ) ) {
+
+	/**
+	 * Output the site header for JobPress pages.
+	 *
+	 * Classic themes use their header.php (header-jobpress.php if present). Block
+	 * themes have no header.php, so open the document here and render the theme's
+	 * "header" template part instead; jobpress_get_footer() closes it again.
+	 */
+	function jobpress_get_header() {
+		if ( ! wp_is_block_theme() ) {
+			get_header( 'jobpress' );
+			return;
+		}
+		?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+<div class="wp-site-blocks">
+		<?php
+		// Same markup a block theme's own templates produce, including the <header> landmark.
+		echo do_blocks( '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
+	}
+}
+
+if ( ! function_exists( 'jobpress_get_footer' ) ) {
+
+	/**
+	 * Output the site footer for JobPress pages. Counterpart of jobpress_get_header().
+	 */
+	function jobpress_get_footer() {
+		if ( ! wp_is_block_theme() ) {
+			get_footer( 'jobpress' );
+			return;
+		}
+
+		echo do_blocks( '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered blocks.
+		?>
+</div>
+		<?php
+		wp_footer();
+		?>
+</body>
+</html>
+		<?php
+	}
+}

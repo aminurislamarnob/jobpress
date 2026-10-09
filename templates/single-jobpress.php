@@ -4,7 +4,7 @@
  *
  */
 
-get_header('jobpress');
+jobpress_get_header();
 
 /**
  * jobpress_before_main_content hook.
@@ -58,6 +58,15 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
     <div class="jp-single-wrapper">
         <div class="jp-single-content-area">
             <div class="jp-content <?php echo esc_attr( $jobpress_sidebar_order_1 ); ?>">
+                <?php
+                /**
+                 * Filter whether to print the job title above the job content.
+                 *
+                 * @param bool $show Whether to show the title. Default true.
+                 */
+                if ( apply_filters( 'jobpress_show_single_job_title', true ) ) : ?>
+                <h1 class="jp-job-title"><?php the_title(); ?></h1>
+                <?php endif; ?>
                 <?php if($jobpress_ft_image) : ?>
                 <div class="jp-featured-image">
                     <img class="jp-w-100" src="<?php echo esc_url($jobpress_ft_image); ?>" alt="<?php the_title_attribute(); ?>">
@@ -216,4 +225,4 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
  */
 do_action( 'jobpress_after_main_content' );
 
-get_footer('jobpress');
+jobpress_get_footer();
