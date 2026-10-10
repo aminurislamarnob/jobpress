@@ -10,6 +10,14 @@ defined( 'ABSPATH' ) || exit;
 
 // Get current page safely using WordPress functions
 $current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+// The docs section for the current settings screen.
+$docs_pages = array(
+    'jobpress_settings'            => 'settings#general',
+    'jobpress_appearance_settings' => 'settings#appearance',
+    'jobpress_shortcode'           => 'shortcode',
+);
+$docs_url = jobpress_get_docs_url( isset( $docs_pages[ $current_page ] ) ? $docs_pages[ $current_page ] : 'settings' );
 ?>
 <div class="jobpress-left-nav">
     <ul>
@@ -35,4 +43,9 @@ $current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET[
             </a>
         </li>
     </ul>
+    <p class="jobpress-docs-link">
+        <span class="dashicons dashicons-book" aria-hidden="true"></span>
+        <?php esc_html_e( 'Need help?', 'jobpress' ); ?>
+        <a href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Read the docs', 'jobpress' ); ?></a>
+    </p>
 </div>

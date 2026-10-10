@@ -102,6 +102,17 @@ JobPress plugin admin settings page styles.
     color: #fff;
 }
 
+.jobpress-container .jobpress-docs-link {
+    margin: 0;
+    padding: 16px 20px;
+    color: #50575e;
+}
+
+.jobpress-container .jobpress-docs-link .dashicons {
+    color: #335eea;
+    margin-right: 6px;
+}
+
 /*form content area style*/
 .jobpress-right-content .notice {
     margin-left: 0;

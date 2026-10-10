@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-10T06:46:39+00:00\n"
+"POT-Creation-Date: 2026-10-10T10:19:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobpress\n"
@@ -885,9 +885,13 @@ msgstr ""
 msgid "You can change shortcode settings from here."
 msgstr ""
 
-#: inc/Base/SettingsLinks.php:20
+#: inc/Base/SettingsLinks.php:21
 #: inc/Pages/Admin/Admin.php:59
 msgid "Settings"
+msgstr ""
+
+#: inc/Base/SettingsLinks.php:36
+msgid "Docs"
 msgstr ""
 
 #: inc/Base/TemplateOverrideNotice.php:129
@@ -1010,17 +1014,17 @@ msgstr ""
 msgid "View all jobs"
 msgstr ""
 
-#: inc/core-functions.php:846
+#: inc/core-functions.php:857
 msgctxt "slug"
 msgid "job"
 msgstr ""
 
-#: inc/core-functions.php:847
+#: inc/core-functions.php:858
 msgctxt "slug"
 msgid "job-category"
 msgstr ""
 
-#: inc/core-functions.php:848
+#: inc/core-functions.php:859
 msgctxt "slug"
 msgid "job-tag"
 msgstr ""
@@ -1037,7 +1041,7 @@ msgid "JobPress Appearance Settings"
 msgstr ""
 
 #: inc/Pages/Admin/Admin.php:72
-#: templates/task-pages/nav.php:27
+#: templates/task-pages/nav.php:35
 msgid "Appearance"
 msgstr ""
 
@@ -1046,7 +1050,7 @@ msgid "JobPress Shortcodes Settings"
 msgstr ""
 
 #: inc/Pages/Admin/Admin.php:82
-#: templates/task-pages/nav.php:34
+#: templates/task-pages/nav.php:42
 msgid "Shortcodes"
 msgstr ""
 
@@ -1147,8 +1151,16 @@ msgstr ""
 msgid "No application process added by the recruiter."
 msgstr ""
 
-#: templates/task-pages/nav.php:20
+#: templates/task-pages/nav.php:28
 msgid "General"
+msgstr ""
+
+#: templates/task-pages/nav.php:48
+msgid "Need help?"
+msgstr ""
+
+#: templates/task-pages/nav.php:49
+msgid "Read the docs"
 msgstr ""
 
 #: templates/task-pages/shortcodes-settings.php:10

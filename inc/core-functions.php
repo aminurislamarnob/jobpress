@@ -539,6 +539,17 @@ function jobpress_format_date( $date ) {
 }
 
 /**
+ * Get the URL of the JobPress user docs on pluginizelab.com.
+ *
+ * @param string $page Docs page and optional anchor, e.g. 'settings#appearance'. Empty for the docs home.
+ * @return string
+ */
+function jobpress_get_docs_url( $page = '' ) {
+    $url = 'https://pluginizelab.com/docs/jobpress';
+    return $page ? $url . '/' . ltrim( $page, '/' ) : $url;
+}
+
+/**
  * Get the jobs page ID.
  *
  * @return int

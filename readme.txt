@@ -32,6 +32,8 @@ This plugin enables you to build/create your company job board inside your WordP
 
 = **Documentation** =
 
+The full user guide, with screenshots of every screen, is at [pluginizelab.com/docs/jobpress](https://pluginizelab.com/docs/jobpress). A short overview follows.
+
 **👉 Getting Started**
 * Install and activate the **JobPress** plugin.
 * After activation, you will see a new menu called **JobPress** in your WordPress admin dashboard.
@@ -99,6 +101,9 @@ Installing this plugin is very easy just like any other WordPress plugin. Please
 
 
 == Frequently Asked Questions ==
+
+= Where is the documentation? =
+At [pluginizelab.com/docs/jobpress](https://pluginizelab.com/docs/jobpress): setup, jobs, the Jobs Page, the listing designs, the shortcode, the block, the Elementor widget and every setting, with screenshots. The Plugins screen and the JobPress settings screens link to it too.
 
 = Is there any preset style for job listing? =
 You there are 5 preset.
@@ -178,6 +183,7 @@ Example:
 * **feat:** New `[jobpress]` attributes: `design`, the six colors, `show_title`, `show_subtitle`, job card toggles (`show_category`, `show_type`, `show_location`, `show_experience`, `show_vacancy`, `show_deadline`), `button_text`, `show_search`, `show_view_all`, `view_all_text`, and query attributes `per_page`, `category`, `type`, `include`, `exclude`, `orderby`, `order`.
 * **feat:** New Listing Defaults settings (Settings > Shortcodes): default title and subtitle, header and job card visibility, button text, search bar and "View all jobs" link. The job card options also apply to the Jobs Page.
 * **feat:** Search, category and job type filters on the jobs page.
+* **feat:** Links to the new user docs at pluginizelab.com/docs/jobpress from the Plugins screen and the JobPress settings screens.
 * **feat:** Block theme support: job pages now show the theme's header and footer on block themes such as Twenty Twenty-Five.
 * **feat:** The single job page shows the job title (can be hidden with the `jobpress_show_single_job_title` filter).
 * **feat:** "No jobs found" message when a search or filter has no results.
