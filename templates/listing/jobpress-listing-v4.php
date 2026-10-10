@@ -15,7 +15,7 @@
  * @var int     $total_jobs      Number of jobs matching the listing.
  * @var string  $search_form     Search form HTML (already escaped), or '' when the search bar is off.
  *
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -67,13 +67,18 @@ defined( 'ABSPATH' ) || exit;
             $job_vacancy = get_post_meta(get_the_ID(), 'jobpress_vacancy', true);
             $job_apply_deadline = get_post_meta(get_the_ID(), 'jobpress_apply_deadline', true);
             $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true );
+
+            // Fields without a value are left out.
+            $show_job_type     = 'yes' === $show_type && '' !== $job_type_str;
+            $show_job_vacancy  = 'yes' === $show_vacancy && '' !== (string) $job_vacancy;
+            $show_job_deadline = 'yes' === $show_deadline && '' !== (string) $job_apply_deadline;
             ?>
             <div class="jp-single-job-list jp-listing__card">
                 <div class="jp-single-job-info">
                     <h4 class="jp-listing__job-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                    <?php if ( $show_type === 'yes' || $show_vacancy === 'yes' || $show_deadline === 'yes' ) : ?>
+                    <?php if ( $show_job_type || $show_job_vacancy || $show_job_deadline ) : ?>
                     <p class="jp-listing__meta">
-                        <?php if ( $show_type === 'yes' ) : ?>
+                        <?php if ( $show_job_type ) : ?>
                         <span class="jp-listing__type">
                             <?php
                             // translators: %s is the job type
@@ -81,15 +86,15 @@ defined( 'ABSPATH' ) || exit;
                             ?>
                         </span>
                         <?php endif; ?>
-                        <?php if ( $show_vacancy === 'yes' ) : ?>
+                        <?php if ( $show_job_vacancy ) : ?>
                         <span class="jp-listing__vacancy">
                             <?php
                             // translators: %s is the number of job vacancies
-                            printf( esc_html__( 'Vacancies: %d', 'jobpress' ), esc_html( $job_vacancy ) );
+                            printf( esc_html__( 'Vacancies: %s', 'jobpress' ), esc_html( $job_vacancy ) );
                             ?>
                         </span>
                         <?php endif; ?>
-                        <?php if ( $show_deadline === 'yes' ) : ?>
+                        <?php if ( $show_job_deadline ) : ?>
                         <span class="jp-listing__deadline">
                             <?php
                             // translators: %s is the job application deadline

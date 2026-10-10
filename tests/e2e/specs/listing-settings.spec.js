@@ -116,11 +116,43 @@ test.describe( 'Listing defaults', () => {
 		} );
 
 		test( 'can hide the type, vacancies and deadline in the card designs', async ( { page, jobPress } ) => {
-			await visit( page, jobPress, `[jobpress design="3" include="${ job.id }" show_vacancy="no" show_deadline="no"]` );
+			await jobPress.setJobDetails( job, { jobpress_vacancy: '2', jobpress_apply_deadline: '2030-12-31' } );
+			await visit(
+				page,
+				jobPress,
+				`[jobpress design="3" include="${ job.id }"][jobpress design="3" include="${ job.id }" show_vacancy="no" show_deadline="no"]`
+			);
+			const listings = page.locator( '.jp-listing' );
 
-			await expect( card( page ).locator( '.jp-listing__type' ) ).toContainText( type.name );
-			await expect( card( page ).locator( '.jp-listing__vacancy' ) ).toHaveCount( 0 );
-			await expect( card( page ).locator( '.jp-listing__deadline' ) ).toHaveCount( 0 );
+			await expect( card( page, listings.nth( 0 ) ).locator( '.jp-listing__vacancy' ) ).toHaveText( 'Vacancies: 2' );
+			await expect( card( page, listings.nth( 0 ) ).locator( '.jp-listing__deadline' ) ).toContainText( '2030' );
+			await expect( card( page, listings.nth( 1 ) ).locator( '.jp-listing__type' ) ).toContainText( type.name );
+			await expect( card( page, listings.nth( 1 ) ).locator( '.jp-listing__vacancy' ) ).toHaveCount( 0 );
+			await expect( card( page, listings.nth( 1 ) ).locator( '.jp-listing__deadline' ) ).toHaveCount( 0 );
+		} );
+
+		test( 'leave out the details a job has no value for', async ( { page, jobPress } ) => {
+			const bare = await jobPress.createJob( { title: `Fields Bare ${ token }` } );
+			await jobPress.setJobDetails( job, { jobpress_vacancy: '2-3' } );
+			const include = `include="${ job.id },${ bare.id }"`;
+			await visit( page, jobPress, `[jobpress design="3" ${ include }][jobpress design="4" ${ include }]` );
+
+			for ( const listing of [ page.locator( '.jp-design-v3' ), page.locator( '.jp-design-v4' ) ] ) {
+				const bareCard = listing.locator( '.jp-listing__card' ).filter( { hasText: `Fields Bare ${ token }` } );
+				await expect( bareCard ).toBeVisible();
+				// No type, vacancies or deadline: no empty labels, and no empty meta line.
+				await expect( bareCard.locator( '.jp-listing__meta' ) ).toHaveCount( 0 );
+				await expect( card( page, listing ).locator( '.jp-listing__deadline' ) ).toHaveCount( 0 );
+				// Vacancies are text, e.g. a range.
+				await expect( card( page, listing ).locator( '.jp-listing__vacancy' ) ).toHaveText( 'Vacancies: 2-3' );
+			}
+
+			await page.goto( await jobPress.getJobsPageUrl() );
+			const archiveCard = page.locator( '.jp-single-job-list' ).filter( { hasText: `Fields Bare ${ token }` } );
+			await expect( archiveCard ).toBeVisible();
+			await expect( archiveCard ).not.toContainText( 'Vacancies:' );
+			await expect( archiveCard ).not.toContainText( 'Deadline:' );
+			await expect( archiveCard ).not.toContainText( 'Job Type:' );
 		} );
 
 		test( 'change the button text per listing and globally', async ( { page, jobPress } ) => {
@@ -133,6 +165,7 @@ test.describe( 'Listing defaults', () => {
 		} );
 
 		test( 'hidden globally, are hidden in listings and on the jobs archive', async ( { page, jobPress } ) => {
+			await jobPress.setJobDetails( job, { jobpress_vacancy: '2', jobpress_apply_deadline: '2030-12-31' } );
 			await jobPress.updateSettings( 'shortcode', {
 				jobpress_listing_show_type: 'no',
 				jobpress_listing_show_deadline: 'no',

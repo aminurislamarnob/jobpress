@@ -6,7 +6,7 @@
  *
  * Which fields show, and the button text, follow the Listing Defaults settings.
  *
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,13 +28,18 @@ $show_vacancy    = jobpress_get_listing_setting( 'show_vacancy' );
 $show_deadline   = jobpress_get_listing_setting( 'show_deadline' );
 $show_experience = jobpress_get_listing_setting( 'show_experience' );
 $button_text     = jobpress_get_listing_setting( 'button_text' );
+
+// Fields without a value are left out.
+$show_job_type     = 'yes' === $show_type && '' !== $job_type_str;
+$show_job_vacancy  = 'yes' === $show_vacancy && '' !== (string) $job_vacancy;
+$show_job_deadline = 'yes' === $show_deadline && '' !== (string) $job_apply_deadline;
 ?>
 <div class="jp-single-job-list jp-listing__card">
     <div class="jp-single-job-info">
         <h4 class="jp-listing__job-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-        <?php if ( $show_type === 'yes' || $show_vacancy === 'yes' || $show_deadline === 'yes' ) : ?>
+        <?php if ( $show_job_type || $show_job_vacancy || $show_job_deadline ) : ?>
         <p class="jp-listing__meta">
-            <?php if ( $show_type === 'yes' ) : ?>
+            <?php if ( $show_job_type ) : ?>
             <span class="jp-listing__type">
                 <?php
                 // translators: %s is the job type
@@ -42,7 +47,7 @@ $button_text     = jobpress_get_listing_setting( 'button_text' );
                 ?>
             </span>
             <?php endif; ?>
-            <?php if ( $show_vacancy === 'yes' ) : ?>
+            <?php if ( $show_job_vacancy ) : ?>
             <span class="jp-listing__vacancy">
                 <?php
                 // translators: %s is the number of job vacancies
@@ -50,7 +55,7 @@ $button_text     = jobpress_get_listing_setting( 'button_text' );
                 ?>
             </span>
             <?php endif; ?>
-            <?php if ( $show_deadline === 'yes' ) : ?>
+            <?php if ( $show_job_deadline ) : ?>
             <span class="jp-listing__deadline">
                 <?php
                 // translators: %s is the job application deadline
