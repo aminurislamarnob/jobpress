@@ -48,3 +48,4 @@ CLAUDE.md
 dev-docs
 .wp-env.json
 docs
+.claude
