@@ -1,0 +1,53 @@
+---
+title: Installation
+description: Install and activate JobPress, then find the jobs page it creates for you.
+icon: Download
+---
+
+JobPress installs like any other WordPress plugin.
+
+## Install from WordPress.org
+
+1. In wp-admin, go to **Plugins → Add New**.
+2. Search for **"JobPress"**.
+3. Click **Install Now**, then **Activate**.
+
+## Install from a zip
+
+1. Download the latest release from
+   [wordpress.org/plugins/jobpress](https://wordpress.org/plugins/jobpress/).
+2. Go to **Plugins → Add New → Upload Plugin**.
+3. Choose the zip, click **Install Now**, then **Activate**.
+
+## What activation does
+
+On activation JobPress automatically:
+
+- Adds a **JobPress** menu to wp-admin, with **All Jobs**, **Add New Job**,
+  **Job Categories**, **Job Types**, and **Settings**.
+- Creates a **Jobs Listing** page and selects it as your
+  [Jobs Page](/docs/jobs-page). In **Pages**, it is marked **Jobs Page**.
+- Refreshes your site's permalinks so job URLs work straight away.
+
+If a page with the slug `jobs-listing` already exists, JobPress uses it instead
+of creating a second one. Updates re-run the same check, so the Jobs Page comes
+back if it went missing.
+
+<Callout title="Requirements">
+WordPress 5.6+ (tested up to 7.1) and PHP 7.4+. The JobPress Jobs block needs
+WordPress 6.3+.
+</Callout>
+
+## Confirm your jobs page
+
+Go to **JobPress → Settings → General** and check that **Jobs Page** points at
+the right page, then click **Save Changes**. While logged in, the **Visit Jobs**
+link in the admin bar opens that page.
+
+Next, [add your first job](/docs/jobs#adding-a-job).
+
+## Troubleshooting 404s
+
+If job pages return a 404, go to **Settings → Permalinks** and click
+**Save Changes** to refresh the URLs. Do the same after you switch from plain
+to pretty permalinks.

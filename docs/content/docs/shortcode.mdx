@@ -1,0 +1,85 @@
+---
+title: Shortcode
+description: Show a job listing anywhere with the [jobpress] shortcode, and choose its design, content, and jobs with attributes.
+icon: Code
+---
+
+The `[jobpress]` shortcode places a job listing on any page, post, or widget
+area, in the classic editor or any page builder. In the block editor, the
+[JobPress Jobs block](/docs/block) gives you the same listing with a preview.
+
+```
+[jobpress]
+```
+
+On its own it lists every job in your global design with the
+[Listing Defaults](/docs/settings#listing-defaults). Add attributes to change
+one listing without touching the others. An attribute you leave out, or leave
+empty, uses the global setting.
+
+## Examples
+
+```
+[jobpress title="We're hiring!" subtitle="Join our team"]
+[jobpress design="5" category="engineering" per_page="6" show_view_all="yes"]
+[jobpress design="2" category="design,engineering"]
+[jobpress title="Remote roles" type="remote" show_search="yes"]
+[jobpress design="3" show_vacancy="no" show_deadline="no" button_text="View role"]
+```
+
+**Settings → Shortcodes** lists every attribute too, under
+**Available Shortcode**.
+
+## Design and colors
+
+| Attribute | What it does |
+| --- | --- |
+| `design` | `1` to `5` - the [listing design](/docs/listing-designs) |
+| `brand_color`, `hover_color`, `heading_color`, `secondary_color`, `content_color`, `border_color` | Hex colors, such as `#7c3aed`, for this listing only |
+
+## Header
+
+| Attribute | What it does |
+| --- | --- |
+| `title`, `subtitle` | The header text |
+| `show_title`, `show_subtitle` | `yes` or `no` |
+| `show_positions` | `yes` or `no` - the open positions count (Designs V1, V3, V5). It counts the jobs this listing matches. |
+
+## Job cards
+
+| Attribute | What it does |
+| --- | --- |
+| `show_category`, `show_type`, `show_location`, `show_experience`, `show_vacancy`, `show_deadline` | `yes` or `no` - each card detail ([which designs show what](/docs/listing-designs#what-each-design-shows)) |
+| `button_text` | The apply button text |
+
+## Search and links
+
+| Attribute | What it does |
+| --- | --- |
+| `show_search` | `yes` shows a search bar above the jobs. Searches open the [Jobs Page](/docs/jobs-page) results. |
+| `show_view_all` | `yes` adds a link to the Jobs Page under the listing |
+| `view_all_text` | The link text (default "View all jobs") |
+
+When a listing shows a single category or type, its search bar and link keep
+that filter, so "View all jobs" under an Engineering listing opens all
+Engineering jobs.
+
+## Choosing the jobs
+
+| Attribute | What it does |
+| --- | --- |
+| `per_page` | How many jobs to show; all by default. In Designs V2 and V4, per category. |
+| `category` | Category slugs, comma-separated: jobs in any of them |
+| `type` | Job type slugs, comma-separated. With `category`, jobs must match both. |
+| `include` | Job IDs, comma-separated: show only these jobs |
+| `exclude` | Job IDs, comma-separated: leave these jobs out |
+| `orderby` | `date` (default), `title`, `menu_order`, or `rand` |
+| `order` | `DESC` (default) or `ASC` |
+
+Find a slug in **JobPress → Job Categories** or **Job Types**. Find a job's ID
+by hovering its title in **All Jobs** and reading `post=` in the link.
+
+<Callout title="In a theme template">
+Developers can print a listing from PHP with
+`echo do_shortcode( '[jobpress design="5"]' );`.
+</Callout>
