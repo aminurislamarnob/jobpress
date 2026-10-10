@@ -1,8 +1,15 @@
 <?php
 /**
- * The template for displaying all single posts.
+ * The template for displaying a single job.
  *
+ * This template can be overridden by copying it to yourtheme/jobpress/single-jobpress.php.
+ *
+ * @version 2.2.1
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
 
 jobpress_get_header();
 
@@ -75,20 +82,12 @@ if( !empty($jobpress_sidebar_position) && $jobpress_sidebar_position == 1 ){
                 <div class="jp-job-description">
                     <?php the_content(); ?>
                 </div>
-                <?php if(!empty($jobpress_gmap)) : ?>
+                <?php
+                // Saved maps are checked again, as older versions kept any iframe.
+                $jobpress_gmap = jobpress_sanitize_map_embed( $jobpress_gmap );
+                if ( $jobpress_gmap ) : ?>
                 <div class="jp-job-location-googlemap">
-                    <?php
-                    $jobpress_gmap_allowed_html = array(
-                        'iframe' => array(
-                            'src' => array(),
-                            'width' => array(),
-                            'height' => array(),
-                            'style' => array(),
-                            'allowfullscreen' => array(),
-                            'loading' => array(),
-                        )
-                    );
-                    echo wp_kses( $jobpress_gmap, $jobpress_gmap_allowed_html ); ?>
+                    <?php echo wp_kses( $jobpress_gmap, jobpress_get_map_embed_allowed_html() ); ?>
                 </div>
                 <?php endif; ?>
             </div>

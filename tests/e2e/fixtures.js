@@ -207,6 +207,31 @@ class JobPressUtils {
 	}
 
 	/**
+	 * Save a job's details (the "Job Others Informations" meta box fields) the
+	 * way the block editor saves meta boxes, since job meta isn't in the REST API.
+	 * Fields left out keep their values.
+	 *
+	 * @param {Object}                job    REST job object.
+	 * @param {Object<string,string>} fields Meta box field name => value.
+	 */
+	async setJobDetails( job, fields ) {
+		await this.page.goto( `/wp-admin/post.php?post=${ job.id }&action=edit` );
+		await this.page.waitForFunction(
+			() => window._wpMetaBoxUrl && document.querySelector( '.metabox-base-form' ) && document.querySelector( '[name="jobpress_nonce"]' )
+		);
+		const status = await this.page.evaluate( async ( values ) => {
+			const data = new FormData( document.querySelector( '.metabox-base-form' ) );
+			data.set( 'jobpress_nonce', document.querySelector( '[name="jobpress_nonce"]' ).value );
+			for ( const [ name, value ] of Object.entries( values ) ) {
+				data.set( name, value );
+			}
+			const response = await fetch( window._wpMetaBoxUrl, { method: 'POST', body: data, credentials: 'same-origin' } );
+			return response.status;
+		}, fields );
+		expect( status ).toBe( 200 );
+	}
+
+	/**
 	 * Save JobPress settings through the plugin's settings screen, restoring the
 	 * previous values after the test.
 	 *

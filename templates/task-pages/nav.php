@@ -6,6 +6,8 @@
  * @since 1.0.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 // Get current page safely using WordPress functions
 $current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 ?>

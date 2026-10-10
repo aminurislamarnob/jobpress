@@ -872,3 +872,51 @@ function jobpress_is_term_selected( $term_slug, $taxonomy ){
     }
     return false;
 }
+/**
+ * Sanitize a job's Google Map: only a Google Maps embed is kept.
+ *
+ * Contributors can edit jobs but may not post arbitrary HTML, so the iframe is
+ * rebuilt from its source URL instead of being kept as entered.
+ *
+ * @param string $embed The embed code from Google Maps (Share > Embed a map), or its URL.
+ * @return string The map iframe, or '' when it isn't a Google Maps embed.
+ */
+function jobpress_sanitize_map_embed( $embed ) {
+    $embed = trim( (string) $embed );
+    $src   = preg_match( '/\bsrc\s*=\s*(["\'])(.*?)\1/is', $embed, $match ) ? $match[2] : $embed;
+    $src   = html_entity_decode( trim( $src ), ENT_QUOTES, 'UTF-8' );
+    $url   = wp_parse_url( $src );
+
+    $is_google_maps = isset( $url['scheme'], $url['host'], $url['path'] )
+        && 'https' === strtolower( $url['scheme'] )
+        && in_array( strtolower( $url['host'] ), array( 'www.google.com', 'google.com', 'maps.google.com' ), true )
+        && (
+            0 === strpos( $url['path'], '/maps/embed' )
+            // Older embed links: https://maps.google.com/maps?q=...&output=embed
+            || ( '/maps' === $url['path'] && isset( $url['query'] ) && preg_match( '/(^|&)output=embed(&|$)/', $url['query'] ) )
+        );
+    if ( ! $is_google_maps ) {
+        return '';
+    }
+
+    return sprintf(
+        '<iframe src="%s" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+        esc_url( $src )
+    );
+}
+
+/**
+ * HTML allowed in a job's Google Map, see jobpress_sanitize_map_embed().
+ *
+ * @return array
+ */
+function jobpress_get_map_embed_allowed_html() {
+    return array(
+        'iframe' => array(
+            'src'             => array(),
+            'allowfullscreen' => array(),
+            'loading'         => array(),
+            'referrerpolicy'  => array(),
+        ),
+    );
+}

@@ -75,4 +75,19 @@ test.describe( 'Job editor', () => {
 		await expect( page.locator( '.jp-container' ) ).toHaveCount( 1 );
 		await expectNoPhpErrors( page );
 	} );
+
+	test( 'keeps backslashes and line breaks in job details', async ( { page, jobPress } ) => {
+		const job = await jobPress.createJob( { title: `E2E Details Job ${ uid() }` } );
+		await jobPress.setJobDetails( job, {
+			jobpress_salary: 'Grade A\\B',
+			jobpress_application_collect_medium: '1',
+			jobpress_email: 'Send your CV to jobs@example.test\nMention "E2E" in the subject',
+		} );
+
+		await page.goto( job.link );
+		await expect( page.locator( '.jp-summary' ) ).toContainText( 'Grade A\\B' );
+		const applySection = page.locator( '#job-apply' );
+		await expect( applySection ).toContainText( 'Mention "E2E" in the subject' );
+		await expect( applySection.getByRole( 'link', { name: 'jobs@example.test' } ) ).toBeVisible();
+	} );
 } );

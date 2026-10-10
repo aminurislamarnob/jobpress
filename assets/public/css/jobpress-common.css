@@ -92,6 +92,7 @@ search form and pagination. Design-specific rules live in jobpress-style-v{N}.cs
 .jp-job-location-googlemap iframe {
     width: 100%;
     height: 250px;
+    border: 0;
     border-radius: 4px;
 }
 .jp-sidebar-title {
