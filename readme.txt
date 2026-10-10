@@ -15,6 +15,8 @@ JobPress is the ultimate WordPress job board plugin for a company.
 
 This plugin enables you to build/create your company job board inside your WordPress website. It's designed & developed to build your company own job board and career page by few clicks. It's easy to use just install, active and ready to go.
 
+📖 **[Documentation](https://pluginizelab.com/docs/jobpress)** | 🆘 **[Support](https://wordpress.org/support/plugin/jobpress/#new-post)**
+
 = ✨ Plugin Features =
 * Dedicated "JobPress" WordPress admin menu for manage jobs
 * Add/Edit/Delete jobs from WordPress admin panel
