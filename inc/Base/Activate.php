@@ -23,13 +23,33 @@ class Activate
         if ( version_compare( $current_version, $plugin_version, '<' ) ) {
             // This is an update - ensure jobs page exists
             self::create_jobs_page();
-            
+
+            self::drop_application_table();
+
             // Update version
             update_option( 'jobpress_version', $plugin_version );
             
             // Flush rewrite rules for new features
             Flush::add_flush_rewrite_rules_flag();
         }
+    }
+
+    /**
+     * Drop the {prefix}jobpress_application table that versions before 2.2.1
+     * created. Nothing ever wrote to it; it is kept if it somehow has rows.
+     */
+    private static function drop_application_table() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'jobpress_application';
+
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+        if ( $table !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) ) {
+            return;
+        }
+        if ( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ) ) {
+            $wpdb->query( "DROP TABLE {$table}" );
+        }
+        // phpcs:enable
     }
 
     /**

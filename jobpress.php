@@ -36,7 +36,6 @@ require_once JOBPRESS_PLUGIN_PATH . 'inc/template-hooks.php';
 use JobPressInc\Base\Activate;
 use JobPressInc\Base\Deactivate;
 use JobPressInc\JobPressPluginInit;
-use JobPressInc\Base\CreateDbTable;
 
 
 /**
@@ -44,7 +43,6 @@ use JobPressInc\Base\CreateDbTable;
  */
 function jobpress_plugin_activate() {
 	Activate::activate();
-	CreateDbTable::create_application_db_table();
 	JobPressInc\Base\Flush::add_flush_rewrite_rules_flag();
 }
 

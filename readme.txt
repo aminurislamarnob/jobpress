@@ -115,6 +115,9 @@ Yes, for now only support Contact Form 7. In-future we will add support for all 
 = How can change settings? =
 Just go to settings page from "JobPress" admin menu.
 
+= What happens to my jobs when I delete the plugin? =
+Deleting JobPress removes its settings but keeps your jobs, job categories, job types and the Jobs page, so reinstalling the plugin brings them back. To remove those too, add `define( 'JOBPRESS_REMOVE_ALL_DATA', true );` to wp-config.php before deleting the plugin.
+
 = How to use JobPress with Elementor? =
 Drag and drop the "JobPress Jobs" widget from the Elementor editor. In the Content tab, choose the design, the header text, which details each job card shows, a search bar, a "View all jobs" link, and which jobs to list (categories, types, specific jobs, number and order). In the Style tab, override the JobPress colors for this widget and style the header, job cards, job titles, details, buttons, category headers and search bar. Every setting left on "Default" (or empty) follows the global JobPress settings, so changing those settings still updates the widget.
 
