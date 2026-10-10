@@ -34,6 +34,7 @@ switch ( $template ) {
 		echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
 		break;
 	default:
-		echo '<div id="primary" class="content-area"><main id="main" class="site-main" role="main">';
+		// Themes without a dedicated case above give this wrapper no width or padding, so add our own container.
+		echo '<div id="primary" class="content-area jp-container"><main id="main" class="site-main" role="main">';
 		break;
 }

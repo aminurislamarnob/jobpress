@@ -53,12 +53,10 @@ class TemplateLoader {
     private function get_template_loader_default_file() {
         if ( is_singular( 'jobpress' ) ) {
             $default_file = 'single-jobpress.php';
-        } elseif ( is_post_type_archive( 'jobpress' ) || $this->is_jobs_page() ) {
+        } elseif ( is_post_type_archive( 'jobpress' ) || $this->is_jobs_page() || is_tax( array( 'jobpress_category', 'jobpress_type' ) ) ) {
+            // Category/type archives reuse the jobs archive; themes can still
+            // override them with taxonomy-{taxonomy}.php (see get_template_loader_files()).
             $default_file = 'archive-jobpress.php';
-        } elseif ( is_tax( 'jobpress_category' ) ) {
-            $default_file = 'taxonomy-jobpress_category.php';
-        } elseif ( is_tax( 'jobpress_type' ) ) {
-            $default_file = 'taxonomy-jobpress_type.php';
         } else {
             $default_file = '';
         }
@@ -72,9 +70,7 @@ class TemplateLoader {
      * @return bool
      */
     private function is_jobs_page() {
-        $jobs_page_id = get_option( 'jobpress_jobs_page_id' );
-        return $jobs_page_id && is_page( $jobs_page_id );
-        return $default_file;
+        return jobpress_is_jobs_page();
     }
 
     /**

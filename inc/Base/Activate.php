@@ -7,8 +7,9 @@ class Activate
         // Create/Update Jobs page
         self::create_jobs_page();
 
-        // Flush rewrite rules
-        flush_rewrite_rules();
+        // Rewrite rules are flushed on the next request's init (see Flush), once the
+        // post type and taxonomies are registered; flushing here would drop job URLs.
+        Flush::add_flush_rewrite_rules_flag();
     }
 
     /**
@@ -22,13 +23,33 @@ class Activate
         if ( version_compare( $current_version, $plugin_version, '<' ) ) {
             // This is an update - ensure jobs page exists
             self::create_jobs_page();
-            
+
+            self::drop_application_table();
+
             // Update version
             update_option( 'jobpress_version', $plugin_version );
             
             // Flush rewrite rules for new features
-            flush_rewrite_rules();
+            Flush::add_flush_rewrite_rules_flag();
         }
+    }
+
+    /**
+     * Drop the {prefix}jobpress_application table that versions before 2.2.1
+     * created. Nothing ever wrote to it; it is kept if it somehow has rows.
+     */
+    private static function drop_application_table() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'jobpress_application';
+
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+        if ( $table !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) ) {
+            return;
+        }
+        if ( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ) ) {
+            $wpdb->query( "DROP TABLE {$table}" );
+        }
+        // phpcs:enable
     }
 
     /**
@@ -47,9 +68,17 @@ class Activate
             $page_exists = get_page_by_path( 'jobs-listing' );
         }
 
-        // Check by title if page exists
+        // Check by title if page exists (get_page_by_title() is deprecated since WP 6.2)
         if ( ! $page_exists ) {
-            $page_exists = get_page_by_title( __( 'Jobs Listing', 'jobpress' ) );
+            $pages_by_title = get_posts( array(
+                'post_type'              => 'page',
+                'post_status'            => 'any',
+                'title'                  => __( 'Jobs Listing', 'jobpress' ),
+                'numberposts'            => 1,
+                'update_post_term_cache' => false,
+                'update_post_meta_cache' => false,
+            ) );
+            $page_exists = $pages_by_title ? $pages_by_title[0] : null;
         }
 
         if ( $page_exists ) {

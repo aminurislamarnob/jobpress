@@ -11,6 +11,6 @@ class LoadTextDomain
 
 	public function jobpress_textdomain() 
 	{
-		load_plugin_textdomain( 'jobpress', false, JOBPRESS_PLUGIN_URL . '/languages' ); 
+		load_plugin_textdomain( 'jobpress', false, dirname( JOBPRESS_PLUGIN ) . '/languages' );
 	}
 }

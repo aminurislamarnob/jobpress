@@ -7,7 +7,7 @@ class JobsMetaBox
 	public function register() 
 	{
         add_action( 'add_meta_boxes', array( $this, 'jobs_custom_meta' ) );
-        add_action( 'save_post', array( $this, 'jobs_meta_save' ) );
+        add_action( 'save_post_jobpress', array( $this, 'jobs_meta_save' ) );
 	}
 
     
@@ -61,8 +61,9 @@ class JobsMetaBox
             <input type="text" name="jobpress_location" id="jobpress_location" class="regular-text" value="<?php if ( isset ( $jobpress_stored_meta['jobpress_location'] ) ) echo esc_attr($jobpress_stored_meta['jobpress_location'][0]); ?>" />
         </div>
         <div class="jobpress-text-field jobpress-field jobpress_location w-100">
-            <label for="jobpress_location"><?php esc_html_e( 'Google Map iFrame Embed Code', 'jobpress' )?></label>
-            <textarea rows="1" cols="40" name="google_map_iframe" id="google_map_iframe"><?php if ( isset ( $jobpress_stored_meta['google_map_iframe'] ) )  echo esc_attr($jobpress_stored_meta['google_map_iframe'][0]); ?></textarea>
+            <label for="google_map_iframe"><?php esc_html_e( 'Google Map iFrame Embed Code', 'jobpress' )?></label>
+            <textarea rows="1" cols="40" name="google_map_iframe" id="google_map_iframe" aria-describedby="google_map_iframe_description"><?php if ( isset ( $jobpress_stored_meta['google_map_iframe'] ) )  echo esc_textarea($jobpress_stored_meta['google_map_iframe'][0]); ?></textarea>
+            <p class="description" id="google_map_iframe_description"><?php esc_html_e( 'Paste the embed code from Google Maps (Share > Embed a map). Other embeds are removed.', 'jobpress' ); ?></p>
         </div>
         <div class="jobpress_enable_form jobpress-text-field jobpress-check-field">
             <label for=""><strong><?php esc_html_e( 'Job Application Collect Medium', 'jobpress' )?></strong></label>
@@ -131,7 +132,7 @@ class JobsMetaBox
     function jobpress_is_secured($nonce_field, $post_id){
         $is_autosave = wp_is_post_autosave( $post_id );
         $is_revision = wp_is_post_revision( $post_id );
-        $is_valid_nonce = ( isset( $nonce_field ) && wp_verify_nonce( $nonce_field, basename( __FILE__ ) ) ) ? 'true' : 'false';
+        $is_valid_nonce = ! empty( $nonce_field ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce_field ) ), basename( __FILE__ ) );
 
         if(!$is_valid_nonce){
             return false;
@@ -158,65 +159,45 @@ class JobsMetaBox
      */
     function jobs_meta_save( $post_id ) {
     
-        if(isset($_POST[ 'jobpress_nonce' ]) && !$this->jobpress_is_secured($_POST[ 'jobpress_nonce' ], $post_id)){
+        $nonce = isset( $_POST[ 'jobpress_nonce' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'jobpress_nonce' ] ) ) : '';
+        if( ! $this->jobpress_is_secured( $nonce, $post_id ) ){
             return;
         }
-    
-        // Checks for input and sanitizes/saves if needed
-        if( isset( $_POST[ 'jobpress_vacancy' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_vacancy', sanitize_text_field( $_POST[ 'jobpress_vacancy' ] ) );
-        }
 
-        if( isset( $_POST[ 'jobpress_experience' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_experience', sanitize_text_field( $_POST[ 'jobpress_experience' ] ) );
-        }
-
-        if( isset( $_POST[ 'jobpress_working_hour' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_working_hour', sanitize_text_field( $_POST[ 'jobpress_working_hour' ] ) );
-        }
-
-        if( isset( $_POST[ 'jobpress_working_days' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_working_days', sanitize_text_field( $_POST[ 'jobpress_working_days' ] ) );
-        }
-
-        if( isset( $_POST[ 'jobpress_salary' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_salary', sanitize_text_field( $_POST[ 'jobpress_salary' ] ) );
-        }
-
-        if( isset( $_POST[ 'jobpress_apply_deadline' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_apply_deadline', sanitize_text_field( $_POST[ 'jobpress_apply_deadline' ] ) );
-        }
-
-        if( isset( $_POST[ 'jobpress_location' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_location', sanitize_text_field( $_POST[ 'jobpress_location' ] ) );
-        }
-
-        $jobpress_iframe_allowed_html = array(
-            'iframe' => array(
-                'src' => array(),
-                'width' => array(),
-                'height' => array(),
-                'style' => array(),
-                'allowfullscreen' => array(),
-                'loading' => array(),
-            )
+        // Checks for input and sanitizes/saves if needed. update_post_meta() unslashes
+        // its value, so sanitized values are slashed again.
+        $text_fields = array(
+            'jobpress_vacancy',
+            'jobpress_experience',
+            'jobpress_working_hour',
+            'jobpress_working_days',
+            'jobpress_salary',
+            'jobpress_apply_deadline',
+            'jobpress_location',
         );
+        foreach ( $text_fields as $field ) {
+            if( isset( $_POST[ $field ] ) ) {
+                update_post_meta( $post_id, $field, wp_slash( sanitize_text_field( wp_unslash( $_POST[ $field ] ) ) ) );
+            }
+        }
+
         if( isset( $_POST[ 'google_map_iframe' ] ) ) {
-            update_post_meta( $post_id, 'google_map_iframe', wp_kses( $_POST['google_map_iframe'], $jobpress_iframe_allowed_html ) );
+            // Only Google Maps embeds are kept, see jobpress_sanitize_map_embed().
+            update_post_meta( $post_id, 'google_map_iframe', wp_slash( jobpress_sanitize_map_embed( wp_unslash( $_POST['google_map_iframe'] ) ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by jobpress_sanitize_map_embed().
         }
 
         if( isset( $_POST[ 'jobpress_application_collect_medium' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_application_collect_medium', sanitize_text_field( $_POST[ 'jobpress_application_collect_medium' ] ) );
+            update_post_meta( $post_id, 'jobpress_application_collect_medium', absint( $_POST[ 'jobpress_application_collect_medium' ] ) );
         }
 
+        // Free text with the email address to send resumes to, from a textarea.
         if( isset( $_POST[ 'jobpress_email' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_email', sanitize_text_field( $_POST[ 'jobpress_email' ] ) );
+            update_post_meta( $post_id, 'jobpress_email', wp_slash( sanitize_textarea_field( wp_unslash( $_POST[ 'jobpress_email' ] ) ) ) );
         }
 
         if( isset( $_POST[ 'jobpress_contact_form_7' ] ) ) {
-            update_post_meta( $post_id, 'jobpress_contact_form_7', sanitize_text_field( $_POST[ 'jobpress_contact_form_7' ] ) );
+            update_post_meta( $post_id, 'jobpress_contact_form_7', absint( $_POST[ 'jobpress_contact_form_7' ] ) );
         }
-
     }
 
 }

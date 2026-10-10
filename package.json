@@ -1,0 +1,23 @@
+{
+  "name": "jobpress",
+  "private": true,
+  "description": "Development tooling for the JobPress WordPress plugin.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build:blocks": "wp-scripts build --webpack-src-dir=src/blocks --output-path=assets/blocks",
+    "start:blocks": "wp-scripts start --webpack-src-dir=src/blocks --output-path=assets/blocks",
+    "test:e2e": "playwright test --config tests/e2e/playwright.config.js",
+    "test:e2e:headed": "playwright test --config tests/e2e/playwright.config.js --headed",
+    "test:e2e:report": "playwright show-report tests/e2e/artifacts/report",
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^8.0.7",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.6.4",
+    "@wordpress/e2e-test-utils-playwright": "^3.0.0",
+    "@wordpress/env": "^11.17.0",
+    "@wordpress/scripts": "^36.1.0"
+  }
+}

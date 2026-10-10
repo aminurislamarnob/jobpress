@@ -5,7 +5,9 @@ class Flush
 {
     public function register() 
 	{
-        add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
+        // Run after the jobpress post type and taxonomies are registered on init (priority 10),
+        // otherwise the regenerated rules would not contain the job URLs.
+        add_action( 'init', [ $this, 'init_plugin' ], 999 );
 	}
 
     /**

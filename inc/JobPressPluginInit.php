@@ -26,13 +26,12 @@ final class JobPressPluginInit
 			Base\SettingsFormGeneral::class, //General Settings form
 			Base\SettingsFormAppearance::class, //Appearance Settings form
 			Base\SettingsFormShortcode::class, //Shortcode Settings form
+			Base\SettingsFormListing::class, //Listing Defaults settings form (on the Shortcodes screen)
+			Base\TemplateOverrideNotice::class, //admin notice for outdated theme template copies
 			Base\Flush::class, //Flush rewrite rules
+			Base\ElementorInit::class, //elementor integration (its hooks only fire when Elementor is active)
+			Base\Blocks::class, //JobPress Jobs block (WordPress 6.3+)
 		];
-
-		// Add Elementor integration if Elementor is active
-		if ( did_action( 'elementor/loaded' ) ) {
-			$services[] = Base\ElementorInit::class; //elementor integration
-		}
 
 		return $services;
 	}

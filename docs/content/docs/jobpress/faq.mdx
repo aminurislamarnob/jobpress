@@ -1,0 +1,63 @@
+---
+title: FAQ
+description: Common questions about JobPress - price, requirements, applications, themes, page builders, and your data.
+icon: CircleQuestionMark
+---
+
+## Is JobPress free?
+
+Yes. JobPress is free and open source on WordPress.org, including all five
+listing designs, the block, and the Elementor widget.
+
+## What are the requirements?
+
+WordPress 5.6+ and PHP 7.4+. The [JobPress Jobs block](/docs/jobpress/block) needs
+WordPress 6.3+. Tested up to WordPress 7.1.
+
+## How do candidates apply?
+
+By email or with a form. Each job either shows your email instructions or a
+[Contact Form 7](https://wordpress.org/plugins/contact-form-7/) form, or falls
+back to the **Resume Submit Instruction** in Settings. Contact Form 7 is the
+only form plugin supported for now. See
+[How candidates apply](/docs/jobpress/jobs#how-candidates-apply).
+
+## Where do applications go?
+
+JobPress doesn't store applications. With email instructions, candidates email
+you directly. With a Contact Form 7 form, the form sends each application to the
+address in its **Mail** tab.
+
+## Does it work with my theme?
+
+JobPress works with classic and block themes. On block themes such as Twenty
+Twenty-Five, job pages show the theme's header and footer. Developers can
+override JobPress templates by copying them into a `jobpress` folder in the
+theme.
+
+## Should I use the block, the shortcode, or the Elementor widget?
+
+They show the same listing with the same options and defaults. Use the
+[block](/docs/jobpress/block) in the block editor, the [widget](/docs/jobpress/elementor) in
+Elementor, and the [shortcode](/docs/jobpress/shortcode) anywhere else.
+
+## Can I show only some jobs on a page?
+
+Yes. Every listing can filter by category, job type, or hand-picked jobs, and
+limit and order them. See [Choosing the jobs](/docs/jobpress/shortcode#choosing-the-jobs).
+
+## Can I use different designs on one page?
+
+Yes. Each listing can pick its own [design](/docs/jobpress/listing-designs), and
+listings with different designs can share a page.
+
+## What happens to my jobs if I delete the plugin?
+
+Deleting JobPress removes its settings but keeps your jobs, categories, types,
+and the Jobs Page, so reinstalling brings everything back. To remove those too,
+add `define( 'JOBPRESS_REMOVE_ALL_DATA', true );` to `wp-config.php` before
+deleting the plugin.
+
+## My job pages return 404s. What do I do?
+
+Go to **Settings → Permalinks** and click **Save Changes** to refresh the URLs.

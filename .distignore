@@ -44,3 +44,8 @@ node_modules
 build
 postcss.config.js
 .wordpress-org
+CLAUDE.md
+dev-docs
+.wp-env.json
+docs
+.claude

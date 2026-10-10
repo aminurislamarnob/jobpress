@@ -3,7 +3,7 @@
 Plugin Name: JobPress
 Plugin URI: https://wordpress.org/plugins/jobpress/
 Description: JobPress is the ultimate WordPress job board plugin for a company. It is designed & developed to build your company own job board and career page by few clicks.
-Version: 2.1.6
+Version: 2.2.0
 Author: Aminur Islam Arnob
 Author URI: https://aiarnob.com/
 License: GPLv2 or later
@@ -20,7 +20,7 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 
 // Define Version.
 if ( ! defined( 'JOBPRESS_VERSION' ) ) {
-	define( 'JOBPRESS_VERSION', '2.1.6' );
+	define( 'JOBPRESS_VERSION', '2.2.0' );
 }
 
 // Define CONSTANTS
@@ -36,7 +36,6 @@ require_once JOBPRESS_PLUGIN_PATH . 'inc/template-hooks.php';
 use JobPressInc\Base\Activate;
 use JobPressInc\Base\Deactivate;
 use JobPressInc\JobPressPluginInit;
-use JobPressInc\Base\CreateDbTable;
 
 
 /**
@@ -44,7 +43,6 @@ use JobPressInc\Base\CreateDbTable;
  */
 function jobpress_plugin_activate() {
 	Activate::activate();
-	CreateDbTable::create_application_db_table();
 	JobPressInc\Base\Flush::add_flush_rewrite_rules_flag();
 }
 

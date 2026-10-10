@@ -8,3 +8,6 @@ debug.log
 vendor
 phpcs-report.txt
 .phpunit.result.cache
+tests/e2e/.env
+tests/e2e/artifacts
+.wp-env.override.json

@@ -9,6 +9,11 @@ class CustomPostType
         add_action( 'init', array( $this, 'jobpress_jobs_cpt' ) );
         add_action( 'init', array( $this, 'jobpress_jobs_category_taxonomies' ) );
         add_action( 'init', array( $this, 'jobpress_jobs_type_taxonomies' ) );
+
+        // Add search and filter functionality
+        add_filter( 'query_vars', array( $this, 'add_search_query_vars' ) );
+
+        add_action( 'pre_get_posts', array( $this, 'set_taxonomy_archive_per_page' ) );
 	}
 
     /**
@@ -122,5 +127,32 @@ class CustomPostType
             'show_in_rest'      => true
         );
         register_taxonomy( 'jobpress_type', array( 'jobpress' ), $args );
+    }
+
+    /**
+     * Add custom query variables for search and filtering
+     */
+    public function add_search_query_vars( $vars ) {
+        $vars[] = 'job_search'; // keyword search
+        $vars[] = 'jobcategory';     // job category
+        $vars[] = 'jobtype';    // job type
+        return $vars;
+    }
+
+    /**
+     * Page category/type archives by the JobPress "jobs per page" setting.
+     *
+     * archive-jobpress.php runs its own query, but WordPress still decides from the
+     * main query whether a page exists, so with fewer jobs per page than the
+     * Reading setting, /page/2/ of an archive would 404.
+     *
+     * @param \WP_Query $query
+     */
+    public function set_taxonomy_archive_per_page( $query ) {
+        if ( is_admin() || ! $query->is_main_query() || ! $query->is_tax( array( 'jobpress_category', 'jobpress_type' ) ) ) {
+            return;
+        }
+
+        $query->set( 'posts_per_page', jobpress_get_jobs_per_page() );
     }
 }

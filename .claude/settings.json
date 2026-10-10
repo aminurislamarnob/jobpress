@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "aminurislamarnob-plugins": {
+      "source": { "source": "github", "repo": "aminurislamarnob/claude-plugins" }
+    }
+  },
+  "enabledPlugins": {
+    "plugin-docs@aminurislamarnob-plugins": true
+  }
+}

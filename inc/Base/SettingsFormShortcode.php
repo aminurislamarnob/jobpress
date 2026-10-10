@@ -33,20 +33,20 @@ class SettingsFormShortcode
         );
 
         // register a new setting for design type field
-        register_setting('jobpress_shortcode_settings_section', 'jobpress_design_type');
+        register_setting('jobpress_shortcode_settings_section', 'jobpress_design_type', array( 'sanitize_callback' => 'absint' ) );
     }
 
     //Design select dropdown
     function jobpress_design_type_field_callback(){
-        $jobpress_design_type_value = get_option('jobpress_design_type');
+        $jobpress_design_type_value = jobpress_get_short_design_type();
     ?>
         <select name="jobpress_design_type" class="regular-text">
-            <option value="1"<?php echo esc_attr(( $jobpress_design_type_value == 1 ) ? 'selected' : ''); ?>><?php esc_html_e('Default Design', 'jobpress'); ?></option>
-            <option value="2"<?php echo esc_attr(( $jobpress_design_type_value == 2 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V2', 'jobpress'); ?></option>
-            <option value="3"<?php echo esc_attr(( $jobpress_design_type_value == 3 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V3', 'jobpress'); ?></option>
-            <option value="4"<?php echo esc_attr(( $jobpress_design_type_value == 4 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V4', 'jobpress'); ?></option>
-            <option value="5"<?php echo esc_attr(( $jobpress_design_type_value == 5 ) ? 'selected' : ''); ?>><?php esc_html_e( 'Design V5', 'jobpress'); ?></option>
+            <?php foreach ( jobpress_get_design_names() as $design => $name ) : ?>
+                <option value="<?php echo esc_attr( $design ); ?>"<?php selected( $jobpress_design_type_value, (int) $design ); ?>><?php echo esc_html( $name ); ?></option>
+            <?php endforeach; ?>
         </select>
+        <br>
+        <small><?php esc_html_e( 'The default design of the [jobpress] shortcode, the JobPress Jobs block and the JobPress Elementor widget, which can each choose their own. The Jobs Page set in General Settings always uses the built-in jobs archive layout with search and filters.', 'jobpress' ); ?></small>
     <?php
     }
 

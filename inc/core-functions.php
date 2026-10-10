@@ -82,13 +82,471 @@ function jobpress_locate_template( $template_name, $template_path = '', $default
 }
 
 /**
- * Get the jobs page ID.
+ * Get the selected listing design number (1-5).
  *
  * @return int
  */
 function jobpress_get_short_design_type() {
-    $style_type = !empty( get_option( 'jobpress_design_type' ) ) ? get_option( 'jobpress_design_type' ) : '1';
-    return (int) $style_type;
+    $style_type = absint( get_option( 'jobpress_design_type', 1 ) );
+    return ( $style_type >= 1 && $style_type <= 5 ) ? $style_type : 1;
+}
+
+/**
+ * Names of the listing designs, keyed by design number.
+ *
+ * @return string[]
+ */
+function jobpress_get_design_names() {
+    return array(
+        '1' => __( 'Design V1: list', 'jobpress' ),
+        '2' => __( 'Design V2: grouped by category', 'jobpress' ),
+        '3' => __( 'Design V3: cards', 'jobpress' ),
+        '4' => __( 'Design V4: cards grouped by category', 'jobpress' ),
+        '5' => __( 'Design V5: grid', 'jobpress' ),
+    );
+}
+
+/**
+ * Get the job groups used by the category-grouped listing designs (v2, v4).
+ *
+ * Each non-empty category becomes a group, followed by an "Other openings"
+ * group for jobs without a category so they are not dropped from the listing.
+ *
+ * @return array[] List of groups with 'name', 'description', 'slug' (category groups only) and 'tax_query' keys.
+ */
+function jobpress_get_listing_category_groups() {
+    $groups = array();
+    $terms  = get_terms( array(
+        'taxonomy'   => 'jobpress_category',
+        'orderby'    => 'name',
+        'order'      => 'ASC',
+        'hide_empty' => true,
+    ) );
+
+    if ( ! is_wp_error( $terms ) ) {
+        foreach ( $terms as $term ) {
+            $groups[] = array(
+                'name'        => $term->name,
+                'description' => $term->description,
+                'slug'        => $term->slug,
+                'tax_query'   => array(
+                    array(
+                        'taxonomy' => 'jobpress_category',
+                        'field'    => 'term_id',
+                        'terms'    => $term->term_id,
+                    ),
+                ),
+            );
+        }
+    }
+
+    $groups[] = array(
+        'name'        => __( 'Other openings', 'jobpress' ),
+        'description' => '',
+        'tax_query'   => array(
+            array(
+                'taxonomy' => 'jobpress_category',
+                'operator' => 'NOT EXISTS',
+            ),
+        ),
+    );
+
+    return apply_filters( 'jobpress_listing_category_groups', $groups );
+}
+
+/**
+ * Validate a listing design number.
+ *
+ * @param mixed $design Design number, e.g. from a shortcode attribute.
+ * @return int The design (1-5), or 0 when the value is empty or invalid.
+ */
+function jobpress_sanitize_design( $design ) {
+    $design = is_numeric( $design ) ? (int) $design : 0;
+    return ( $design >= 1 && $design <= 5 ) ? $design : 0;
+}
+
+/**
+ * Interpret a yes/no attribute or setting value.
+ *
+ * @param mixed $value E.g. 'yes', 'no', 'true', '1', or a boolean.
+ * @return bool
+ */
+function jobpress_string_to_bool( $value ) {
+    return is_bool( $value ) ? $value : in_array( strtolower( trim( (string) $value ) ), array( 'yes', 'true', '1', 'on' ), true );
+}
+
+/**
+ * The global listing settings (Settings > Shortcodes > Listing Defaults): defaults
+ * for every [jobpress] shortcode, JobPress Jobs block and JobPress Elementor widget,
+ * which can override them.
+ *
+ * @return array[] Keyed by shortcode attribute: 'option' name, 'type' (text or
+ *                 checkbox), 'label', 'default', and 'archive' when the setting
+ *                 also applies to the jobs archive.
+ */
+function jobpress_get_listing_settings() {
+    return array(
+        'title'          => array(
+            'option'  => 'jobpress_listing_title',
+            'type'    => 'text',
+            'label'   => __( 'Title', 'jobpress' ),
+            'default' => __( 'Job openings', 'jobpress' ),
+        ),
+        'show_title'     => array(
+            'option'  => 'jobpress_listing_show_title',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the title', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'subtitle'       => array(
+            'option'  => 'jobpress_listing_subtitle',
+            'type'    => 'text',
+            'label'   => __( 'Subtitle', 'jobpress' ),
+            'default' => __( 'Find the right job for you no matter what it is that you do.', 'jobpress' ),
+        ),
+        'show_subtitle'  => array(
+            'option'  => 'jobpress_listing_show_subtitle',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the subtitle', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_positions' => array(
+            'option'  => 'jobpress_listing_show_positions',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the open positions count', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_category'   => array(
+            'option'  => 'jobpress_listing_show_category',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the job category', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_type'       => array(
+            'option'  => 'jobpress_listing_show_type',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the job type', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_location'   => array(
+            'option'  => 'jobpress_listing_show_location',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the location', 'jobpress' ),
+            'default' => 'yes',
+        ),
+        'show_experience' => array(
+            'option'  => 'jobpress_listing_show_experience',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the experience', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_vacancy'    => array(
+            'option'  => 'jobpress_listing_show_vacancy',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the vacancies', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'show_deadline'   => array(
+            'option'  => 'jobpress_listing_show_deadline',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show the application deadline', 'jobpress' ),
+            'default' => 'yes',
+            'archive' => true,
+        ),
+        'button_text'     => array(
+            'option'  => 'jobpress_listing_button_text',
+            'type'    => 'text',
+            'label'   => __( 'Apply button text', 'jobpress' ),
+            'default' => __( 'Apply', 'jobpress' ),
+            'archive' => true,
+        ),
+        'show_search'     => array(
+            'option'  => 'jobpress_listing_show_search',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show a search bar that opens the Jobs Page results', 'jobpress' ),
+            'default' => 'no',
+        ),
+        'show_view_all'   => array(
+            'option'  => 'jobpress_listing_show_view_all',
+            'type'    => 'checkbox',
+            'label'   => __( 'Show a "View all jobs" link to the Jobs Page', 'jobpress' ),
+            'default' => 'no',
+        ),
+        'view_all_text'   => array(
+            'option'  => 'jobpress_listing_view_all_text',
+            'type'    => 'text',
+            'label'   => __( '"View all jobs" link text', 'jobpress' ),
+            'default' => __( 'View all jobs', 'jobpress' ),
+        ),
+    );
+}
+
+/**
+ * Job card fields each listing design shows, for the show_* options.
+ *
+ * @return array[] Field (category, type, location, experience, vacancy,
+ *                 deadline, button) => design numbers.
+ */
+function jobpress_get_listing_design_fields() {
+    return array(
+        'category'   => array( 1, 5 ),
+        'type'       => array( 1, 2, 3, 4, 5 ),
+        'location'   => array( 1, 2 ),
+        'experience' => array( 2, 3, 4 ),
+        'vacancy'    => array( 3, 4 ),
+        'deadline'   => array( 3, 4 ),
+        // Designs with a text button; v2's arrow button uses the text as its label.
+        'button'     => array( 1, 3, 4 ),
+    );
+}
+
+/**
+ * Get the value of a global listing setting.
+ *
+ * @param string $key Shortcode attribute, see jobpress_get_listing_settings().
+ * @return string Text, or 'yes'/'no' for checkboxes. Empty text falls back to the default.
+ */
+function jobpress_get_listing_setting( $key ) {
+    $settings = jobpress_get_listing_settings();
+    if ( ! isset( $settings[ $key ] ) ) {
+        return '';
+    }
+
+    $setting = $settings[ $key ];
+    $value   = get_option( $setting['option'], '' );
+
+    if ( 'checkbox' === $setting['type'] ) {
+        return in_array( $value, array( 'yes', 'no' ), true ) ? $value : $setting['default'];
+    }
+
+    return '' === trim( (string) $value ) ? $setting['default'] : (string) $value;
+}
+
+/**
+ * Whether a listing design groups jobs under category headings.
+ *
+ * @param int $design Listing design number (1-5).
+ * @return bool
+ */
+function jobpress_is_grouped_design( $design ) {
+    return in_array( (int) $design, array( 2, 4 ), true );
+}
+
+/**
+ * Split a comma-separated attribute value into a list.
+ *
+ * @param string|array $value Comma-separated values, or a list.
+ * @return string[] Trimmed, non-empty values.
+ */
+function jobpress_parse_list( $value ) {
+    if ( ! is_array( $value ) ) {
+        $value = explode( ',', (string) $value );
+    }
+    return array_values( array_filter( array_map( 'trim', array_map( 'strval', $value ) ), 'strlen' ) );
+}
+
+/**
+ * Normalize the query attributes of a listing.
+ *
+ * @param array $atts Shortcode attributes.
+ * @return array {
+ *     @type int      $per_page   Jobs to show (per group in grouped designs); -1 for all.
+ *     @type string[] $categories jobpress_category slugs; any of them matches.
+ *     @type string[] $types      jobpress_type slugs; any of them matches.
+ *     @type int[]    $include    Job IDs to limit the listing to.
+ *     @type int[]    $exclude    Job IDs to leave out.
+ *     @type string   $orderby    date, title, menu_order or rand.
+ *     @type string   $order      ASC or DESC.
+ * }
+ */
+function jobpress_get_listing_query_atts( $atts ) {
+    $per_page = isset( $atts['per_page'] ) && is_numeric( $atts['per_page'] ) ? (int) $atts['per_page'] : -1;
+    $orderby  = isset( $atts['orderby'] ) ? strtolower( trim( $atts['orderby'] ) ) : '';
+    $order    = isset( $atts['order'] ) ? strtoupper( trim( $atts['order'] ) ) : '';
+
+    return array(
+        'per_page'   => $per_page > 0 ? $per_page : -1,
+        'categories' => array_map( 'sanitize_title', jobpress_parse_list( isset( $atts['category'] ) ? $atts['category'] : '' ) ),
+        'types'      => array_map( 'sanitize_title', jobpress_parse_list( isset( $atts['type'] ) ? $atts['type'] : '' ) ),
+        'include'    => array_filter( array_map( 'absint', jobpress_parse_list( isset( $atts['include'] ) ? $atts['include'] : '' ) ) ),
+        'exclude'    => array_filter( array_map( 'absint', jobpress_parse_list( isset( $atts['exclude'] ) ? $atts['exclude'] : '' ) ) ),
+        'orderby'    => in_array( $orderby, array( 'date', 'title', 'menu_order', 'rand' ), true ) ? $orderby : 'date',
+        'order'      => in_array( $order, array( 'ASC', 'DESC' ), true ) ? $order : 'DESC',
+    );
+}
+
+/**
+ * Build the WP_Query arguments for a listing.
+ *
+ * @param array $atts      Shortcode attributes.
+ * @param array $tax_query Extra tax_query clauses, e.g. a category group's.
+ * @return array
+ */
+function jobpress_get_listing_query_args( $atts, $tax_query = array() ) {
+    $query = jobpress_get_listing_query_atts( $atts );
+    $args  = array(
+        'posts_per_page' => $query['per_page'],
+        'post_type'      => 'jobpress',
+        'post_status'    => 'publish',
+        // ID breaks ties, e.g. between jobs published in the same second.
+        'orderby'        => 'rand' === $query['orderby'] ? 'rand' : array(
+            $query['orderby'] => $query['order'],
+            'ID'              => $query['order'],
+        ),
+    );
+
+    $taxonomies = array(
+        'jobpress_category' => $query['categories'],
+        'jobpress_type'     => $query['types'],
+    );
+    foreach ( $taxonomies as $taxonomy => $slugs ) {
+        if ( $slugs ) {
+            $tax_query[] = array(
+                'taxonomy' => $taxonomy,
+                'field'    => 'slug',
+                'terms'    => $slugs,
+            );
+        }
+    }
+    if ( $tax_query ) {
+        $args['tax_query'] = $tax_query;
+    }
+
+    // WP_Query ignores post__not_in when post__in is set, so subtract the excluded jobs here.
+    if ( $query['include'] ) {
+        $include          = array_values( array_diff( $query['include'], $query['exclude'] ) );
+        $args['post__in'] = $include ? $include : array( 0 );
+    } elseif ( $query['exclude'] ) {
+        $args['post__not_in'] = $query['exclude'];
+    }
+
+    /**
+     * Filters the WP_Query arguments of a job listing ([jobpress] shortcode or
+     * Elementor widget), including each category group's query in grouped designs.
+     *
+     * @param array $args WP_Query arguments.
+     * @param array $atts The listing's shortcode attributes.
+     */
+    return apply_filters( 'jobpress_listing_query_args', $args, $atts );
+}
+
+/**
+ * Get the category groups of a grouped listing, limited to the listing's categories.
+ *
+ * @param array $atts Shortcode attributes.
+ * @return array[] Groups, see jobpress_get_listing_category_groups().
+ */
+function jobpress_get_listing_groups( $atts ) {
+    return jobpress_filter_listing_groups( jobpress_get_listing_category_groups(), $atts );
+}
+
+/**
+ * Limit category groups to the listing's categories.
+ *
+ * Groups without a slug (e.g. "Other openings") are kept and left to the query,
+ * which finds no jobs for them when they don't match the categories.
+ *
+ * @param array[] $groups Groups, see jobpress_get_listing_category_groups().
+ * @param array   $atts   Shortcode attributes.
+ * @return array[]
+ */
+function jobpress_filter_listing_groups( $groups, $atts ) {
+    $categories = jobpress_get_listing_query_atts( $atts )['categories'];
+    if ( ! $categories ) {
+        return $groups;
+    }
+
+    return array_values(
+        array_filter(
+            $groups,
+            function ( $group ) use ( $categories ) {
+                return empty( $group['slug'] ) || in_array( $group['slug'], $categories, true );
+            }
+        )
+    );
+}
+
+/**
+ * Run the jobs queries for a listing.
+ *
+ * Grouped designs get one query per category group; the others get a single query.
+ *
+ * @param int   $design Listing design number (1-5).
+ * @param array $atts   Shortcode attributes.
+ * @return array {
+ *     Template variables.
+ *
+ *     @type WP_Query|null $jobs_query Jobs of a flat design.
+ *     @type array[]       $job_groups Groups of a grouped design: the group keys plus a 'query' WP_Query.
+ *     @type int           $total_jobs Number of jobs matching the listing (not limited by per_page).
+ * }
+ */
+function jobpress_get_listing_jobs( $design, $atts = array() ) {
+    $result = array(
+        'jobs_query' => null,
+        'job_groups' => array(),
+        'total_jobs' => 0,
+    );
+
+    if ( jobpress_is_grouped_design( $design ) ) {
+        foreach ( jobpress_get_listing_groups( $atts ) as $group ) {
+            $group['query'] = new WP_Query( jobpress_get_listing_query_args( $atts, $group['tax_query'] ) );
+            if ( $group['query']->have_posts() ) {
+                $result['job_groups'][] = $group;
+                $result['total_jobs']  += $group['query']->found_posts;
+            }
+        }
+    } else {
+        $result['jobs_query'] = new WP_Query( jobpress_get_listing_query_args( $atts ) );
+        $result['total_jobs'] = $result['jobs_query']->found_posts;
+    }
+
+    return $result;
+}
+
+/**
+ * Get the URL of the listing's "View all jobs" link: the Jobs Page, keeping the
+ * listing's category or type when it shows a single one (the Jobs Page filters
+ * by one of each).
+ *
+ * @param array $atts Shortcode attributes.
+ * @return string
+ */
+function jobpress_get_listing_view_all_url( $atts ) {
+    $query = jobpress_get_listing_query_atts( $atts );
+    $args  = array();
+    if ( 1 === count( $query['categories'] ) ) {
+        $args['jobcategory'] = $query['categories'][0];
+    }
+    if ( 1 === count( $query['types'] ) ) {
+        $args['jobtype'] = $query['types'][0];
+    }
+    return add_query_arg( $args, jobpress_get_jobs_archive_page_permalink() );
+}
+
+/**
+ * Format a stored job date (e.g. the Y-m-d application deadline) using the site's date format.
+ *
+ * @param string $date Raw date value.
+ * @return string Localized date, or the raw value if it cannot be parsed.
+ */
+function jobpress_format_date( $date ) {
+    $timestamp = $date ? strtotime( $date ) : false;
+    return $timestamp ? date_i18n( get_option( 'date_format' ), $timestamp ) : (string) $date;
+}
+
+/**
+ * Get the URL of the JobPress user docs on pluginizelab.com.
+ *
+ * @param string $page Docs page and optional anchor, e.g. 'settings#appearance'. Empty for the docs home.
+ * @return string
+ */
+function jobpress_get_docs_url( $page = '' ) {
+    $url = 'https://pluginizelab.com/docs/jobpress';
+    return $page ? $url . '/' . ltrim( $page, '/' ) : $url;
 }
 
 /**
@@ -102,12 +560,24 @@ function jobpress_get_jobs_page_id() {
 }
 
 /**
+ * Get the number of jobs shown per page on the jobs page and category/type archives.
+ *
+ * @return int
+ */
+function jobpress_get_jobs_per_page() {
+    $per_page = absint( get_option( 'jobpress_jobs_per_page', 10 ) );
+    return $per_page ? $per_page : 10;
+}
+
+/**
  * Check if the current page is the jobs page.
  *
  * @return bool
  */
 function jobpress_is_jobs_page() {
-    return is_page( jobpress_get_jobs_page_id() );
+    $page_id = jobpress_get_jobs_page_id();
+    // is_page( 0 ) matches every page, so bail out when no jobs page is set.
+    return $page_id > 0 && is_page( $page_id );
 }
 
 /**
@@ -394,4 +864,70 @@ function jobpress_get_permalink_structure() {
 	$permalinks['job_tag_rewrite_slug']       = untrailingslashit( $job_permalinks['job_tag_base'] );
 
 	return $permalinks;
+}
+
+/**
+ * Check if a term is selected.
+ *
+ * @param string $term_slug The term slug.
+ * @param string $taxonomy The taxonomy.
+ * @return bool
+ */
+function jobpress_is_term_selected( $term_slug, $taxonomy ){
+    if( empty( $term_slug ) ){
+        return false;
+    }
+    $term_exists = term_exists( $term_slug, $taxonomy );
+    if ( $term_exists ) {
+        return true;
+    }
+    return false;
+}
+/**
+ * Sanitize a job's Google Map: only a Google Maps embed is kept.
+ *
+ * Contributors can edit jobs but may not post arbitrary HTML, so the iframe is
+ * rebuilt from its source URL instead of being kept as entered.
+ *
+ * @param string $embed The embed code from Google Maps (Share > Embed a map), or its URL.
+ * @return string The map iframe, or '' when it isn't a Google Maps embed.
+ */
+function jobpress_sanitize_map_embed( $embed ) {
+    $embed = trim( (string) $embed );
+    $src   = preg_match( '/\bsrc\s*=\s*(["\'])(.*?)\1/is', $embed, $match ) ? $match[2] : $embed;
+    $src   = html_entity_decode( trim( $src ), ENT_QUOTES, 'UTF-8' );
+    $url   = wp_parse_url( $src );
+
+    $is_google_maps = isset( $url['scheme'], $url['host'], $url['path'] )
+        && 'https' === strtolower( $url['scheme'] )
+        && in_array( strtolower( $url['host'] ), array( 'www.google.com', 'google.com', 'maps.google.com' ), true )
+        && (
+            0 === strpos( $url['path'], '/maps/embed' )
+            // Older embed links: https://maps.google.com/maps?q=...&output=embed
+            || ( '/maps' === $url['path'] && isset( $url['query'] ) && preg_match( '/(^|&)output=embed(&|$)/', $url['query'] ) )
+        );
+    if ( ! $is_google_maps ) {
+        return '';
+    }
+
+    return sprintf(
+        '<iframe src="%s" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+        esc_url( $src )
+    );
+}
+
+/**
+ * HTML allowed in a job's Google Map, see jobpress_sanitize_map_embed().
+ *
+ * @return array
+ */
+function jobpress_get_map_embed_allowed_html() {
+    return array(
+        'iframe' => array(
+            'src'             => array(),
+            'allowfullscreen' => array(),
+            'loading'         => array(),
+            'referrerpolicy'  => array(),
+        ),
+    );
 }
