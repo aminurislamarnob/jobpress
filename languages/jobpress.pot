@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-09T16:57:44+00:00\n"
+"POT-Creation-Date: 2026-10-10T04:24:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobpress\n"
@@ -41,8 +41,8 @@ msgstr ""
 msgid "https://aiarnob.com/"
 msgstr ""
 
-#: inc/Base/Activate.php:56
-#: inc/Base/Activate.php:77
+#: inc/Base/Activate.php:76
+#: inc/Base/Activate.php:97
 msgid "Jobs Listing"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 
 #: inc/Base/CustomPostType.php:107
 #: inc/Base/CustomPostType.php:108
-#: templates/single-jobpress.php:120
+#: templates/single-jobpress.php:119
 msgid "Job Type"
 msgstr ""
 
@@ -225,6 +225,7 @@ msgstr ""
 
 #: inc/Base/ElementorWidgets.php:79
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/edit.js:42
 msgid "JobPress Jobs"
 msgstr ""
 
@@ -232,6 +233,8 @@ msgstr ""
 #: inc/Base/ElementorWidgets.php:182
 #: assets/blocks/jobs/index.js:3
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/controls.js:52
+#: src/blocks/jobs/controls.js:64
 msgid "Show"
 msgstr ""
 
@@ -239,6 +242,8 @@ msgstr ""
 #: inc/Base/ElementorWidgets.php:183
 #: assets/blocks/jobs/index.js:3
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/controls.js:52
+#: src/blocks/jobs/controls.js:65
 msgid "Hide"
 msgstr ""
 
@@ -248,22 +253,27 @@ msgstr ""
 #: inc/Base/ElementorWidgets.php:229
 #: assets/blocks/jobs/index.js:4
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/controls.js:63
+#: src/blocks/jobs/edit.js:65
 #, php-format,js-format
 msgid "Default (%s)"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:208
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/controls.js:87
 msgid "Leave empty to use the JobPress settings."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:222
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:83
 msgid "Layout"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:233
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:91
 msgid "Design"
 msgstr ""
 
@@ -273,17 +283,20 @@ msgstr ""
 
 #: inc/Base/ElementorWidgets.php:252
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:100
 msgid "Columns"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:257
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:101
 msgid "Most cards per row. Fewer are shown where cards would get too narrow."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:277
 #: inc/Base/ElementorWidgets.php:566
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:111
 msgid "Header"
 msgstr ""
 
@@ -293,11 +306,14 @@ msgstr ""
 #: inc/core-functions.php:192
 #: assets/blocks/jobs/index.js:3
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:112
+#: src/blocks/jobs/query.js:145
 msgid "Title"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:283
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:114
 msgid "Title text"
 msgstr ""
 
@@ -305,131 +321,156 @@ msgstr ""
 #: inc/Base/ElementorWidgets.php:599
 #: inc/core-functions.php:204
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:116
 msgid "Subtitle"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:288
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:118
 msgid "Subtitle text"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:292
 #: inc/Base/ElementorWidgets.php:603
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:121
 msgid "Open positions count"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:321
 #: inc/Base/ElementorWidgets.php:616
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:125
 msgid "Job Card"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:328
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:72
 msgid "Category"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:329
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:73
 msgid "Job type"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:330
-#: templates/single-jobpress.php:108
+#: templates/single-jobpress.php:107
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:74
 msgid "Location"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:331
 #: inc/Base/JobsMetaBox.php:35
-#: templates/content-job.php:67
+#: templates/content-job.php:72
 #: templates/listing/jobpress-listing-v2.php:95
-#: templates/listing/jobpress-listing-v3.php:111
-#: templates/listing/jobpress-listing-v4.php:106
-#: templates/single-jobpress.php:146
+#: templates/listing/jobpress-listing-v3.php:116
+#: templates/listing/jobpress-listing-v4.php:111
+#: templates/single-jobpress.php:145
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:75
 msgid "Experience"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:332
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:76
 msgid "Vacancies"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:333
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:77
 msgid "Deadline"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:341
 #: assets/blocks/jobs/index.js:4
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:133
+#: src/blocks/jobs/styles.js:76
 msgid "Button text"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:355
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:137
 msgid "Search & Links"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:360
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:141
 msgid "Search bar"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:361
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:142
 msgid "Searches open the Jobs Page results."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:364
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:144
 msgid "\"View all jobs\" link"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:367
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:146
 msgid "Link text"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:381
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:99
 msgid "Query"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:389
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:105
 msgid "Number of jobs"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:393
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:106
 msgid "Leave empty to show all jobs. Grouped designs show this many per category."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:400
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:111
 msgid "Categories"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:405
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:112
 msgid "Show jobs in any of these categories. Leave empty for all."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:412
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:118
 msgid "Job types"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:417
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:119
 msgid "Show jobs of any of these types. Leave empty for all."
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:425
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:125
 msgid "Only these jobs"
 msgstr ""
 
@@ -439,36 +480,43 @@ msgstr ""
 
 #: inc/Base/ElementorWidgets.php:448
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:141
 msgid "Order by"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:452
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:144
 msgid "Date"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:454
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:146
 msgid "Menu order"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:455
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:147
 msgid "Random"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:464
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:156
 msgid "Order"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:468
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:159
 msgid "Descending"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:469
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:160
 msgid "Ascending"
 msgstr ""
 
@@ -495,6 +543,7 @@ msgstr ""
 
 #: inc/Base/ElementorWidgets.php:537
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:48
 msgid "Brand"
 msgstr ""
 
@@ -502,26 +551,31 @@ msgstr ""
 #: inc/Base/ElementorWidgets.php:673
 #: inc/Base/ElementorWidgets.php:830
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:49
 msgid "Hover"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:539
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:50
 msgid "Headings"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:540
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:51
 msgid "Secondary text"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:541
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:52
 msgid "Content text"
 msgstr ""
 
 #: inc/Base/ElementorWidgets.php:542
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:53
 msgid "Borders"
 msgstr ""
 
@@ -652,22 +706,22 @@ msgid "Job Vacancy"
 msgstr ""
 
 #: inc/Base/JobsMetaBox.php:41
-#: templates/single-jobpress.php:172
+#: templates/single-jobpress.php:171
 msgid "Working Hours"
 msgstr ""
 
 #: inc/Base/JobsMetaBox.php:45
-#: templates/single-jobpress.php:159
+#: templates/single-jobpress.php:158
 msgid "Working Days"
 msgstr ""
 
 #: inc/Base/JobsMetaBox.php:51
-#: templates/single-jobpress.php:184
+#: templates/single-jobpress.php:183
 msgid "Salary"
 msgstr ""
 
 #: inc/Base/JobsMetaBox.php:55
-#: templates/single-jobpress.php:134
+#: templates/single-jobpress.php:133
 msgid "Application Deadline"
 msgstr ""
 
@@ -679,44 +733,48 @@ msgstr ""
 msgid "Google Map iFrame Embed Code"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:68
+#: inc/Base/JobsMetaBox.php:66
+msgid "Paste the embed code from Google Maps (Share > Embed a map). Other embeds are removed."
+msgstr ""
+
+#: inc/Base/JobsMetaBox.php:69
 msgid "Job Application Collect Medium"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:71
+#: inc/Base/JobsMetaBox.php:72
 msgid "Collect application through email."
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:76
+#: inc/Base/JobsMetaBox.php:77
 msgid "Collect application through form."
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:79
+#: inc/Base/JobsMetaBox.php:80
 msgid "(Please install & activate the Contact Form 7 plugin from WordPress.org, then refresh this page.)"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:86
+#: inc/Base/JobsMetaBox.php:87
 msgid "Default (That you inserted on JobPress settings page.)"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:90
+#: inc/Base/JobsMetaBox.php:91
 msgid "Resume Submit Description With Email Address"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:91
+#: inc/Base/JobsMetaBox.php:92
 #: inc/Base/SettingsFormGeneral.php:96
 msgid "Example: Send your resume along with your cover letter to career@aiarnob.com"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:94
+#: inc/Base/JobsMetaBox.php:95
 msgid "Select Contact Form 7 (By this form candidate can apply to this job.)"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:101
+#: inc/Base/JobsMetaBox.php:102
 msgid "--Select Form--"
 msgstr ""
 
-#: inc/Base/JobsMetaBox.php:120
+#: inc/Base/JobsMetaBox.php:121
 msgid "Please install & active contact form 7 plugin from wordpress.org then refresh this page."
 msgstr ""
 
@@ -799,6 +857,7 @@ msgstr ""
 
 #: inc/Base/SettingsFormListing.php:22
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:86
 msgid "Listing Defaults"
 msgstr ""
 
@@ -987,9 +1046,9 @@ msgid "job-tag"
 msgstr ""
 
 #: inc/Pages/Admin/Admin.php:58
-#: templates/task-pages/appearance-settings.php:1
-#: templates/task-pages/settings.php:1
-#: templates/task-pages/shortcodes-settings.php:1
+#: templates/task-pages/appearance-settings.php:4
+#: templates/task-pages/settings.php:4
+#: templates/task-pages/shortcodes-settings.php:4
 msgid "JobPress Settings"
 msgstr ""
 
@@ -998,7 +1057,7 @@ msgid "JobPress Appearance Settings"
 msgstr ""
 
 #: inc/Pages/Admin/Admin.php:72
-#: templates/task-pages/nav.php:25
+#: templates/task-pages/nav.php:27
 msgid "Appearance"
 msgstr ""
 
@@ -1007,7 +1066,7 @@ msgid "JobPress Shortcodes Settings"
 msgstr ""
 
 #: inc/Pages/Admin/Admin.php:82
-#: templates/task-pages/nav.php:32
+#: templates/task-pages/nav.php:34
 msgid "Shortcodes"
 msgstr ""
 
@@ -1024,24 +1083,25 @@ msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
 #. translators: %s is the job type
-#: templates/content-job.php:41
-#: templates/listing/jobpress-listing-v3.php:85
-#: templates/listing/jobpress-listing-v4.php:80
+#: templates/content-job.php:46
+#: templates/listing/jobpress-listing-v3.php:90
+#: templates/listing/jobpress-listing-v4.php:85
 #, php-format
 msgid "Job Type: %s"
 msgstr ""
 
 #. translators: %s is the number of job vacancies
-#: templates/content-job.php:49
-#: templates/listing/jobpress-listing-v3.php:93
+#: templates/content-job.php:54
+#: templates/listing/jobpress-listing-v3.php:98
+#: templates/listing/jobpress-listing-v4.php:93
 #, php-format
 msgid "Vacancies: %s"
 msgstr ""
 
 #. translators: %s is the job application deadline
-#: templates/content-job.php:57
-#: templates/listing/jobpress-listing-v3.php:101
-#: templates/listing/jobpress-listing-v4.php:96
+#: templates/content-job.php:62
+#: templates/listing/jobpress-listing-v3.php:106
+#: templates/listing/jobpress-listing-v4.php:101
 #, php-format
 msgid "Deadline: %s"
 msgstr ""
@@ -1078,12 +1138,6 @@ msgid_plural "%d OPENINGS"
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %s is the number of job vacancies
-#: templates/listing/jobpress-listing-v4.php:88
-#, php-format
-msgid "Vacancies: %d"
-msgstr ""
-
 #: templates/loop/no-jobs-found.php:12
 #: templates/loop/no-jobs-found.php:14
 msgid "No jobs found"
@@ -1093,199 +1147,224 @@ msgstr ""
 msgid "We couldn't find any jobs matching your search criteria."
 msgstr ""
 
-#: templates/single-jobpress.php:97
+#: templates/single-jobpress.php:96
 msgid "Job Summary"
 msgstr ""
 
-#: templates/single-jobpress.php:197
+#: templates/single-jobpress.php:196
 msgid "Vacancy"
 msgstr ""
 
-#: templates/single-jobpress.php:201
+#: templates/single-jobpress.php:200
 msgid "Apply Now"
 msgstr ""
 
-#: templates/single-jobpress.php:206
+#: templates/single-jobpress.php:205
 msgid "Apply for The Position: "
 msgstr ""
 
-#: templates/single-jobpress.php:217
+#: templates/single-jobpress.php:216
 msgid "No application process added by the recruiter."
 msgstr ""
 
-#: templates/task-pages/nav.php:18
+#: templates/task-pages/nav.php:20
 msgid "General"
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:7
+#: templates/task-pages/shortcodes-settings.php:10
 msgid "Available Shortcode"
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:8
+#: templates/task-pages/shortcodes-settings.php:11
 msgid "Job List Shortcode:"
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:10
+#: templates/task-pages/shortcodes-settings.php:13
 msgid "Shows a job listing using the settings below. Each listing can override them with attributes, and the JobPress Jobs block and Elementor widget offer the same options. A missing or empty attribute uses the setting."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:12
+#: templates/task-pages/shortcodes-settings.php:15
 msgid "Available Attributes:"
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:14
+#: templates/task-pages/shortcodes-settings.php:17
 msgid "1 to 5, the listing design."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:15
+#: templates/task-pages/shortcodes-settings.php:18
 msgid "Header text."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:16
+#: templates/task-pages/shortcodes-settings.php:19
 msgid "yes or no, to show or hide the header parts."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:17
+#: templates/task-pages/shortcodes-settings.php:20
 msgid "yes or no, to show or hide job card details."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:18
+#: templates/task-pages/shortcodes-settings.php:21
 msgid "Apply button text."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:19
+#: templates/task-pages/shortcodes-settings.php:22
 msgid "yes or no, a search bar that opens the Jobs Page results."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:20
+#: templates/task-pages/shortcodes-settings.php:23
 msgid "A link to the Jobs Page under the listing, and its text."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:21
+#: templates/task-pages/shortcodes-settings.php:24
 msgid "Number of jobs to show (per category in the grouped designs). All by default."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:22
+#: templates/task-pages/shortcodes-settings.php:25
 msgid "Comma-separated category or job type slugs to show."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:23
+#: templates/task-pages/shortcodes-settings.php:26
 msgid "Comma-separated job IDs to show only, or to leave out."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:24
+#: templates/task-pages/shortcodes-settings.php:27
 msgid "date, title, menu_order or rand; ASC or DESC."
 msgstr ""
 
-#: templates/task-pages/shortcodes-settings.php:25
+#: templates/task-pages/shortcodes-settings.php:28
 msgid "Hex colors overriding the Appearance colors."
 msgstr ""
 
 #. translators: 1: job title, 2: job ID
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:93
 #, js-format
 msgid "%1$s (#%2$d)"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:126
 msgid "Leave empty to show every matching job."
 msgstr ""
 
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:132
 msgid "Leave out these jobs"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:3
+#: src/blocks/jobs/query.js:133
 msgid "Jobs to hide from this list."
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:45
 msgid "Listing colors"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:57
 msgid "Leave a color unset to use the JobPress appearance settings."
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:61
 msgid "Job cards"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:62
 msgid "Space between cards (px)"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:63
 msgid "Padding (px)"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:64
 msgid "Border radius (px)"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:69
 msgid "Card colors"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:73
 msgid "Card background"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:77
 msgid "Button background"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:78
 msgid "Button text on hover"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/styles.js:79
 msgid "Button background on hover"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/edit.js:43
 msgid "No jobs yet. Your published jobs will be listed here."
 msgstr ""
 
 #: assets/blocks/jobs/index.js:4
+#: src/blocks/jobs/edit.js:46
 msgid "Add job"
 msgstr ""
 
 #: assets/blocks/jobs/index.js:6
+#: src/blocks/jobs/edit.js:85
 msgid "Settings left on Default use the global Listing Defaults."
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block title"
 msgid "JobPress Jobs"
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block description"
 msgid "A list of your job openings, in any JobPress design."
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block keyword"
 msgid "jobs"
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block keyword"
 msgid "job"
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block keyword"
 msgid "careers"
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block keyword"
 msgid "listing"
 msgstr ""
 
 #: assets/blocks/jobs/block.json
+#: src/blocks/jobs/block.json
 msgctxt "block keyword"
 msgid "jobpress"
 msgstr ""
