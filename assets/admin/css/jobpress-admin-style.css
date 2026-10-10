@@ -142,4 +142,20 @@ JobPress plugin admin settings page styles.
     .jobpress-field {
         width: 100%;
     }
+    /* Settings screens: the navigation sits above the content. */
+    .jobpress-container {
+        flex-direction: column;
+        margin-right: 10px;
+    }
+    .jobpress-container .jobpress-left-nav {
+        width: auto;
+        border-right: 0;
+        border-bottom: 1px solid #f0f0f1;
+    }
+    .jobpress-right-content {
+        width: auto;
+        margin-right: 0;
+        padding: 20px;
+        overflow-wrap: anywhere;
+    }
 }
