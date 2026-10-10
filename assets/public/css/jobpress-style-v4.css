@@ -326,8 +326,13 @@ jobpress-common.css.
         display: block!important;
         margin-right: 0!important;
     }
+    /* The opening count always sits under the category name. */
+    .jp-design-v4 .jp-category-title {
+        display: block;
+    }
     .jp-design-v4 .jp-category-count {
         margin-top: 15px;
+        text-align: left;
     }
     .jp-design-v4 .jp-job-title {
         font-size: 30px;

@@ -148,6 +148,30 @@ test.describe( '[jobpress] shortcode', () => {
 		await expect.poll( fits ).toEqual( { columns: 1, overflows: false } );
 	} );
 
+	test( 'puts the opening count under the category name on phones', async ( { page, jobPress } ) => {
+		const groupedPage = await jobPress.createPage(
+			`Careers grouped ${ token }`,
+			GROUPED_DESIGNS.map( ( design ) => `[jobpress design="${ design }"]` ).join( '' )
+		);
+		await page.setViewportSize( { width: 390, height: 800 } );
+		await page.goto( groupedPage.link );
+
+		for ( const design of GROUPED_DESIGNS ) {
+			// The test's category and "Other openings" have no description, so their names are short.
+			const headers = page.locator( `.jp-design-v${ design } .jp-listing__group-header` );
+			await expect( headers.first() ).toBeVisible();
+			const offsets = await headers.evaluateAll( ( elements ) =>
+				elements.map( ( header ) =>
+					Math.round(
+						header.querySelector( '.jp-listing__group-count' ).getBoundingClientRect().left -
+							header.querySelector( '.jp-listing__group-title' ).getBoundingClientRect().left
+					)
+				)
+			);
+			expect( offsets.every( ( offset ) => Math.abs( offset ) <= 1 ), `v${ design } count offsets: ${ offsets }` ).toBe( true );
+		}
+	} );
+
 	test( 'overrides the appearance colors per listing', async ( { page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		const colorPage = await jobPress.createPage(
