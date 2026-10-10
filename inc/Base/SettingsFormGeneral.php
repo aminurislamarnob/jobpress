@@ -130,7 +130,7 @@ class SettingsFormGeneral
         <input name="jobpress_jobs_per_page" type="number" id="jobpress_jobs_per_page" class="small-text" 
                value="<?php echo esc_attr($jobs_per_page); ?>" min="1" max="100" step="1">
         <br>
-        <small><?php esc_html_e('Number of jobs to display per page. This affects both shortcode displays and archive pages.', 'jobpress'); ?></small>
+        <small><?php esc_html_e('Number of jobs per page on the Jobs Page and the job category and type pages. Shortcode, block and Elementor listings set their own number of jobs.', 'jobpress'); ?></small>
         <?php
     }
 
