@@ -14,7 +14,7 @@
  * @var int     $total_jobs      Number of jobs matching the listing.
  * @var string  $search_form     Search form HTML (already escaped), or '' when the search bar is off.
  *
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,8 +74,8 @@ defined( 'ABSPATH' ) || exit;
                 $job_location = get_post_meta(get_the_ID(), 'jobpress_location', true);
                 $jobpress_experience = get_post_meta( get_the_ID(), 'jobpress_experience', true );
 
-                // "Type - Location", leaving out hidden or empty parts.
-                $job_details_str = implode( ' - ', array_filter( array(
+                // "Type – Location", leaving out hidden or empty parts (a literal en dash, see v1).
+                $job_details_str = implode( ' – ', array_filter( array(
                     $show_type === 'yes' ? $job_type_str : '',
                     $show_location === 'yes' ? $job_location : '',
                 ) ) );

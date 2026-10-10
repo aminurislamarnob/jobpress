@@ -15,7 +15,7 @@
  * @var int      $total_jobs     Number of jobs matching the listing.
  * @var string   $search_form    Search form HTML (already escaped), or '' when the search bar is off.
  *
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -77,14 +77,15 @@ if($total_jobs < 10){
         //job meta
         $job_location = get_post_meta(get_the_ID(), 'jobpress_location', true);
 
-        // "Category - Type - Location", leaving out hidden or empty parts.
+        // "Category – Type – Location", leaving out hidden or empty parts. A literal en dash,
+        // as WordPress would turn " - " into one in block output but not in shortcode output.
         $job_category_str = $show_category === 'yes' ? $job_category_str : '';
-        $job_details_str  = implode( ' - ', array_filter( array(
+        $job_details_str  = implode( ' – ', array_filter( array(
             $show_type === 'yes' ? $job_type_str : '',
             $show_location === 'yes' ? $job_location : '',
         ) ) );
         if ( $job_category_str !== '' && $job_details_str !== '' ) {
-            $job_details_str = ' - ' . $job_details_str;
+            $job_details_str = ' – ' . $job_details_str;
         }
         ?>
         <div class="jp-single-job-list jp-listing__card">

@@ -37,6 +37,36 @@ test.describe( 'JobPress Jobs block', () => {
 		await expectNoPhpErrors( page );
 	} );
 
+	test( 'separates job card details like the shortcode', async ( { page, jobPress } ) => {
+		// On classic themes WordPress turns " - " in block output, but not in
+		// shortcode output, into an en dash, so the designs print one themselves.
+		const category = await jobPress.createTerm( 'jobpress_category', `Ops ${ token }` );
+		const type = await jobPress.createTerm( 'jobpress_type', `Onsite ${ token }` );
+		const detailedJob = await jobPress.createJob( {
+			title: `Block Details Job ${ token }`,
+			categories: [ category.id ],
+			types: [ type.id ],
+		} );
+		await jobPress.setJobDetails( detailedJob, { jobpress_location: 'Dhaka' } );
+
+		for ( const design of [ 1, 2 ] ) {
+			const blockPage = await jobPress.createBlockPage( `Block details ${ design } ${ token }`, [
+				{ design: String( design ), include: String( detailedJob.id ) },
+			] );
+			const shortcodePage = await jobPress.createPage(
+				`Shortcode details ${ design } ${ token }`,
+				`[jobpress design="${ design }" include="${ detailedJob.id }"]`
+			);
+			const details = () => page.locator( '.jp-listing__card .jp-listing__meta' ).first().textContent();
+
+			await page.goto( shortcodePage.link );
+			const expected = ( await details() ).replace( /\s+/g, ' ' ).trim();
+			expect( expected ).toContain( `${ type.name } – Dhaka` );
+			await page.goto( blockPage.link );
+			expect( ( await details() ).replace( /\s+/g, ' ' ).trim(), `design v${ design }` ).toBe( expected );
+		}
+	} );
+
 	test( 'renders the selected design', async ( { page, jobPress } ) => {
 		await jobPress.updateSettings( 'shortcode', { jobpress_design_type: '1' } );
 		const blockPage = await jobPress.createBlockPage( `Block page ${ token }`, [ { design: '5' } ] );
